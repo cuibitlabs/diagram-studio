@@ -1,0 +1,21 @@
+name: Feature request
+description: Propose a diagram type, editor capability, or export target
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What communication job is unserved today
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Existing types or tools considered
+      description: New diagram types are only added when no existing type communicates the relationship.

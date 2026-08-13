@@ -1,0 +1,1 @@
+Use the Diagram Studio skill to turn the supplied material into the clearest appropriate diagram. Confirm or infer the audience and destination, use balanced detail unless told otherwise, keep accent usage restrained, preserve accessibility, and deliver editable SVG plus any requested exports.

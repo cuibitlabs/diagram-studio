@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Editorial diagram</title>
+  <style>
+    :root{--paper:#f3f0e9;--panel:#fffdf8;--ink:#1d211f;--muted:#6e746f;--accent:#e85d3f;--accent-2:#174f46;--line:#b9b5ac}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--paper);font-family:Inter,system-ui,sans-serif;color:var(--ink)}
+    figure{width:min(1200px,100%);margin:0;padding:24px}svg{display:block;width:100%;height:auto}.node rect{fill:var(--panel);stroke:var(--line)}.node text{fill:var(--ink)}.edge{stroke:var(--ink);fill:none}
+  </style>
+</head>
+<body>
+  <figure>
+    <svg viewBox="0 0 1200 760" role="img" aria-labelledby="diagram-title diagram-desc">
+      <title id="diagram-title">Diagram title</title>
+      <desc id="diagram-desc">A concise description of the diagram and its main relationship.</desc>
+      <defs><marker id="diagram-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 8 4 0 8Z" fill="var(--ink)"/></marker></defs>
+      <rect width="1200" height="760" fill="var(--paper)"/>
+      <path class="edge" d="M380 380H820" marker-end="url(#diagram-arrow)"/>
+      <g class="node" transform="translate(180 330)"><rect width="200" height="100" rx="8"/><text x="24" y="58">Source</text></g>
+      <g class="node" transform="translate(820 330)"><rect width="200" height="100" rx="8"/><text x="24" y="58">Destination</text></g>
+    </svg>
+  </figure>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "diagram-studio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "An agent-ready editorial diagram system and visual studio.",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "test": "node --test",
+    "check": "npm run test && npm run build",
+    "sync:adapters": "node scripts/sync-adapters.mjs"
+  },
+  "devDependencies": {
+    "vite": "^7.1.1"
+  }
+}

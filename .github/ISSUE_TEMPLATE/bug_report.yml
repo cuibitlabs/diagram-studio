@@ -1,0 +1,44 @@
+name: Bug report
+description: A diagram renders, imports, or exports incorrectly
+labels: [bug]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Editor
+        - Renderer / layout
+        - Connector routing
+        - Import (Mermaid)
+        - Import (draw.io)
+        - Export
+        - Brand / theme
+        - Agent skill
+        - CLI (diagram_tool.py)
+    validations:
+      required: true
+  - type: input
+    id: type
+    attributes:
+      label: Diagram type
+      placeholder: architecture
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs actual
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: Source snippet, project JSON, or exact steps.
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      placeholder: Chrome 128, Windows 11, node 22

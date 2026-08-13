@@ -1,0 +1,24 @@
+{
+  "name": "diagram-studio",
+  "description": "Create, edit, import, brand, and export 31 types of accessible editorial diagrams with a visual SVG studio.",
+  "version": "1.0.0",
+  "author": { "name": "Diagram Studio contributors" },
+  "license": "MIT",
+  "keywords": ["diagrams", "svg", "architecture", "flowchart", "visualization", "drawio", "mermaid", "editor"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Diagram Studio",
+    "shortDescription": "Polished diagrams, visual editing, imports, and exports.",
+    "longDescription": "Generate, redesign, import, brand, edit, and export architecture, process, strategy, data, chart, network, deployment, roadmap, and journey diagrams.",
+    "developerName": "Diagram Studio contributors",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": [
+      "Make an editorial architecture diagram of my system.",
+      "Turn this process into a polished visual.",
+      "Redraw this Mermaid or draw.io source for a presentation.",
+      "Match this diagram to our brand and export SVG and PNG."
+    ],
+    "brandColor": "#e85d3f"
+  }
+}

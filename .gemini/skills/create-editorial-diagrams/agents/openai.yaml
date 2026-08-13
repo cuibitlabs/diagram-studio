@@ -1,0 +1,9 @@
+interface:
+  display_name: "Diagram Studio"
+  short_description: "Create polished, editable, brand-ready diagrams"
+  default_prompt: "Use $create-editorial-diagrams to turn this idea into a polished editable diagram."
+  icon_small: "assets/icon.svg"
+  icon_large: "assets/icon.svg"
+  brand_color: "#E85D3F"
+policy:
+  allow_implicit_invocation: true

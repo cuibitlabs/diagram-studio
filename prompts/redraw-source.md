@@ -1,0 +1,1 @@
+Use the Diagram Studio skill to redraw the supplied Mermaid or draw.io source. Preserve the critical reading path, adapt language for the requested audience, fit the requested size, export the requested formats, and report what was preserved, collapsed, or removed.

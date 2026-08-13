@@ -1,0 +1,7 @@
+---
+description: Create, edit, import, brand, or export editorial diagrams
+globs: ["**/*.diagram.json", "**/*.mmd", "**/*.mermaid", "**/*.drawio", "src/**", "skills/create-editorial-diagrams/**"]
+alwaysApply: false
+---
+
+Read `skills/create-editorial-diagrams/SKILL.md` completely and then load its reference for the selected type or operation. Preserve accessible SVG, semantic node-edge relationships, and deterministic import validation.
