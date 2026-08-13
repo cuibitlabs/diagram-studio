@@ -15,7 +15,8 @@ npx diagram-studio --help
 - **It never invents content.** A chart with a missing value shows a gap and a note, not a zero. A funnel is proportional only when every level has a value. A journey draws its sentiment line only when sentiment was measured. A Gantt task without a duration is listed as unscheduled.
 - **Accessibility in the product, not the review.** WCAG contrast is audited for nine role pairs per palette at the sizes the type scale uses, failing pairs are shown in the editor, brand colours are repaired with the hue preserved, and four colour-vision types can be simulated. Accessible-name ids are namespaced per render, so two diagrams can share a page.
 - **Import that is honest.** Ten Mermaid diagram types, and draw.io including its compressed payload. Every import records a fidelity ledger: source versus drawn counts, what was collapsed, dropped or not representable.
-- **Round-trip export.** SVG, self-contained HTML, PNG, PDF, Mermaid, draw.io, ASCII, the `.ds` diagram language, and the editable project.
+- **Export that survives the hand-off.** SVG, self-contained HTML, PNG, PDF, Mermaid, draw.io, ASCII, the `.ds` language, the editable project — plus PowerPoint as real editable shapes, an Excalidraw scene with bound arrows, a React component, a custom element, and a Figma-ready flat SVG.
+- **Review tooling.** A visual diff that draws what was added, removed and edited (removals as ghosts in their old positions), an accessibility report you can hand to a reviewer, and decks that keep one theme across every slide.
 - **An editor worth using.** Multi-select, alignment and distribution, live snapping guides, a command palette, presentation mode that reveals by reading order, undo that treats a drag as one action.
 - **A language for git.** `.ds` is the same model in a form a reviewer can read a diff of, and it round-trips exactly.
 
@@ -36,11 +37,14 @@ diagram-studio simplify platform.drawio --level balanced -o simple.svg
 diagram-studio import platform.mmd --onto platform.diagram.json -o platform.svg
 diagram-studio batch ./docs/diagrams --out ./docs/img --theme moss --variants
 diagram-studio audit platform.diagram.json
+diagram-studio report platform.diagram.json -o report.html
+diagram-studio diff before.json after.json -o diff.svg
+diagram-studio deck overview.json detail.json -o review.pptx
 diagram-studio convert platform.diagram.json platform.txt
 ```
 
 Formats in: `.ds .mmd .mermaid .md .drawio .xml .json`.
-Formats out: `.ds .svg .html .mmd .drawio .json .txt`.
+Formats out: `.ds .svg .html .mmd .drawio .json .txt .pptx .excalidraw .jsx .js`, plus `--flat` for a Figma-ready SVG with resolved styles and named layers.
 
 ## With an agent
 

@@ -99,14 +99,14 @@ function connectorXml(edge, route, index, transform, theme) {
 <p:txBody><a:bodyPr/><a:lstStyle/><a:p/></p:txBody></p:sp>`;
 }
 
-const CONTENT_TYPES = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+const contentTypes = (count) => `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
 <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
 <Default Extension="xml" ContentType="application/xml"/>
 <Override PartName="/ppt/presentation.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml"/>
 <Override PartName="/ppt/slideMasters/slideMaster1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideMaster+xml"/>
 <Override PartName="/ppt/slideLayouts/slideLayout1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml"/>
-<Override PartName="/ppt/slides/slide1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/>
+${Array.from({ length: count }, (_, index) => `<Override PartName="/ppt/slides/slide${index + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/>`).join("")}
 <Override PartName="/ppt/theme/theme1.xml" ContentType="application/vnd.openxmlformats-officedocument.theme+xml"/>
 </Types>`;
 
@@ -115,18 +115,18 @@ const ROOT_RELS = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="ppt/presentation.xml"/>
 </Relationships>`;
 
-const PRESENTATION = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+const presentationXml = (count) => `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <p:presentation xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">
 <p:sldMasterIdLst><p:sldMasterId id="2147483648" r:id="rId1"/></p:sldMasterIdLst>
-<p:sldIdLst><p:sldId id="256" r:id="rId2"/></p:sldIdLst>
+<p:sldIdLst>${Array.from({ length: count }, (_, index) => `<p:sldId id="${256 + index}" r:id="rId${index + 2}"/>`).join("")}</p:sldIdLst>
 <p:sldSz cx="${SLIDE.w}" cy="${SLIDE.h}"/><p:notesSz cx="${SLIDE.h}" cy="${SLIDE.w}"/>
 </p:presentation>`;
 
-const PRESENTATION_RELS = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+const presentationRels = (count) => `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
 <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideMaster" Target="slideMasters/slideMaster1.xml"/>
-<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide" Target="slides/slide1.xml"/>
-<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme" Target="theme/theme1.xml"/>
+${Array.from({ length: count }, (_, index) => `<Relationship Id="rId${index + 2}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide" Target="slides/slide${index + 1}.xml"/>`).join("")}
+<Relationship Id="rId${count + 2}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme" Target="theme/theme1.xml"/>
 </Relationships>`;
 
 const emptySpTree = (name) =>
@@ -175,11 +175,8 @@ ${scheme.map((value, index) => `<a:accent${index + 1}><a:srgbClr val="${value}"/
 </a:fmtScheme></a:themeElements></a:theme>`;
 }
 
-/**
- * @param {object} diagram
- * @returns {Uint8Array} a .pptx file
- */
-export function toPPTX(diagram) {
+/** One slide's XML for one diagram. */
+function slideXml(diagram) {
   buildSVG(diagram, { interactive: false, uid: "pptx" });
   const theme = diagram.theme;
 
@@ -208,7 +205,7 @@ export function toPPTX(diagram) {
     .join("");
   const shapes = diagram.nodes.map((node, index) => shapeXml(node, index, transform, theme)).join("");
 
-  const slide = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">
 <p:cSld name="${esc(diagram.title)}"><p:bg><p:bgPr><a:solidFill><a:srgbClr val="${rgb(theme.paper)}"/></a:solidFill><a:effectLst/></p:bgPr></p:bg>
 <p:spTree><p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr>
@@ -216,18 +213,38 @@ export function toPPTX(diagram) {
 ${connectors}${shapes}</p:spTree></p:cSld>
 <p:clrMapOvr><a:overrideClrMapping bg1="lt1" tx1="dk1" bg2="lt2" tx2="dk2" accent1="accent1" accent2="accent2" accent3="accent3" accent4="accent4" accent5="accent5" accent6="accent6" hlink="hlink" folHlink="folHlink"/></p:clrMapOvr>
 </p:sld>`;
+}
+
+/**
+ * A deck: one slide per diagram, sharing the first diagram's theme for the
+ * presentation theme part.
+ *
+ * @param {object[]} diagrams
+ * @returns {Uint8Array} a .pptx file
+ */
+export function toPPTXDeck(diagrams) {
+  const slides = diagrams.map((diagram) => slideXml(diagram));
+  const theme = diagrams[0]?.theme ?? {};
 
   return zip([
-    { name: "[Content_Types].xml", data: CONTENT_TYPES },
+    { name: "[Content_Types].xml", data: contentTypes(slides.length) },
     { name: "_rels/.rels", data: ROOT_RELS },
-    { name: "ppt/presentation.xml", data: PRESENTATION },
-    { name: "ppt/_rels/presentation.xml.rels", data: PRESENTATION_RELS },
+    { name: "ppt/presentation.xml", data: presentationXml(slides.length) },
+    { name: "ppt/_rels/presentation.xml.rels", data: presentationRels(slides.length) },
     { name: "ppt/slideMasters/slideMaster1.xml", data: SLIDE_MASTER },
     { name: "ppt/slideMasters/_rels/slideMaster1.xml.rels", data: SLIDE_MASTER_RELS },
     { name: "ppt/slideLayouts/slideLayout1.xml", data: SLIDE_LAYOUT },
     { name: "ppt/slideLayouts/_rels/slideLayout1.xml.rels", data: SLIDE_LAYOUT_RELS },
     { name: "ppt/theme/theme1.xml", data: themeXml(theme) },
-    { name: "ppt/slides/slide1.xml", data: slide },
-    { name: "ppt/slides/_rels/slide1.xml.rels", data: SLIDE_RELS },
+    ...slides.flatMap((slide, index) => [
+      { name: `ppt/slides/slide${index + 1}.xml`, data: slide },
+      { name: `ppt/slides/_rels/slide${index + 1}.xml.rels`, data: SLIDE_RELS },
+    ]),
   ]);
 }
+
+/**
+ * @param {object} diagram
+ * @returns {Uint8Array} a single-slide .pptx file
+ */
+export const toPPTX = (diagram) => toPPTXDeck([diagram]);

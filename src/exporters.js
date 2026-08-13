@@ -15,8 +15,14 @@ import { toExcalidrawJSON } from "./export/excalidraw.js";
 import { toFlatSVG } from "./export/flat.js";
 import { toReact, toWebComponent } from "./export/component.js";
 import { toASCII } from "./export/ascii.js";
+import { toReport } from "./export/report.js";
 
-export { toASCII, toDrawio, toExcalidrawJSON, toFlatSVG, toMermaid, toPPTX, toReact, toWebComponent };
+export { toASCII, toDrawio, toExcalidrawJSON, toFlatSVG, toMermaid, toPPTX, toReact, toReport, toWebComponent };
+
+/** A self-contained accessibility and composition report. */
+export function exportReport(diagram) {
+  save(new Blob([toReport(diagram)], { type: "text/html;charset=utf-8" }), `${slug(diagram.title)}-report.html`);
+}
 
 function save(blob, filename) {
   const link = document.createElement("a");

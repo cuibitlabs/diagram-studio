@@ -42,8 +42,11 @@ export { toASCII } from "./export/ascii.js";
 export { toExcalidraw, toExcalidrawJSON } from "./export/excalidraw.js";
 export { toReact, toWebComponent } from "./export/component.js";
 export { toFlatSVG } from "./export/flat.js";
-export { toPPTX } from "./export/pptx.js";
+export { toPPTX, toPPTXDeck } from "./export/pptx.js";
 export { zip } from "./export/zip.js";
+export { auditReport, readingOrder, toReport } from "./export/report.js";
+export { toDiffSVG } from "./export/diffview.js";
+export { normaliseDeck, toDeckHTML, toDeckPPTX } from "./export/deck.js";
 
 export { PALETTE_IDS, completeTheme, paletteOf } from "./theme/palettes.js";
 export { auditTheme, contrastRatio, repairTheme, simulateTheme } from "./theme/contrast.js";

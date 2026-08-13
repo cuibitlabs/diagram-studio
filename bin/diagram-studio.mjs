@@ -39,6 +39,9 @@ import { toExcalidrawJSON } from "../src/export/excalidraw.js";
 import { toReact, toWebComponent } from "../src/export/component.js";
 import { toFlatSVG } from "../src/export/flat.js";
 import { toPPTX } from "../src/export/pptx.js";
+import { toReport } from "../src/export/report.js";
+import { toDiffSVG } from "../src/export/diffview.js";
+import { toDeckHTML, toDeckPPTX } from "../src/export/deck.js";
 
 const IMPORTABLE = new Set([".mmd", ".mermaid", ".md", ".drawio", ".xml", ".json", ".ds"]);
 
@@ -181,10 +184,33 @@ const commands = {
     await write(out, serialise(diagram, out));
   },
 
-  async diff({ positional }) {
+  async report({ positional, flags }) {
+    const input = positional[0] ?? die("a project file is required");
+    const diagram = applyTheme(await loadProject(input), flags.theme);
+    const out = String(flags.out ?? `${basename(input, extname(input))}-report.html`);
+    await write(out, toReport(diagram));
+  },
+
+  async deck({ positional, flags }) {
+    const sources = positional.length ? positional : die("at least one source is required");
+    const diagrams = [];
+    for (const source of sources) diagrams.push(applyTheme(await loadProject(source), flags.theme));
+    const deck = { title: flags.title ? String(flags.title) : "Deck", description: flags.describe ? String(flags.describe) : "", theme: diagrams[0]?.theme, diagrams };
+    const out = String(flags.out ?? "deck.html");
+    await write(out, extname(out).toLowerCase() === ".pptx" ? toDeckPPTX(deck) : toDeckHTML(deck));
+    console.log(`deck: ${diagrams.length} diagram${diagrams.length === 1 ? "" : "s"}`);
+  },
+
+  async diff({ positional, flags }) {
     const [before, after] = positional;
     if (!before || !after) die("usage: diagram-studio diff <before> <after>");
-    const diff = diffProjects(await loadProject(before), await loadProject(after));
+    const previous = await loadProject(before);
+    const next = await loadProject(after);
+    if (flags.out) {
+      const { svg } = toDiffSVG(previous, next);
+      await write(String(flags.out), svg);
+    }
+    const diff = diffProjects(previous, next);
     console.log(describeDiff(diff));
     for (const node of diff.nodes.added) console.log(`  + ${node.label}`);
     for (const node of diff.nodes.removed) console.log(`  − ${node.label}`);
@@ -298,6 +324,10 @@ async function main() {
   simplify <file>          editorial simplification with a fidelity ledger
     --level light|balanced|aggressive
   diff <before> <after>    what changed between two projects
+    -o diff.svg            draw it: additions, removals and edits marked
+  report <project>         a self-contained accessibility and composition report
+  deck <a> <b> ...         several diagrams as one deck
+    -o deck.html|deck.pptx --title "..." --theme id
   render <project.json>    redraw a saved project
   convert <in> <out>       format taken from the output extension
   batch <dir> --out <dir>  a folder of sources into a folder of diagrams

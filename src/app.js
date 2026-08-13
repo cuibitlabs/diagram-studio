@@ -41,6 +41,7 @@ import {
   exportPPTX,
   exportProject,
   exportReact,
+  exportReport,
   exportSVG,
   exportText,
   exportVariants,
@@ -206,6 +207,7 @@ Customer -> Web app -> API gateway -> Orders service -> Order store</textarea>
     <button data-export="excalidraw"><b>Excalidraw</b><small>For a workshop</small></button>
     <button data-export="flat"><b>Figma SVG</b><small>Resolved styles, named layers</small></button>
     <button data-export="react"><b>React</b><small>Component with theme props</small></button>
+    <button data-export="report"><b>Accessibility report</b><small>Contrast, reading order, alt text</small></button>
     <button data-export="copy"><b>Copy SVG</b><small>Paste into design tools</small></button>
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>`;
@@ -525,6 +527,7 @@ async function runExport(format) {
     if (format === "excalidraw") exportExcalidraw(diagram);
     if (format === "flat") exportFlatSVG(diagram);
     if (format === "react") exportReact(diagram);
+    if (format === "report") exportReport(diagram);
     if (format === "copy") await copySVG(diagram);
     let note = "";
     if (format === "mermaid") {
