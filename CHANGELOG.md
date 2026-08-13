@@ -84,7 +84,7 @@ with the stated total.
 
 ### Checks
 
-218 tests and six verifiers, on Linux, Windows and macOS. The build fails on:
+221 tests and six verifiers, on Linux, Windows and macOS. The build fails on:
 content outside the canvas, overlapping nodes, a diagonal or node-crossing
 connector, geometry off the module, truncated or hard-broken labels, a contrast
 pair below target, a missing accessible name, a shadow or gradient, a literal

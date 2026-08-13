@@ -247,7 +247,7 @@ docs/gallery/     every type rendered light and dark
 npm run check      # tests, build and verifiers
 ```
 
-220 tests, plus six verifiers that fail the build on: content drawn outside the
+221 tests, plus six verifiers that fail the build on: content drawn outside the
 canvas, overlapping nodes, a diagonal or node-crossing connector, geometry off
 the 4 px module, a truncated or hard-broken label, a contrast pair below target,
 a missing accessible name, a shadow or gradient, a literal colour outside the

@@ -71,7 +71,7 @@ the figure.
 
 ## Release
 
-`v0.1.0` is tagged. `.github/workflows/release.yml` runs the full gate — 218
+`v0.1.0` is tagged. `.github/workflows/release.yml` runs the full gate — 221
 tests, the build and six verifiers — before publishing notes and a package
 containing the built studio, the type gallery and the example library. A tag
 never ships without that passing.

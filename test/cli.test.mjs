@@ -227,3 +227,30 @@ test("mcp rejects an unknown method and unknown tool", async () => {
   assert.equal(unknownMethod.error.code, -32601);
   assert.equal(unknownTool.error.code, -32602);
 });
+
+test("mcp delivers a response larger than the pipe buffer before exiting", async () => {
+  // Writes to a pipe are async on POSIX and `process.exit` drops whatever has
+  // not drained. This must be bigger than every platform's buffer — macOS uses
+  // 8 KB and Linux 64 KB — or the truncation only shows up on one runner.
+  const { createDiagram } = await import("../src/model.js");
+  const project = createDiagram("architecture");
+  project.nodes = Array.from({ length: 180 }, (_, i) => ({
+    id: `n${i}`,
+    label: `Service ${i}`,
+    sublabel: "a sublabel long enough to push the payload well past any pipe buffer",
+    x: 0, y: 0, w: 0, h: 0,
+  }));
+  project.edges = Array.from({ length: 200 }, (_, i) => ({
+    id: `e${i}`,
+    source: `n${i % 180}`,
+    target: `n${(i * 7 + 3) % 180}`,
+  }));
+
+  const [response] = await mcp([
+    { jsonrpc: "2.0", id: 1, method: "tools/call", params: { name: "render_diagram", arguments: { project } } },
+  ]);
+
+  const svg = response.result.content[0].text;
+  assert.ok(svg.length > 65536, `payload was only ${svg.length} bytes — too small to prove anything`);
+  assert.match(svg.trimEnd().slice(-6), /<\/svg>$/, "the response was truncated before the closing tag");
+});

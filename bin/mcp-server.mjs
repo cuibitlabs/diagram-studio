@@ -231,6 +231,27 @@ async function dispatch(payload) {
 
 const input = createInterface({ input: process.stdin });
 
+/**
+ * Shutdown has to wait for two things, and getting either wrong loses a reply.
+ *
+ * Requests still running: stdin closing does not mean the work is finished, and
+ * a client that writes a request then closes the pipe is entitled to the answer.
+ *
+ * Buffered output: writes to a pipe are asynchronous on POSIX, and
+ * `process.exit` discards whatever has not drained. macOS uses an 8 KB pipe
+ * buffer, so a rendered SVG — comfortably larger — was truncated mid-string at
+ * exactly 8192 bytes. Linux hid it behind a 64 KB buffer and Windows hid it by
+ * writing synchronously, so this only ever failed on one leg of the matrix.
+ */
+let inFlight = 0;
+let stdinClosed = false;
+
+function finishIfDone() {
+  if (!stdinClosed || inFlight > 0) return;
+  if (process.stdout.writableLength === 0) process.exit(0);
+  else process.stdout.once("drain", () => process.exit(0));
+}
+
 input.on("line", (line) => {
   const trimmed = line.trim();
   if (!trimmed) return;
@@ -240,11 +261,20 @@ input.on("line", (line) => {
   } catch {
     return failWith(null, -32700, "parse error");
   }
-  dispatch(payload).catch((error) => failWith(payload?.id ?? null, -32603, error.message));
+  inFlight++;
+  dispatch(payload)
+    .catch((error) => failWith(payload?.id ?? null, -32603, error.message))
+    .finally(() => {
+      inFlight--;
+      finishIfDone();
+    });
 });
 
 // The client closing stdin is how a well-behaved shutdown arrives.
-input.on("close", () => process.exit(0));
+input.on("close", () => {
+  stdinClosed = true;
+  finishIfDone();
+});
 
 /**
  * stdout carries the protocol and nothing else. An uncaught error printed there

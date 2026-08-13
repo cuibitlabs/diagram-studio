@@ -28,7 +28,13 @@ jobs:
         run: npm run gallery
       - name: Publish the studio with the gallery alongside it
         run: cp -r docs/gallery dist/gallery
+      # Enable Pages from here rather than requiring someone to find the
+      # setting. Without this the job fails with "Get Pages site failed" on any
+      # repository where Pages has never been switched on — including a fresh
+      # clone or a repository that was recreated.
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
