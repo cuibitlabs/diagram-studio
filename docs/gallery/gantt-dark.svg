@@ -2,6 +2,7 @@
   <title id="gantt-dark-title">Gantt overview</title>
   <desc id="gantt-dark-desc">Tasks against a declared time scale</desc>
   <defs>
+    
     <marker id="gantt-dark-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
       <path d="M 0 1 L 9 5 L 0 9 Z" fill="var(--line-strong)"/>
     </marker>

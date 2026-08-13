@@ -2,6 +2,7 @@
   <title id="er-dark-title">ER / data model overview</title>
   <desc id="er-dark-desc">Entities, their fields and the relationships between them</desc>
   <defs>
+    
     <marker id="er-dark-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
       <path d="M 0 1 L 9 5 L 0 9 Z" fill="var(--line-strong)"/>
     </marker>

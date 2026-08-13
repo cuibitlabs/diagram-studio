@@ -2,6 +2,7 @@
   <title id="scatter-light-title">Scatter plot overview</title>
   <desc id="scatter-light-desc">Distribution and correlation across two measures</desc>
   <defs>
+    
     <marker id="scatter-light-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
       <path d="M 0 1 L 9 5 L 0 9 Z" fill="var(--line-strong)"/>
     </marker>

@@ -2,6 +2,7 @@
   <title id="timeline-light-title">Timeline overview</title>
   <desc id="timeline-light-desc">Events in order along a single axis</desc>
   <defs>
+    
     <marker id="timeline-light-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
       <path d="M 0 1 L 9 5 L 0 9 Z" fill="var(--line-strong)"/>
     </marker>

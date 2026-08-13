@@ -2,6 +2,7 @@
   <title id="loop-light-title">Loop / flywheel overview</title>
   <desc id="loop-light-desc">A reinforcing cycle of stages</desc>
   <defs>
+    
     <marker id="loop-light-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
       <path d="M 0 1 L 9 5 L 0 9 Z" fill="var(--line-strong)"/>
     </marker>

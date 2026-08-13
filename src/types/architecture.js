@@ -9,12 +9,12 @@ export default createLayeredType({
   nodeGap: 40,
   sample: () => ({
     nodes: [
-      { label: "Customer", role: "actor" },
-      { label: "Web app", sublabel: "Browser client" },
-      { label: "API gateway", sublabel: "Auth and rate limiting", tone: "accent" },
-      { label: "Orders service" },
-      { label: "Order store", role: "store" },
-      { label: "Payments provider", role: "external" },
+      { label: "Customer", role: "actor", icon: "user" },
+      { label: "Web app", sublabel: "Browser client", icon: "browser" },
+      { label: "API gateway", sublabel: "Auth and rate limiting", tone: "accent", icon: "gateway" },
+      { label: "Orders service", icon: "server" },
+      { label: "Order store", role: "store", icon: "database" },
+      { label: "Payments provider", role: "external", icon: "cloud" },
     ],
     edges: [
       { from: 0, to: 1 },

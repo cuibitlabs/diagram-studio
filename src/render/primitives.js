@@ -91,8 +91,8 @@ export function nodeCard(node, spec = {}) {
       )
     : "";
 
-  const icon = node.icon
-    ? `<use class="node-icon" href="#icon-${esc(node.icon)}" x="${num(node.x + layout.padX)}" y="${num(node.y + layout.padY)}" width="${BOX.iconSize}" height="${BOX.iconSize}"/>`
+  const icon = node.icon && spec.uid
+    ? `<use class="node-icon" href="#${spec.uid}-icon-${esc(node.icon)}" x="${num(node.x + layout.padX)}" y="${num(node.y + layout.padY)}" width="${BOX.iconSize}" height="${BOX.iconSize}"/>`
     : "";
 
   const badge = node.badge

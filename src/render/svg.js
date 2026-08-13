@@ -9,6 +9,7 @@
 import { ceilTo } from "../engine/text.js";
 import { TYPE, fontAttrs } from "../engine/typography.js";
 import { getRenderer } from "../types/index.js";
+import { iconSymbols, iconsUsedBy } from "./icons.js";
 import { esc, text } from "./primitives.js";
 import { skinCSS } from "./skin.js";
 
@@ -27,8 +28,9 @@ export function uidFor(seed = "diagram") {
   return `d${hash.toString(36).slice(0, 7)}`;
 }
 
-function defs(uid, theme) {
+function defs(uid, theme, icons = "") {
   return `<defs>
+    ${icons}
     <marker id="${uid}-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
       <path d="M 0 1 L 9 5 L 0 9 Z" fill="var(--line-strong)"/>
     </marker>
@@ -122,7 +124,7 @@ export function buildSVG(diagram, options = {}) {
   return `<svg xmlns="http://www.w3.org/2000/svg" class="ds-svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" role="img" aria-labelledby="${uid}-title ${uid}-desc" style="${themeVariables(diagram.theme, settings)}">
   <title id="${uid}-title">${esc(diagram.title)}</title>
   <desc id="${uid}-desc">${esc(diagram.description || `${diagram.type} diagram with ${diagram.nodes.length} elements.`)}</desc>
-  ${defs(uid, diagram.theme)}
+  ${defs(uid, diagram.theme, iconSymbols(iconsUsedBy(diagram), uid))}
   <style>${skinCSS()}</style>
   <rect class="canvas-bg" x="0" y="0" width="${width}" height="${height}"/>
   ${settings.grid ? `<rect class="canvas-grid" x="0" y="0" width="${width}" height="${height}" fill="url(#${uid}-grid)"/>` : ""}

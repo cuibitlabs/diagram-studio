@@ -73,6 +73,7 @@ export const drawEdges = (diagram, ctx, routes, spec = {}) =>
 
 export const drawNodes = (diagram, ctx, spec = {}) =>
   (diagram.nodes ?? []).map((node) => nodeCard(node, {
+    uid: ctx.uid,
     corner: ctx.corner,
     dense: ctx.dense,
     selectedId: ctx.selectedId,

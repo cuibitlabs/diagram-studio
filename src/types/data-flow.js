@@ -20,11 +20,11 @@ export default createLayeredType({
   },
   sample: () => ({
     nodes: [
-      { label: "Operational systems", role: "input" },
-      { label: "Ingest", sublabel: "Batch and stream" },
-      { label: "Transform", sublabel: "Clean, join, conform", tone: "accent" },
-      { label: "Warehouse", role: "store" },
-      { label: "Reporting", role: "output" },
+      { label: "Operational systems", role: "input", icon: "table" },
+      { label: "Ingest", sublabel: "Batch and stream", icon: "stream" },
+      { label: "Transform", sublabel: "Clean, join, conform", tone: "accent", icon: "pipeline" },
+      { label: "Warehouse", role: "store", icon: "database" },
+      { label: "Reporting", role: "output", icon: "chart" },
     ],
     edges: [
       { from: 0, to: 1 },

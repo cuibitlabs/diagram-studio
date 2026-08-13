@@ -2,6 +2,7 @@
   <title id="deployment-light-title">Deployment overview</title>
   <desc id="deployment-light-desc">Runtime environments and the path a release takes through them</desc>
   <defs>
+    <symbol id="deployment-light-icon-branch" viewBox="0 0 24 24"><path d="M7 4v10M7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM17 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM17 10v2a4 4 0 0 1-4 4H9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="deployment-light-icon-check" viewBox="0 0 24 24"><path d="M5 13l4 4 10-10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="deployment-light-icon-container" viewBox="0 0 24 24"><path d="M4 8l8-4 8 4-8 4zM4 8v8l8 4 8-4V8M12 12v8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="deployment-light-icon-deploy" viewBox="0 0 24 24"><path d="M12 3c3 2.5 4.5 6 4.5 9L12 16l-4.5-4c0-3 1.5-6.5 4.5-10ZM12 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM9 17l-2 4 4-1.5M15 17l2 4-4-1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="deployment-light-icon-package" viewBox="0 0 24 24"><path d="M12 3l8 4v10l-8 4-8-4V7zM4 7l8 4 8-4M12 11v10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <marker id="deployment-light-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
       <path d="M 0 1 L 9 5 L 0 9 Z" fill="var(--line-strong)"/>
     </marker>
@@ -32,45 +33,45 @@
   
   
   <g class="diagram-content"><g class="lane is-filled" data-group-id="group-51-8dg3">
-    <rect x="68" y="52" width="220" height="464" rx="10"/>
+    <rect x="68" y="52" width="252" height="464" rx="10"/>
     <text class="lane-title" x="88" y="78" text-anchor="start" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:700;letter-spacing:1.2px">CONTINUOUS INTEGRATION</text>
   </g><g class="lane is-filled" data-group-id="group-52-8dg3">
-    <rect x="72" y="532" width="216" height="300" rx="10"/>
-    <text class="lane-title" x="92" y="558" text-anchor="start" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:700;letter-spacing:1.2px">CONTINUOUS DELIVERY</text>
+    <rect x="88" y="532" width="216" height="300" rx="10"/>
+    <text class="lane-title" x="108" y="558" text-anchor="start" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:700;letter-spacing:1.2px">CONTINUOUS DELIVERY</text>
   </g><g class="ds-edge" data-edge-id="edge-4v-v9fz">
-    <path class="edge-hit" d="M 192 172 L 192 186 Q 192 192 186 192 L 186 192 Q 180 192 180 198 L 180 260"/>
-    <path class="line" d="M 192 172 L 192 186 Q 192 192 186 192 L 186 192 Q 180 192 180 198 L 180 260" marker-end="url(#deployment-light-arrow)"/>
+    <path class="edge-hit" d="M 184 172 L 184 187 Q 184 192 189 192 L 189 192 Q 194 192 194 197 L 194 260"/>
+    <path class="line" d="M 184 172 L 184 187 Q 184 192 189 192 L 189 192 Q 194 192 194 197 L 194 260" marker-end="url(#deployment-light-arrow)"/>
     
   </g><g class="ds-edge" data-edge-id="edge-4w-v9fz">
-    <path class="edge-hit" d="M 180 336 L 180 349 Q 180 356 173 356 L 173 356 Q 166 356 166 363 L 166 424"/>
-    <path class="line" d="M 180 336 L 180 349 Q 180 356 173 356 L 173 356 Q 166 356 166 363 L 166 424" marker-end="url(#deployment-light-arrow)"/>
+    <path class="edge-hit" d="M 194 336 L 194 350 Q 194 356 188 356 L 188 356 Q 182 356 182 362 L 182 424"/>
+    <path class="line" d="M 194 336 L 194 350 Q 194 356 188 356 L 188 356 Q 182 356 182 362 L 182 424" marker-end="url(#deployment-light-arrow)"/>
     
   </g><g class="ds-edge" data-edge-id="edge-4x-v9fz">
-    <path class="edge-hit" d="M 178 488 L 178 576"/>
-    <path class="line" d="M 178 488 L 178 576" marker-end="url(#deployment-light-arrow)"/>
-    <g class="edge-label"><rect x="186" y="521" width="66.4" height="22" rx="6"/><text class="edge-label-text" x="219.2" y="536.2" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:600">promote</text></g>
+    <path class="edge-hit" d="M 194 488 L 194 576"/>
+    <path class="line" d="M 194 488 L 194 576" marker-end="url(#deployment-light-arrow)"/>
+    <g class="edge-label"><rect x="202" y="521" width="66.4" height="22" rx="6"/><text class="edge-label-text" x="235.2" y="536.2" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:600">promote</text></g>
   </g><g class="ds-edge" data-edge-id="edge-4y-v9fz">
-    <path class="edge-hit" d="M 180 652 L 180 740"/>
-    <path class="line" d="M 180 652 L 180 740" marker-end="url(#deployment-light-arrow)"/>
-    <g class="edge-label"><rect x="188" y="685" width="66.4" height="22" rx="6"/><text class="edge-label-text" x="221.2" y="700.2" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:600">release</text></g>
+    <path class="edge-hit" d="M 196 652 L 196 740"/>
+    <path class="line" d="M 196 652 L 196 740" marker-end="url(#deployment-light-arrow)"/>
+    <g class="edge-label"><rect x="204" y="685" width="66.4" height="22" rx="6"/><text class="edge-label-text" x="237.2" y="700.2" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:600">release</text></g>
   </g><g class="ds-edge is-dashed" data-edge-id="edge-4z-v9fz">
-    <path class="edge-hit" d="M 190 424 L 190 412 Q 190 404 182 404 L 92 404 Q 84 404 84 396 L 84 200 Q 84 192 92 192 L 160 192 Q 168 192 168 184 L 168 172"/>
-    <path class="line" d="M 190 424 L 190 412 Q 190 404 182 404 L 92 404 Q 84 404 84 396 L 84 200 Q 84 192 92 192 L 160 192 Q 168 192 168 184 L 168 172" marker-end="url(#deployment-light-arrow)"/>
-    <g class="edge-label"><rect x="92" y="287" width="44.8" height="22" rx="6"/><text class="edge-label-text" x="114.4" y="302.2" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:600">fail</text></g>
+    <path class="edge-hit" d="M 206 424 L 206 412 Q 206 404 214 404 L 288 404 Q 296 404 296 396 L 296 200 Q 296 192 288 192 L 216 192 Q 208 192 208 184 L 208 172"/>
+    <path class="line" d="M 206 424 L 206 412 Q 206 404 214 404 L 288 404 Q 296 404 296 396 L 296 200 Q 296 192 288 192 L 216 192 Q 208 192 208 184 L 208 172" marker-end="url(#deployment-light-arrow)"/>
+    <g class="edge-label"><rect x="304" y="287" width="44.8" height="22" rx="6"/><text class="edge-label-text" x="326.4" y="302.2" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:600">fail</text></g>
   </g><g class="ds-node shape-box tone-default">
-    <path class="card" d="M 108 96 H 252 A 8 8 0 0 1 260 104 V 164 A 8 8 0 0 1 252 172 H 108 A 8 8 0 0 1 100 164 V 104 A 8 8 0 0 1 108 96 Z"/>
-    <text class="node-title" x="120" y="125.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Commit</text><text class="node-sub" x="120" y="153.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:12px;font-weight:500">Trunk</text>
+    <path class="card" d="M 124 96 H 268 A 8 8 0 0 1 276 104 V 164 A 8 8 0 0 1 268 172 H 124 A 8 8 0 0 1 116 164 V 104 A 8 8 0 0 1 124 96 Z"/>
+    <use class="node-icon" href="#deployment-light-icon-branch" x="136" y="112" width="20" height="20"/><text class="node-title" x="168" y="125.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Commit</text><text class="node-sub" x="168" y="153.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:12px;font-weight:500">Trunk</text>
   </g><g class="ds-node shape-box tone-default">
-    <path class="card" d="M 108 260 H 252 A 8 8 0 0 1 260 268 V 328 A 8 8 0 0 1 252 336 H 108 A 8 8 0 0 1 100 328 V 268 A 8 8 0 0 1 108 260 Z"/>
-    <text class="node-title" x="120" y="289.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Build</text><text class="node-sub" x="120" y="317.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:12px;font-weight:500">Artefact produced</text>
+    <path class="card" d="M 116 260 H 272 A 8 8 0 0 1 280 268 V 328 A 8 8 0 0 1 272 336 H 116 A 8 8 0 0 1 108 328 V 268 A 8 8 0 0 1 116 260 Z"/>
+    <use class="node-icon" href="#deployment-light-icon-package" x="128" y="276" width="20" height="20"/><text class="node-title" x="160" y="289.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Build</text><text class="node-sub" x="160" y="317.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:12px;font-weight:500">Artefact produced</text>
   </g><g class="ds-node shape-box tone-default">
-    <path class="card" d="M 104 424 H 252 A 8 8 0 0 1 260 432 V 480 A 8 8 0 0 1 252 488 H 104 A 8 8 0 0 1 96 480 V 432 A 8 8 0 0 1 104 424 Z"/>
-    <text class="node-title" x="116" y="459.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Automated tests</text>
+    <path class="card" d="M 104 424 H 284 A 8 8 0 0 1 292 432 V 480 A 8 8 0 0 1 284 488 H 104 A 8 8 0 0 1 96 480 V 432 A 8 8 0 0 1 104 424 Z"/>
+    <use class="node-icon" href="#deployment-light-icon-check" x="116" y="440" width="20" height="20"/><text class="node-title" x="148" y="459.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Automated tests</text>
   </g><g class="ds-node shape-box tone-default">
-    <path class="card" d="M 108 576 H 252 A 8 8 0 0 1 260 584 V 644 A 8 8 0 0 1 252 652 H 108 A 8 8 0 0 1 100 644 V 584 A 8 8 0 0 1 108 576 Z"/>
-    <text class="node-title" x="120" y="605.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Staging</text><text class="node-sub" x="120" y="633.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:12px;font-weight:500">Production-like</text>
+    <path class="card" d="M 124 576 H 268 A 8 8 0 0 1 276 584 V 644 A 8 8 0 0 1 268 652 H 124 A 8 8 0 0 1 116 644 V 584 A 8 8 0 0 1 124 576 Z"/>
+    <use class="node-icon" href="#deployment-light-icon-container" x="136" y="592" width="20" height="20"/><text class="node-title" x="168" y="605.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Staging</text><text class="node-sub" x="168" y="633.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:12px;font-weight:500">Production-like</text>
   </g><g class="ds-node shape-box tone-accent">
-    <path class="card" d="M 108 740 H 252 A 8 8 0 0 1 260 748 V 796 A 8 8 0 0 1 252 804 H 108 A 8 8 0 0 1 100 796 V 748 A 8 8 0 0 1 108 740 Z"/>
-    <text class="node-title" x="120" y="775.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Production</text>
+    <path class="card" d="M 124 740 H 268 A 8 8 0 0 1 276 748 V 796 A 8 8 0 0 1 268 804 H 124 A 8 8 0 0 1 116 796 V 748 A 8 8 0 0 1 124 740 Z"/>
+    <use class="node-icon" href="#deployment-light-icon-deploy" x="136" y="756" width="20" height="20"/><text class="node-title" x="168" y="775.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Production</text>
   </g></g>
 </svg>

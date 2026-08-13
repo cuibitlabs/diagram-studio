@@ -2,6 +2,7 @@
   <title id="radar-dark-title">Radar overview</title>
   <desc id="radar-dark-desc">Multi-axis comparison on a single shared scale</desc>
   <defs>
+    
     <marker id="radar-dark-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
       <path d="M 0 1 L 9 5 L 0 9 Z" fill="var(--line-strong)"/>
     </marker>

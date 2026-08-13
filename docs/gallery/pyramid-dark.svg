@@ -2,6 +2,7 @@
   <title id="pyramid-dark-title">Pyramid / funnel overview</title>
   <desc id="pyramid-dark-desc">Priority, maturity or drop-off across levels</desc>
   <defs>
+    
     <marker id="pyramid-dark-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
       <path d="M 0 1 L 9 5 L 0 9 Z" fill="var(--line-strong)"/>
     </marker>

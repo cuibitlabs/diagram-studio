@@ -19,11 +19,12 @@ import {
   reviewDiagram,
   validateDiagram,
 } from "./model.js";
-import { extractBrandFromHTML, extractBrandFromURL, parseDrawio, parseMermaid, parseProject } from "./importers.js";
+import { describeBrandReport, extractBrandFromHTML, extractBrandFromURL, parseDrawio, parseMermaid, parseProject } from "./importers.js";
 import { renderDiagram } from "./renderer.js";
 import { copySVG, exportHTML, exportPDF, exportPNG, exportProject, exportSVG, exportVariants } from "./exporters.js";
 import { ROLE_SHAPE, SHAPES } from "./render/shapes.js";
 import { completeTheme } from "./theme/palettes.js";
+import { CVD_TYPES, auditTheme, simulateTheme } from "./theme/contrast.js";
 
 const icons = {
   spark: '<path d="M12 2l1.6 5.4L19 9l-5.4 1.6L12 16l-1.6-5.4L5 9l5.4-1.6L12 2Z"/><path d="M19 16l.7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/>',
@@ -82,6 +83,9 @@ Customer -> Web app -> API gateway -> Orders service -> Order store</textarea>
         <p class="help">The studio reads accessible website styles. When browser security blocks a site, it creates a coordinated fallback from the domain.</p>
         <label class="drop-zone compact" for="brand-file">${icon("import")}<span><b>Import HTML or CSS</b><small>Exact local brand extraction</small></span><input id="brand-file" type="file" accept=".html,.htm,.css" /></label>
         <div class="section-heading"><span>Theme presets</span></div><div class="palette-list">${Object.entries(PALETTES).map(([id, palette]) => `<button data-palette="${id}"><span class="swatches"><i style="background:${palette.accent}"></i><i style="background:${palette.accent2}"></i><i style="background:${palette.paper}"></i></span><b>${palette.name}</b></button>`).join("")}</div>
+        <div class="section-heading"><span>Vision check</span></div>
+        <label>Simulate<select id="cvd-select"><option value="">Normal vision</option>${CVD_TYPES.map((kind) => `<option value="${kind}">${kind}</option>`).join("")}</select></label>
+        <p class="help">A diagram that stops working here is relying on hue alone. Shape, dash pattern and labels should carry the meaning instead.</p>
       </section>
     </aside>
     <section class="stage-shell">
@@ -147,6 +151,7 @@ let connectFrom = null;
 let history = [];
 let future = [];
 let renderQueued = false;
+let previewCVD = "";
 
 function restore() {
   try {
@@ -178,6 +183,10 @@ function render({ preserveFocus = false } = {}) {
   renderQueued = true;
   requestAnimationFrame(() => {
     renderQueued = false;
+    // The simulation is a viewing aid: swap the theme for the draw, then put
+    // the author's colours back so nothing is persisted.
+    const authoredTheme = diagram.theme;
+    if (previewCVD) diagram.theme = simulateTheme(authoredTheme, previewCVD);
     renderDiagram(diagram, $("#canvas"), {
       selectedId,
       selectedEdgeId,
@@ -188,6 +197,7 @@ function render({ preserveFocus = false } = {}) {
       onDrag: () => render({ preserveFocus: true }),
       onDragEnd: () => persist(),
     });
+    diagram.theme = authoredTheme;
     $("#canvas").style.transform = `scale(${zoom})`;
     $("#zoom-label").textContent = `${Math.round(zoom * 100)}%`;
     $("#type-label").textContent = getType(diagram.type).label;
@@ -201,7 +211,12 @@ function render({ preserveFocus = false } = {}) {
 }
 
 function syncReview() {
-  const notes = reviewDiagram(diagram);
+  const notes = [
+    ...reviewDiagram(diagram),
+    ...auditTheme(diagram.theme)
+      .filter((row) => !row.pass && !row.decorative)
+      .map((row) => `Contrast: ${row.fg} on ${row.bg} is ${row.ratio}:1, needs ${row.target}:1 (${row.note}).`),
+  ];
   $("#review-list").innerHTML = notes.length
     ? notes.map((note) => `<li>${note}</li>`).join("")
     : `<li class="is-clear">Within the ${LIMITS.budgetNodes}-node, ${LIMITS.accent}-accent budget.</li>`;
@@ -383,13 +398,20 @@ $("#import-source").addEventListener("click", (event) => {
   }
 });
 
+function applyBrand({ theme, report }) {
+  updateDiagram((next) => (next.theme = completeTheme({ ...next.theme, ...theme })));
+  setStatus(describeBrandReport(report));
+  if (report.changes.length) {
+    toast(`${report.changes.length} colour${report.changes.length === 1 ? "" : "s"} adjusted to meet contrast`);
+  } else {
+    toast(report.source === "domain-derived" ? "Palette derived from the domain" : "Brand styles extracted");
+  }
+}
+
 $("#extract-brand").addEventListener("click", async () => {
   try {
     setStatus("Reading brand styles…");
-    const theme = await extractBrandFromURL($("#brand-url").value);
-    updateDiagram((next) => (next.theme = completeTheme({ ...next.theme, ...theme })));
-    toast(theme.source === "domain-derived" ? "Coordinated fallback theme created" : "Brand styles extracted");
-    setStatus("Brand theme applied");
+    applyBrand(await extractBrandFromURL($("#brand-url").value));
   } catch (error) {
     toast(error.message);
   }
@@ -398,9 +420,7 @@ $("#extract-brand").addEventListener("click", async () => {
 $("#brand-file").addEventListener("change", async (event) => {
   const file = event.target.files[0];
   if (!file) return;
-  const theme = extractBrandFromHTML(await file.text(), file.name);
-  updateDiagram((next) => (next.theme = completeTheme({ ...next.theme, ...theme })));
-  toast("Local brand styles extracted");
+  applyBrand(extractBrandFromHTML(await file.text(), file.name));
 });
 
 /* ---- inspector ---- */
@@ -416,6 +436,11 @@ for (const name of ["paper", "accent", "accent2"]) {
   });
   $(`#${name}-text`).addEventListener("change", (event) => updateDiagram((next) => (next.theme[name] = event.target.value)));
 }
+$("#cvd-select").addEventListener("change", (event) => {
+  previewCVD = event.target.value;
+  render();
+  setStatus(previewCVD ? `Previewing ${previewCVD} — colours are simulated, the project is unchanged` : "Ready");
+});
 $("#grid-check").addEventListener("change", (event) => updateDiagram((next) => (next.settings.grid = event.target.checked)));
 $("#title-check").addEventListener("change", (event) => updateDiagram((next) => (next.settings.showTitle = event.target.checked)));
 

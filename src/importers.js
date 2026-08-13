@@ -1,5 +1,5 @@
 import { createDiagram, makeId } from "./model.js";
-import { completeTheme } from "./theme/palettes.js";
+import { describeBrandReport, extractBrand, seededBrand } from "./theme/brand.js";
 
 const clean = (value = "") => value.replace(/^['"`]|['"`]$/g, "").replace(/<br\s*\/?>/gi, " · ").trim();
 
@@ -125,49 +125,24 @@ export function parseProject(source) {
   return parsed;
 }
 
+/**
+ * Read a site's styles and map them onto the diagram's semantic roles.
+ * A blocked or unreachable site falls back to a deterministic palette derived
+ * from the domain, and says so in the report.
+ */
 export async function extractBrandFromURL(url) {
-  const target = new URL(url.startsWith("http") ? url : `https://${url}`);
+  const target = new URL(String(url).startsWith("http") ? url : `https://${url}`);
   try {
     const response = await fetch(target.href, { mode: "cors" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return extractBrandFromHTML(await response.text(), target.hostname);
+    return extractBrand(await response.text(), target.hostname);
   } catch {
     return seededBrand(target.hostname);
   }
 }
 
-export function extractBrandFromHTML(html, name = "Imported brand") {
-  const colors = [...html.matchAll(/#[0-9a-f]{6}\b/gi)].map((m) => m[0].toLowerCase());
-  const unique = [...new Set(colors)].filter((color) => !["#ffffff", "#000000"].includes(color));
-  const font = html.match(/font-family\s*:\s*([^;}]+)/i)?.[1]?.split(",")[0].replace(/["']/g, "").trim();
-  return completeTheme({
-    name,
-    paper: colors.includes("#ffffff") ? "#ffffff" : "#f5f3ee",
-    panel: "#ffffff",
-    ink: colors.includes("#000000") ? "#000000" : "#17201d",
-    muted: "#68736e",
-    accent: unique[0] || "#c2452a",
-    accent2: unique[1] || "#174f46",
-    line: "#b8bdb9",
-    font: font || "Inter, system-ui, sans-serif",
-    source: "html",
-  });
-}
+/** @returns {{theme: object, report: object}} */
+export const extractBrandFromHTML = (html, name = "Imported brand") => extractBrand(html, name);
 
-export function seededBrand(seed) {
-  let hash = 0;
-  for (const char of seed) hash = ((hash << 5) - hash + char.charCodeAt(0)) | 0;
-  const hue = Math.abs(hash) % 360;
-  return completeTheme({
-    name: seed,
-    paper: `hsl(${hue} 22% 96%)`,
-    panel: "#ffffff",
-    ink: `hsl(${hue} 32% 16%)`,
-    muted: `hsl(${hue} 10% 38%)`,
-    accent: `hsl(${hue} 62% 38%)`,
-    accent2: `hsl(${(hue + 145) % 360} 52% 32%)`,
-    line: `hsl(${hue} 14% 74%)`,
-    lineStrong: `hsl(${hue} 24% 28%)`,
-    source: "domain-derived",
-  });
-}
+export { describeBrandReport, extractBrand, seededBrand };
+

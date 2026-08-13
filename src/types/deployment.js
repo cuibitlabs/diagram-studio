@@ -14,11 +14,11 @@ export default createLayeredType({
   groupOptions: { className: "lane is-filled" },
   sample: () => ({
     nodes: [
-      { label: "Commit", sublabel: "Trunk" },
-      { label: "Build", sublabel: "Artefact produced" },
-      { label: "Automated tests" },
-      { label: "Staging", sublabel: "Production-like" },
-      { label: "Production", tone: "accent" },
+      { label: "Commit", sublabel: "Trunk", icon: "branch" },
+      { label: "Build", sublabel: "Artefact produced", icon: "package" },
+      { label: "Automated tests", icon: "check" },
+      { label: "Staging", sublabel: "Production-like", icon: "container" },
+      { label: "Production", tone: "accent", icon: "deploy" },
     ],
     edges: [
       { from: 0, to: 1 },

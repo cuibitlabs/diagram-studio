@@ -19,11 +19,11 @@ export default createLayeredType({
   },
   sample: () => ({
     nodes: [
-      { label: "Internet", role: "external", zone: "public" },
-      { label: "Edge", sublabel: "Load balancer" },
-      { label: "Application tier", tone: "accent" },
-      { label: "Private subnet", sublabel: "No inbound route" },
-      { label: "Database", role: "store" },
+      { label: "Internet", role: "external", zone: "public", icon: "globe" },
+      { label: "Edge", sublabel: "Load balancer", icon: "balancer" },
+      { label: "Application tier", tone: "accent", icon: "server" },
+      { label: "Private subnet", sublabel: "No inbound route", icon: "firewall" },
+      { label: "Database", role: "store", icon: "database" },
     ],
     edges: [
       { from: 0, to: 1, label: "443" },

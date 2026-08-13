@@ -2,6 +2,7 @@
   <title id="line-light-title">Line chart overview</title>
   <desc id="line-light-desc">A measured trend over an ordered axis</desc>
   <defs>
+    
     <marker id="line-light-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
       <path d="M 0 1 L 9 5 L 0 9 Z" fill="var(--line-strong)"/>
     </marker>
@@ -57,7 +58,7 @@
           <text class="mark-label" x="792" y="564" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:12px;font-weight:500">May</text>
         </g><g class="ds-node chart-mark" data-node-id="node-dx-yyv2" tabindex="0" role="button" aria-label="Jun: 71">
           <circle class="mark is-focus" cx="952" cy="223.60000000000002" r="6"/>
-          <text class="mark-value" x="952" y="207.6" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:13px;font-weight:700">71</text>
+          <text class="mark-value" x="952" y="207.6" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:14px;font-weight:700">71</text>
           <text class="mark-label" x="952" y="564" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:12px;font-weight:500">Jun</text>
         </g></g>
 </svg>

@@ -30,11 +30,11 @@ export const TYPE = {
   /** Axis ticks and scale captions. */
   axis: { size: 12, weight: 600, family: FONT_MONO, leading: 16, tracking: 1, uppercase: true },
   /** Numeric value printed on a chart mark. */
-  value: { size: 13, weight: 700, family: FONT_MONO, leading: 16 },
+  value: { size: 14, weight: 700, family: FONT_MONO, leading: 16 },
   /** Legend entry. */
   legend: { size: 12, weight: 600, family: FONT_SANS, leading: 16 },
   /** Annotation / margin note. */
-  annotation: { size: 13, weight: 400, family: FONT_SERIF, leading: 18, italic: true },
+  annotation: { size: 14, weight: 400, family: FONT_SERIF, leading: 20, italic: true },
 };
 
 /** Minimum readable label size per destination, from output-spec.md. */

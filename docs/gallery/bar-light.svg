@@ -2,6 +2,7 @@
   <title id="bar-light-title">Bar chart overview</title>
   <desc id="bar-light-desc">Comparison across categories</desc>
   <defs>
+    
     <marker id="bar-light-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
       <path d="M 0 1 L 9 5 L 0 9 Z" fill="var(--line-strong)"/>
     </marker>
@@ -36,23 +37,23 @@
       <path class="axis-line" d="M 152 96 V 556 H 952"/>
       <g class="ds-node chart-mark" data-node-id="node-dg-yyv1" tabindex="0" role="button" aria-label="Research: 18">
           <rect class="mark " x="188" y="472" width="88" height="84" rx="4"/>
-          <text class="mark-value" x="232" y="462" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:13px;font-weight:700">18</text>
+          <text class="mark-value" x="232" y="462" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:14px;font-weight:700">18</text>
           <text class="mark-label" x="232" y="584" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:12px;font-weight:500">Research</text>
         </g><g class="ds-node chart-mark" data-node-id="node-dh-yyv1" tabindex="0" role="button" aria-label="Design: 26">
           <rect class="mark " x="348" y="436" width="88" height="120" rx="4"/>
-          <text class="mark-value" x="392" y="426" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:13px;font-weight:700">26</text>
+          <text class="mark-value" x="392" y="426" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:14px;font-weight:700">26</text>
           <text class="mark-label" x="392" y="584" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:12px;font-weight:500">Design</text>
         </g><g class="ds-node chart-mark" data-node-id="node-di-yyv1" tabindex="0" role="button" aria-label="Build: 64">
           <rect class="mark is-focus" x="508" y="260" width="88" height="296" rx="4"/>
-          <text class="mark-value" x="552" y="250" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:13px;font-weight:700">64</text>
+          <text class="mark-value" x="552" y="250" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:14px;font-weight:700">64</text>
           <text class="mark-label" x="552" y="584" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:12px;font-weight:500">Build</text>
         </g><g class="ds-node chart-mark" data-node-id="node-dj-yyv1" tabindex="0" role="button" aria-label="Launch: 22">
           <rect class="mark " x="668" y="456" width="88" height="100" rx="4"/>
-          <text class="mark-value" x="712" y="446" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:13px;font-weight:700">22</text>
+          <text class="mark-value" x="712" y="446" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:14px;font-weight:700">22</text>
           <text class="mark-label" x="712" y="584" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:12px;font-weight:500">Launch</text>
         </g><g class="ds-node chart-mark" data-node-id="node-dk-yyv1" tabindex="0" role="button" aria-label="Improve: 41">
           <rect class="mark " x="828" y="368" width="88" height="188" rx="4"/>
-          <text class="mark-value" x="872" y="358" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:13px;font-weight:700">41</text>
+          <text class="mark-value" x="872" y="358" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:14px;font-weight:700">41</text>
           <text class="mark-label" x="872" y="584" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:12px;font-weight:500">Improve</text>
         </g></g>
 </svg>
