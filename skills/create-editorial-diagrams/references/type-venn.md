@@ -33,7 +33,7 @@ Diagram: `overlaps`
 
 ```ds
 venn "Venn overview"
-theme editorial
+theme plate
 describe "Set overlap and the value that lives in the intersection"
 
 desirable "Desirable" / "People want it"

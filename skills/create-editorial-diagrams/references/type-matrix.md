@@ -33,7 +33,7 @@ Diagram: `axes`
 
 ```ds
 matrix "Consultant matrix overview"
-theme editorial
+theme plate
 describe "Four named strategies against two axes"
 axis x "Cost to run" "Low" "High"
 axis y "Business value" "Low" "High"

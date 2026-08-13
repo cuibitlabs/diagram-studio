@@ -32,7 +32,7 @@ Node: `stateKind`, `tone`
 
 ```ds
 state "State machine overview"
-theme editorial
+theme plate
 describe "States and the events that move between them"
 
 draft "Draft"

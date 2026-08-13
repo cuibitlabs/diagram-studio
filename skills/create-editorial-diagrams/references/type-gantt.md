@@ -33,7 +33,7 @@ Diagram: `timeUnit`
 
 ```ds
 gantt "Gantt overview"
-theme editorial
+theme plate
 describe "Tasks against a declared time scale"
 
 discovery "Discovery"

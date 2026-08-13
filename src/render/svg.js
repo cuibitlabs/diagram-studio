@@ -10,6 +10,7 @@ import { ceilTo } from "../engine/text.js";
 import { FONT_MONO, FONT_SANS, FONT_SERIF, FONT_STACK, TYPE, fontAttrs } from "../engine/typography.js";
 import { assignRanks } from "../engine/layout/graph.js";
 import { annotationMarkup } from "./annotations.js";
+import { plateMarkup } from "./plate.js";
 import { getRenderer } from "../types/index.js";
 import { iconSymbols, iconsUsedBy } from "./icons.js";
 import { seriesColour } from "../theme/palettes.js";
@@ -107,6 +108,11 @@ export function buildSVG(diagram, options = {}) {
   const showTitle = options.showTitle ?? settings.showTitle ?? false;
   const margin = { ...CANVAS.margin, ...(settings.margin ?? {}) };
   if (showTitle) margin.top = Math.max(margin.top, 160);
+  // The plate rules and their labels need room outside the drawing.
+  if (settings.plate) {
+    margin.top = Math.max(margin.top, showTitle ? 200 : 112);
+    margin.bottom = Math.max(margin.bottom, 112);
+  }
 
   const selectedIds = new Set(options.selectedIds ?? (options.selectedId ? [options.selectedId] : []));
   const ctx = {
@@ -182,6 +188,7 @@ export function buildSVG(diagram, options = {}) {
   <rect class="canvas-bg" x="0" y="0" width="${width}" height="${height}"/>
   ${settings.grid ? `<rect class="canvas-grid" x="0" y="0" width="${width}" height="${height}" fill="url(#${uid}-grid)"/>` : ""}
   ${heading}
+  ${settings.plate ? plateMarkup(diagram, ctx, { typeLabel: renderer.label }) : ""}
   <g class="${contentClasses}">${body}</g>
   ${annotationMarkup(diagram, ctx)}
 </svg>`;

@@ -31,7 +31,7 @@ Node: `tone`
 
 ```ds
 tree "Tree overview"
-theme editorial
+theme plate
 describe "Parent and child relationships in a taxonomy"
 
 platform "Platform" *

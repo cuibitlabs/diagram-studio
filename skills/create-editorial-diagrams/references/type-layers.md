@@ -31,7 +31,7 @@ Node: `fixedSize`, `sublabel`, `tone`
 
 ```ds
 layers "Layer stack overview"
-theme editorial
+theme plate
 describe "Stacked abstractions from experience down to infrastructure"
 
 experience "Experience" / "What people touch"

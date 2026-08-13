@@ -33,7 +33,7 @@ Diagram: `axes`
 
 ```ds
 scatter "Scatter plot overview"
-theme editorial
+theme plate
 describe "Distribution and correlation across two measures"
 axis x "Adoption" "" ""
 axis y "Satisfaction" "" ""

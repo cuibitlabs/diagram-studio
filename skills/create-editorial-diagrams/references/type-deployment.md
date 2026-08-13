@@ -34,7 +34,7 @@ Diagram: `groups`
 
 ```ds
 deployment "Deployment overview"
-theme editorial
+theme plate
 describe "Runtime environments and the path a release takes through them"
 
 group "Continuous integration" {

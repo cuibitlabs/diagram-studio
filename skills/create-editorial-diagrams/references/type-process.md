@@ -32,7 +32,7 @@ Node: `badge`, `sublabel`, `tone`
 
 ```ds
 process "Process overview"
-theme editorial
+theme plate
 describe "Multi-step operational workflow"
 
 intake "Intake" / "Request logged"

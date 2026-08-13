@@ -25,6 +25,37 @@
 
 /** @type {Record<string, Palette>} */
 export const PALETTES = {
+  /**
+   * The default.
+   *
+   * Deliberately not the warm-cream-paper, high-contrast-serif, terracotta-accent
+   * combination that every generated diagram arrives in — it had become the look
+   * of "a machine made this", and it is also what the nearest comparable project
+   * ships, so it read as neither distinctive nor ours.
+   *
+   * This is a drafting plate instead of a magazine spread: cool vellum rather
+   * than cream, graphite with a green cast rather than jet black, a raw-sienna
+   * focal that highlights without shouting, deep teal for the secondary cue, and
+   * ultramarine reserved for calls that leave the system — the three inks a
+   * technical drawing actually uses.
+   */
+  plate: {
+    name: "Plate",
+    mode: "light",
+    paper: "#eceeec",
+    paper2: "#e2e5e3",
+    panel: "#f8faf9",
+    ink: "#141b18",
+    muted: "#565f5a",
+    soft: "#5e6762",
+    accent: "#8a5a06",
+    accentTint: "rgba(138,90,6,0.10)",
+    accent2: "#14565c",
+    link: "#2b3f9e",
+    line: "#c0c6c2",
+    lineStrong: "#333b37",
+    onAccent: "#fdfdfc",
+  },
   editorial: {
     name: "Paper & coral",
     mode: "light",
@@ -167,6 +198,7 @@ export const PALETTE_IDS = Object.keys(PALETTES);
 
 /** Dark counterpart used by the dark variant export. */
 export const DARK_FOR = {
+  plate: "graphite",
   editorial: "midnight",
   cobalt: "midnight",
   moss: "graphite",
@@ -177,7 +209,9 @@ export const DARK_FOR = {
   graphite: "graphite",
 };
 
-export const paletteOf = (id) => ({ ...(PALETTES[id] ?? PALETTES.editorial) });
+export const DEFAULT_PALETTE = "plate";
+
+export const paletteOf = (id) => ({ ...(PALETTES[id] ?? PALETTES[DEFAULT_PALETTE]) });
 
 /**
  * Series colours for the chart types that genuinely compare more than one
@@ -200,7 +234,7 @@ export const seriesColour = (theme, index) => {
  * Anything the source did not name is mixed from what it did.
  */
 export function completeTheme(theme) {
-  const fallback = PALETTES.editorial;
+  const fallback = PALETTES[DEFAULT_PALETTE];
   const dark = (theme.mode ?? "light") === "dark";
   const paper = theme.paper ?? fallback.paper;
   const ink = theme.ink ?? fallback.ink;

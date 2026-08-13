@@ -31,7 +31,7 @@ Node: `sublabel`, `tone`, `value`
 
 ```ds
 journey "Customer journey overview"
-theme editorial
+theme plate
 describe "Stages, customer actions and measured sentiment"
 
 awareness "Awareness" / "Finds us through a peer" =62

@@ -32,7 +32,7 @@ Node: `icon`, `role`, `sublabel`, `tone`
 
 ```ds
 data-flow "Data flow overview"
-theme editorial
+theme plate
 describe "Sources, transformations and destinations"
 
 operational-systems: input "Operational systems" #table

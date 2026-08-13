@@ -31,7 +31,7 @@ Node: `tone`
 
 ```ds
 mind-map "Mind map overview"
-theme editorial
+theme plate
 describe "Ideas branching from a central concept"
 
 product-strategy "Product strategy" *

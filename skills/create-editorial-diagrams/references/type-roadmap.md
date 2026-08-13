@@ -33,7 +33,7 @@ Diagram: `horizons`
 
 ```ds
 roadmap "Roadmap overview"
-theme editorial
+theme plate
 describe "Initiatives grouped by delivery horizon"
 
 single-sign-on "Single sign-on" *

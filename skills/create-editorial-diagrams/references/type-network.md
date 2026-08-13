@@ -34,7 +34,7 @@ Diagram: `groups`
 
 ```ds
 network "Network topology overview"
-theme editorial
+theme plate
 describe "Devices, zones and the links between them"
 
 group "Perimeter" {

@@ -33,7 +33,7 @@ Diagram: `seriesLabel`
 
 ```ds
 radar "Radar overview"
-theme editorial
+theme plate
 describe "Multi-axis comparison on a single shared scale"
 
 speed "Speed" =72

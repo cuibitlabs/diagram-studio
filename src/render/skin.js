@@ -21,8 +21,11 @@ text{fill:var(--ink)}
 .ds-node.tone-outline .card{fill:var(--accent-tint);stroke:var(--accent);stroke-width:1.5}
 .ds-node.tone-outline .node-title{fill:var(--ink)}
 .ds-node .node-icon{color:var(--muted)}
-.ds-node.tone-accent .card{fill:var(--accent);stroke:var(--accent)}
-.ds-node.tone-accent .node-title,.ds-node.tone-accent .node-sub{fill:var(--on-accent)}
+.ds-node.tone-accent .card{fill:var(--accent-tint);stroke:var(--accent);stroke-width:1.75}
+.ds-node.tone-accent .node-title{fill:var(--ink)}
+.ds-node.tone-accent .node-sub{fill:var(--muted)}
+.ds-node.tone-solid .card{fill:var(--accent);stroke:var(--accent)}
+.ds-node.tone-solid .node-title,.ds-node.tone-solid .node-sub{fill:var(--on-accent)}
 .ds-node.tone-muted .card{fill:var(--paper)}
 .ds-node.tone-muted .node-title{fill:var(--muted)}
 .ds-node.role-external .card,.ds-node.role-optional .card,.ds-node.role-legacy .card{stroke-dasharray:6 6}
@@ -33,7 +36,7 @@ text{fill:var(--ink)}
 .ds-node .node-badge rect{fill:var(--paper);stroke:var(--line)}
 .ds-node .badge-text{fill:var(--muted)}
 
-.ds-edge .line{fill:none;stroke:var(--line-strong);stroke-width:1.4;stroke-linejoin:round;stroke-linecap:butt}
+.ds-edge .line{fill:none;stroke:var(--line-strong);stroke-width:1.25;stroke-linejoin:round;stroke-linecap:butt}
 .ds-edge .edge-hit{fill:none;stroke:transparent;stroke-width:14}
 .ds-edge.is-dashed .line{stroke-dasharray:7 6}
 .ds-edge.tone-accent .line{stroke:var(--accent);stroke-width:2}
@@ -50,7 +53,7 @@ text{fill:var(--ink)}
 .series-0{fill:var(--series-0)}.series-1{fill:var(--series-1)}.series-2{fill:var(--series-2)}
 .series-line-0{stroke:var(--series-0)}.series-line-1{stroke:var(--series-1)}.series-line-2{stroke:var(--series-2)}
 
-.plot-bg{fill:var(--panel);stroke:var(--line);stroke-width:1}
+.plot-bg{fill:var(--paper-2);stroke:none}
 .axis-line{fill:none;stroke:var(--line-strong);stroke-width:1.25}
 .grid-line{fill:none;stroke:var(--line);stroke-width:1}
 .axis-label,.caption{fill:var(--muted)}
@@ -87,7 +90,7 @@ text{fill:var(--ink)}
 .legend-swatch.is-muted{fill:var(--line)}
 .legend-label{fill:var(--muted)}
 
-.entity-header{fill:var(--panel);stroke:var(--line);stroke-width:1.25}
+.entity-header{fill:var(--paper-2);stroke:var(--line);stroke-width:1.25}
 .entity-header.is-focus{fill:var(--accent);stroke:var(--accent)}
 .entity-row{fill:none;stroke:var(--line);stroke-width:1}
 .entity-field{fill:var(--ink)}
@@ -112,6 +115,11 @@ const VARIANTS = `
 .style-terminal .tier.is-focus .tier-label{fill:var(--accent)}
 .style-sketchy .card,.style-sketchy .line,.style-sketchy .tier,.style-sketchy .set-ring{filter:var(--sketch)}
 .style-sketchy .lane rect{filter:var(--sketch)}
+
+.plate-rule{fill:none;stroke:var(--line);stroke-width:1}
+.plate-tick{fill:none;stroke:var(--accent);stroke-width:1}
+.plate-label{fill:var(--ink)}
+.plate-spec{fill:var(--soft)}
 
 .annotation-text{fill:var(--muted)}
 .annotation-rule{stroke:var(--accent);stroke-width:2;fill:none}

@@ -7,9 +7,9 @@
  */
 
 import { DIAGRAM_TYPES, getType, hasType, sampleFor } from "./types/index.js";
-import { PALETTES } from "./theme/palettes.js";
+import { DEFAULT_PALETTE, PALETTES, paletteOf } from "./theme/palettes.js";
 
-export { DIAGRAM_TYPES, getType, hasType, sampleFor, PALETTES };
+export { DIAGRAM_TYPES, getType, hasType, sampleFor, DEFAULT_PALETTE, PALETTES, paletteOf };
 
 export const MODEL_VERSION = 2;
 export const LIMITS = { nodes: 200, edges: 400, budgetNodes: 9, budgetEdges: 12, accent: 2 };
@@ -76,7 +76,7 @@ export function createDiagram(type = "architecture", title, options = {}) {
     description: meta.description,
     width: 0,
     height: 0,
-    theme: { ...PALETTES.editorial },
+    theme: paletteOf(DEFAULT_PALETTE),
     nodes,
     edges,
     annotations: [],

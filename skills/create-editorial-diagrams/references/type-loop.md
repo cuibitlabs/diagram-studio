@@ -33,7 +33,7 @@ Diagram: `hub`
 
 ```ds
 loop "Loop / flywheel overview"
-theme editorial
+theme plate
 describe "A reinforcing cycle of stages"
 hub "Shared context"
 

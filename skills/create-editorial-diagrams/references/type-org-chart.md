@@ -31,7 +31,7 @@ Node: `sublabel`, `tone`
 
 ```ds
 org-chart "Org chart overview"
-theme editorial
+theme plate
 describe "Teams, ownership and reporting lines"
 
 chief-executive "Chief executive" *

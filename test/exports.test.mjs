@@ -105,8 +105,19 @@ test("the flat svg resolves accent nodes through their ancestor class", () => {
   const accent = diagram.nodes.find((node) => node.tone === "accent");
   assert.ok(accent, "the sample has an accent node");
   const flat = toFlatSVG(diagram);
-  assert.ok(flat.includes(`fill="${diagram.theme.accent}"`), "the accent card is filled with the accent");
-  assert.ok(flat.includes(`fill="${diagram.theme.onAccent}"`), "its text uses the on-accent colour");
+  // An accent node is a tinted card behind an accent border, not a solid block,
+  // so a design tool has to receive the tint and the heavier stroke.
+  assert.ok(flat.includes(`fill="${diagram.theme.accentTint}"`), "the accent card carries the tint");
+  assert.ok(flat.includes(`stroke="${diagram.theme.accent}"`), "and the accent border");
+  assert.ok(flat.includes('stroke-width="1.75"'), "at the heavier accent weight");
+});
+
+test("a solid-toned node still resolves to a filled block", () => {
+  const diagram = createDiagram("architecture");
+  diagram.nodes[2].tone = "solid";
+  const flat = toFlatSVG(diagram);
+  assert.ok(flat.includes(`fill="${diagram.theme.accent}"`));
+  assert.ok(flat.includes(`fill="${diagram.theme.onAccent}"`));
 });
 
 test("the flat svg names its layers after the nodes", () => {

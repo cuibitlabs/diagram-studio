@@ -32,7 +32,7 @@ Node: `role`, `tone`
 
 ```ds
 sequence "Sequence overview"
-theme editorial
+theme plate
 describe "Messages between participants arranged over time"
 
 customer: actor "Customer"

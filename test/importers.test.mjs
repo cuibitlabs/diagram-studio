@@ -32,6 +32,23 @@ test("parseProject rejects anything that is not a project", () => {
   assert.throws(() => parseProject('{"hello":true}'), /not a Diagram Studio project/);
 });
 
+test("a project saved before a token existed gains it on load", () => {
+  // Written by an older build: no paper2, soft, accentTint or link.
+  const legacy = JSON.stringify({
+    version: 1,
+    type: "architecture",
+    title: "Old file",
+    nodes: [],
+    edges: [],
+    theme: { paper: "#ffffff", panel: "#ffffff", ink: "#111111", muted: "#666666", accent: "#c2452a", accent2: "#174f46", line: "#dddddd" },
+  });
+  const project = parseProject(legacy);
+  for (const role of ["paper2", "soft", "accentTint", "link", "lineStrong", "onAccent"]) {
+    assert.ok(project.theme[role], `${role} was not derived`);
+  }
+  assert.equal(project.theme.accent, "#c2452a", "the author's own colours are untouched");
+});
+
 test("collects colours in every syntax and counts repeats", () => {
   const counts = collectColors("a{color:#ff0000}b{color:rgb(255,0,0)}c{color:#00f}");
   assert.equal(counts.get("#ff0000"), 2);

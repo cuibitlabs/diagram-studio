@@ -32,6 +32,16 @@ export function textBlock(lines, x, y, style, options = {}) {
     .join("");
 }
 
+/**
+ * Recognised emphasis levels. A whitelist rather than interpolation, so an
+ * imported file cannot inject a class name.
+ *
+ * `accent` is a tinted card behind an accent border — enough to pull the eye
+ * without turning the node into a button. `solid` is the filled block, for the
+ * rare case where the focal element really should read as a slab.
+ */
+const TONES = new Set(["accent", "solid", "muted"]);
+
 /** Resolve a node's shape from explicit `shape`, then `role`, then a default. */
 export const shapeOf = (node, fallback = "box") => node.shape || ROLE_SHAPE[node.role] || fallback;
 
@@ -78,7 +88,7 @@ export function nodeCard(node, spec = {}) {
   const classes = [
     "ds-node",
     `shape-${layout.shape}`,
-    node.tone === "accent" ? "tone-accent" : node.tone === "muted" ? "tone-muted" : "tone-default",
+    TONES.has(node.tone) ? `tone-${node.tone}` : "tone-default",
     node.role ? `role-${node.role}` : "",
     node.dashed ? "is-dashed" : "",
     spec.selectedIds?.has(node.id) || spec.selectedId === node.id ? "is-selected" : "",

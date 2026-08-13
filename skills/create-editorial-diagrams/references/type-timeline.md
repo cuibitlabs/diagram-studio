@@ -31,7 +31,7 @@ Node: `marker`, `sublabel`, `tone`
 
 ```ds
 timeline "Timeline overview"
-theme editorial
+theme plate
 describe "Events in order along a single axis"
 
 discovery "Discovery" / "Problem framed with users"

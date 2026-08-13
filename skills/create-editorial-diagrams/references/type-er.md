@@ -32,7 +32,7 @@ Node: `fields`, `tone`
 
 ```ds
 er "ER / data model overview"
-theme editorial
+theme plate
 describe "Entities, their fields and the relationships between them"
 
 customer "Customer"

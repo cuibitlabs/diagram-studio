@@ -6,17 +6,25 @@
  */
 
 import { describeBrandReport, extractBrand, seededBrand } from "./theme/brand.js";
+import { completeTheme } from "./theme/palettes.js";
 
 export { parseDrawio, unwrapModel } from "./import/drawio.js";
 export { describeProvenance, parseMermaid } from "./import/mermaid.js";
 export { describeBrandReport, extractBrand, seededBrand };
 
-/** Load an editable `.diagram.json` project. */
+/**
+ * Load an editable `.diagram.json` project.
+ *
+ * The theme is completed on the way in: a file written before a role existed
+ * would otherwise render that role as `transparent` rather than picking up the
+ * derived value.
+ */
 export function parseProject(source) {
   const parsed = JSON.parse(source);
   if (!parsed || !Array.isArray(parsed.nodes) || !Array.isArray(parsed.edges)) {
     throw new Error("This is not a Diagram Studio project.");
   }
+  parsed.theme = completeTheme(parsed.theme ?? {});
   return parsed;
 }
 

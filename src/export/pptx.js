@@ -47,11 +47,15 @@ const PRESET = {
 function shapeXml(node, index, transform, theme) {
   const rect = rectOf(node);
   const accent = node.tone === "accent";
+  const solid = node.tone === "solid";
   const preset = PRESET[shapeOf(node)] ?? "roundRect";
-  const fill = accent ? theme.accent : node.role === "store" ? theme.paper : theme.panel;
-  const stroke = accent ? theme.accent : theme.line;
-  const ink = accent ? theme.onAccent : theme.ink;
-  const muted = accent ? theme.onAccent : theme.muted;
+  // The accent card is a tint behind an accent border; DrawingML carries the
+  // tint as an alpha on the same colour so the slide matches the SVG.
+  const fill = solid ? theme.accent : accent ? theme.accent : node.role === "store" ? theme.paper : theme.panel;
+  const fillAlpha = accent && !solid ? 10000 : null;
+  const stroke = accent || solid ? theme.accent : theme.line;
+  const ink = solid ? theme.onAccent : theme.ink;
+  const muted = solid ? theme.onAccent : theme.muted;
   const dashed = node.dashed || node.role === "external" || node.role === "legacy";
 
   const runs = [
@@ -66,8 +70,8 @@ function shapeXml(node, index, transform, theme) {
   return `<p:sp><p:nvSpPr><p:cNvPr id="${index + 2}" name="${esc(node.label)}"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>
 <p:spPr><a:xfrm><a:off x="${transform.x(rect.x)}" y="${transform.y(rect.y)}"/><a:ext cx="${transform.size(rect.w)}" cy="${transform.size(rect.h)}"/></a:xfrm>
 <a:prstGeom prst="${preset}"><a:avLst/></a:prstGeom>
-<a:solidFill><a:srgbClr val="${rgb(fill)}"/></a:solidFill>
-<a:ln w="12700"${dashed ? "" : ""}><a:solidFill><a:srgbClr val="${rgb(stroke)}"/></a:solidFill>${dashed ? '<a:prstDash val="dash"/>' : ""}</a:ln></p:spPr>
+<a:solidFill><a:srgbClr val="${rgb(fill)}">${fillAlpha ? `<a:alpha val="${fillAlpha}"/>` : ""}</a:srgbClr></a:solidFill>
+<a:ln w="${accent || solid ? 19050 : 12700}"><a:solidFill><a:srgbClr val="${rgb(stroke)}"/></a:solidFill>${dashed ? '<a:prstDash val="dash"/>' : ""}</a:ln></p:spPr>
 <p:txBody><a:bodyPr lIns="137160" tIns="91440" rIns="137160" bIns="91440" anchor="ctr" wrap="square"/><a:lstStyle/>${runs.join("")}</p:txBody></p:sp>`;
 }
 

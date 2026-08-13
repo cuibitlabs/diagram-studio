@@ -3,27 +3,75 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Scatter plot overview — Full editorial</title>
+<title>Scatter plot overview — Full plate</title>
 <meta name="description" content="Distribution and correlation across two measures">
 <meta name="generator" content="Diagram Studio">
 <style>
-  :root{color-scheme:light}
+  :root{
+    color-scheme:light;
+    --paper:#eceeec; --sheet:#f8faf9; --ink:#141b18;
+    --muted:#565f5a; --soft:#5e6762;
+    --rule:#c0c6c2; --accent:#8a5a06;
+    --mono:ui-monospace,SFMono-Regular,'Geist Mono',Menlo,monospace;
+    --sans:Inter,system-ui,-apple-system,'Segoe UI',sans-serif;
+    --serif:'Instrument Serif',ui-serif,Georgia,serif;
+  }
   *{box-sizing:border-box}
-  body{margin:0;min-height:100vh;display:grid;place-items:center;padding:40px;
-       background:#f3f0e9;color:#1d211f;
-       font:16px/1.6 Inter,system-ui,-apple-system,'Segoe UI',sans-serif}
-  figure{margin:0;max-width:100%;display:grid;gap:20px;justify-items:start}
-  svg{max-width:100%;height:auto;display:block}
-  figcaption{max-width:72ch;color:#5f665f;font-size:14px}
-  .meta{font:11px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;
-        text-transform:uppercase;color:#5a615d}
+  body{margin:0;padding:clamp(20px,5vw,64px) clamp(16px,4vw,56px);
+       background:var(--paper);color:var(--ink);font:16px/1.6 var(--sans)}
+  .plate{max-width:min(100%,1280px);margin:0 auto;display:grid;
+         grid-template-columns:20px minmax(0,1fr);gap:0 clamp(16px,3vw,32px)}
+
+  /* The module ruler: 4px ticks, every fourth one long. Same grid the engine
+     enforces, so the page and the drawing agree about what a unit is. */
+  .ruler{border-left:1px solid var(--rule);
+         background:repeating-linear-gradient(to bottom,
+           var(--rule) 0 1px, transparent 1px 4px);
+         opacity:.55;border-radius:1px}
+  .ruler::after{content:"";display:block;width:9px;height:100%;
+         background:repeating-linear-gradient(to bottom,
+           var(--accent) 0 1px, transparent 1px 16px)}
+
+  header{grid-column:2;display:flex;flex-wrap:wrap;gap:8px 20px;
+         align-items:baseline;justify-content:space-between;
+         padding-bottom:10px;border-bottom:1px solid var(--rule)}
+  .eyebrow{font:600 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+  .eyebrow.sheet{color:var(--soft)}
+  h1{grid-column:2;font:400 clamp(28px,4vw,42px)/1.1 var(--serif);
+     margin:24px 0 6px;letter-spacing:-.01em}
+  .standfirst{grid-column:2;margin:0 0 28px;max-width:66ch;color:var(--muted)}
+
+  figure{grid-column:2;margin:0;padding:clamp(16px,3vw,32px);
+         background:var(--sheet);border:1px solid var(--rule);overflow-x:auto}
+  svg{max-width:100%;height:auto;display:block;margin:0 auto}
+
+  .titleblock{grid-column:2;margin:24px 0 0;display:grid;
+              grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+              gap:0;border-top:1px solid var(--rule)}
+  .titleblock div{padding:12px 16px 12px 0;border-bottom:1px solid var(--rule)}
+  .titleblock dt{font:600 10px/1.4 var(--mono);letter-spacing:.12em;
+                 text-transform:uppercase;color:var(--soft);margin:0 0 2px}
+  .titleblock dd{margin:0;font:13px/1.4 var(--mono)}
+  .note{grid-column:2;margin:20px 0 0;max-width:66ch;color:var(--muted);font-size:14px}
+  a{color:var(--accent)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  @media (max-width:640px){.plate{grid-template-columns:1fr}.ruler{display:none}
+    header,h1,.standfirst,figure,.titleblock,.note{grid-column:1}}
+  @media print{.ruler{display:none}figure{border-color:#999}}
 
 </style>
 </head>
 <body>
-<figure data-motion-figure>
-  <p class="meta">Scatter plot · Full editorial · 1024×832</p>
-  <svg xmlns="http://www.w3.org/2000/svg" class="ds-svg" viewBox="0 0 1024 832" width="1024" height="832" role="img" aria-labelledby="scatter-full-title scatter-full-desc" style="--font-sans:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;--font-mono:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;--font-serif:'Instrument Serif', ui-serif, Georgia, 'Times New Roman', serif;--sketch:url(#scatter-full-sketch);--paper:#f3f0e9;--paper-2:#e7e3da;--panel:#fffdf8;--ink:#1d211f;--muted:#5f665f;--soft:#5a615d;--accent:#c2452a;--accent-tint:rgba(194,69,42,0.09);--accent-2:#174f46;--link:#1a4b9c;--line:#c3bfb5;--line-strong:#3a403c;--on-accent:#fffdf8;--series-0:#5d7c8a;--series-1:#8a6f4e;--series-2:#6c7f5a;--corner:8px">
+<div class="plate">
+  <div class="ruler" aria-hidden="true"></div>
+  <header>
+    <span class="eyebrow">Scatter plot</span>
+    <span class="eyebrow sheet">Full plate · 1024×888</span>
+  </header>
+  <h1>Scatter plot overview</h1>
+  <p class="standfirst">Distribution and correlation across two measures</p>
+  <figure data-motion-figure>
+    <svg xmlns="http://www.w3.org/2000/svg" class="ds-svg" viewBox="0 0 1024 888" width="1024" height="888" role="img" aria-labelledby="scatter-full-title scatter-full-desc" style="--font-sans:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;--font-mono:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;--font-serif:'Instrument Serif', ui-serif, Georgia, 'Times New Roman', serif;--sketch:url(#scatter-full-sketch);--paper:#eceeec;--paper-2:#e2e5e3;--panel:#f8faf9;--ink:#141b18;--muted:#565f5a;--soft:#5e6762;--accent:#8a5a06;--accent-tint:rgba(138,90,6,0.10);--accent-2:#14565c;--link:#2b3f9e;--line:#c0c6c2;--line-strong:#333b37;--on-accent:#fdfdfc;--series-0:#5d7c8a;--series-1:#8a6f4e;--series-2:#6c7f5a;--corner:8px">
   <title id="scatter-full-title">Scatter plot overview</title>
   <desc id="scatter-full-desc">Distribution and correlation across two measures</desc>
   <defs>
@@ -47,49 +95,67 @@
       <path d="M 6 1 V 13" fill="none" stroke="var(--line-strong)" stroke-width="1.4"/>
     </marker>
     <pattern id="scatter-full-grid" width="24" height="24" patternUnits="userSpaceOnUse">
-      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#c3bfb5" stroke-opacity="0.25" stroke-width="1"/>
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#c0c6c2" stroke-opacity="0.25" stroke-width="1"/>
     </pattern>
     <pattern id="scatter-full-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-      <path d="M 0 0 V 8" stroke="#c3bfb5" stroke-width="2" stroke-opacity="0.5"/>
+      <path d="M 0 0 V 8" stroke="#c0c6c2" stroke-width="2" stroke-opacity="0.5"/>
     </pattern>
     <filter id="scatter-full-sketch" x="-5%" y="-5%" width="110%" height="110%" filterUnits="objectBoundingBox">
       <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="3" seed="7" result="noise"/>
       <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
   </defs>
-  <style>.canvas-bg{fill:var(--paper)}.canvas-grid{pointer-events:none}text{fill:var(--ink)}.diagram-title-text{fill:var(--ink)}.diagram-lede{fill:var(--muted)}.ds-node .card{fill:var(--panel);stroke:var(--line);stroke-width:1.25}.ds-node .card-rim{fill:none;stroke:var(--line);stroke-width:1.25}.ds-node.is-dashed .card{stroke-dasharray:6 6}.ds-node .node-title{fill:var(--ink)}.ds-node .node-sub{fill:var(--soft)}.ds-node.tone-outline .card{fill:var(--accent-tint);stroke:var(--accent);stroke-width:1.5}.ds-node.tone-outline .node-title{fill:var(--ink)}.ds-node .node-icon{color:var(--muted)}.ds-node.tone-accent .card{fill:var(--accent);stroke:var(--accent)}.ds-node.tone-accent .node-title,.ds-node.tone-accent .node-sub{fill:var(--on-accent)}.ds-node.tone-muted .card{fill:var(--paper)}.ds-node.tone-muted .node-title{fill:var(--muted)}.ds-node.role-external .card,.ds-node.role-optional .card,.ds-node.role-legacy .card{stroke-dasharray:6 6}.ds-node.role-legacy .node-title{fill:var(--muted)}.ds-node.role-security .card{stroke:var(--accent-2);stroke-width:1.5}.ds-node.role-store .card{fill:var(--paper)}.ds-node.is-selected .card{stroke:var(--accent-2);stroke-width:2.5}.ds-node .node-badge rect{fill:var(--paper);stroke:var(--line)}.ds-node .badge-text{fill:var(--muted)}.ds-edge .line{fill:none;stroke:var(--line-strong);stroke-width:1.4;stroke-linejoin:round;stroke-linecap:butt}.ds-edge .edge-hit{fill:none;stroke:transparent;stroke-width:14}.ds-edge.is-dashed .line{stroke-dasharray:7 6}.ds-edge.tone-accent .line{stroke:var(--accent);stroke-width:2}.ds-edge.kind-weak .line{stroke:var(--line);stroke-width:1}.ds-edge.kind-external .line{stroke:var(--link)}.ds-edge.kind-external .edge-label-text{fill:var(--link)}.ds-edge.is-selected .line{stroke:var(--accent-2);stroke-width:2.5}.ds-edge .edge-label rect{fill:var(--paper);stroke:none}.ds-edge .edge-label-text{fill:var(--muted)}.lane rect,.group rect{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:4 5}.lane.is-filled rect{fill:var(--paper-2);stroke-dasharray:none}.lane-title{fill:var(--muted)}.series-0{fill:var(--series-0)}.series-1{fill:var(--series-1)}.series-2{fill:var(--series-2)}.series-line-0{stroke:var(--series-0)}.series-line-1{stroke:var(--series-1)}.series-line-2{stroke:var(--series-2)}.plot-bg{fill:var(--panel);stroke:var(--line);stroke-width:1}.axis-line{fill:none;stroke:var(--line-strong);stroke-width:1.25}.grid-line{fill:none;stroke:var(--line);stroke-width:1}.axis-label,.caption{fill:var(--muted)}.mark{fill:var(--accent-2)}.mark.is-focus{fill:var(--accent)}.mark-line{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}.mark-area{fill:var(--accent);fill-opacity:.12;stroke:none}.mark-label{fill:var(--muted)}.mark-value{fill:var(--ink)}.lifeline{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:5 6}.activation{fill:var(--panel);stroke:var(--line);stroke-width:1}.timeline-axis{fill:none;stroke:var(--line-strong);stroke-width:1.25}.timeline-stem{fill:none;stroke:var(--line);stroke-width:1}.timeline-dot{fill:var(--paper);stroke:var(--line-strong);stroke-width:1.5}.timeline-dot.is-focus{fill:var(--accent);stroke:var(--accent)}.set-ring{fill:var(--accent);fill-opacity:.14;stroke:var(--accent);stroke-width:1.5}.set-ring.set-1{fill:var(--accent-2);stroke:var(--accent-2)}.set-ring.set-2{fill:var(--ink);stroke:var(--ink);fill-opacity:.08}.set-label{fill:var(--ink)}.tier{fill:var(--panel);stroke:var(--line);stroke-width:1.25}.tier.is-focus{fill:var(--accent);stroke:var(--accent)}.tier-label{fill:var(--ink)}.tier.is-focus .tier-label{fill:var(--on-accent)}.hub{fill:var(--accent-2);stroke:none}.hub-label{fill:var(--on-accent)}.legend-swatch{fill:var(--accent)}.legend-swatch.is-secondary{fill:var(--accent-2)}.legend-swatch.is-muted{fill:var(--line)}.legend-label{fill:var(--muted)}.entity-header{fill:var(--panel);stroke:var(--line);stroke-width:1.25}.entity-header.is-focus{fill:var(--accent);stroke:var(--accent)}.entity-row{fill:none;stroke:var(--line);stroke-width:1}.entity-field{fill:var(--ink)}.entity-type{fill:var(--muted)}.style-terminal{--font-sans:var(--font-mono);--font-serif:var(--font-mono)}.style-terminal .card{fill:none;stroke-width:1.5}.style-terminal .card-rim,.style-terminal .plot-bg{fill:none}.style-terminal .ds-node.tone-accent .card{fill:none;stroke:var(--accent);stroke-width:2.5}.style-terminal .ds-node.tone-accent .node-title,.style-terminal .ds-node.tone-accent .node-sub{fill:var(--accent)}.style-terminal .edge-label rect{fill:var(--paper)}.style-terminal .tier,.style-terminal .entity-header{fill:none}.style-terminal .tier.is-focus,.style-terminal .entity-header.is-focus{fill:none;stroke:var(--accent)}.style-terminal .tier.is-focus .tier-label{fill:var(--accent)}.style-sketchy .card,.style-sketchy .line,.style-sketchy .tier,.style-sketchy .set-ring{filter:var(--sketch)}.style-sketchy .lane rect{filter:var(--sketch)}.annotation-text{fill:var(--muted)}.annotation-rule{stroke:var(--accent);stroke-width:2;fill:none}.annotation-leader{stroke:var(--line);stroke-width:1;fill:none;stroke-dasharray:3 4}@keyframes ds-reveal{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}@keyframes ds-flow{to{stroke-dashoffset:-28}}.motion-reveal .ds-node,.motion-reveal .ds-edge{animation:ds-reveal .5s ease both;animation-delay:calc(var(--step,0)*.14s)}.motion-loop .ds-edge .line{stroke-dasharray:6 8;animation:ds-flow 1.6s linear infinite}.motion-loop .ds-edge.tone-accent .line{animation-duration:1.1s}.motion-ready .motion-step .ds-node,.motion-ready .motion-step .ds-edge{opacity:.12;transition:opacity .3s ease}.motion-ready .motion-step .ds-node.is-shown,.motion-ready .motion-step .ds-edge.is-shown{opacity:1}@media (prefers-reduced-motion: reduce){.motion-reveal .ds-node,.motion-reveal .ds-edge{animation:none;opacity:1;transform:none}.motion-loop .ds-edge .line{animation:none;stroke-dasharray:none}.motion-ready .motion-step .ds-node,.motion-ready .motion-step .ds-edge{transition:none}}@media print{.motion-ready .motion-step .ds-node,.motion-ready .motion-step .ds-edge{opacity:1}}.editor-overlay{pointer-events:none}.snap-guide{fill:none;stroke:var(--accent-2);stroke-width:1;stroke-dasharray:3 4}.marquee{fill:var(--accent-2);fill-opacity:.08;stroke:var(--accent-2);stroke-width:1;stroke-dasharray:4 4}.message-mask{fill:var(--paper)}.stepping .ds-node,.stepping .ds-edge{transition:opacity .3s ease}.stepping.no-motion .ds-node,.stepping.no-motion .ds-edge{transition:none}.ds-node.is-pending,.ds-edge.is-pending{opacity:.1}.ds-node[data-node-id]{cursor:grab}.ds-node[data-node-id]:focus-visible .card{stroke:var(--accent-2);stroke-width:2.5}.ds-node[data-node-id]:focus{outline:none}.ds-edge[data-edge-id]{cursor:pointer}</style>
-  <rect class="canvas-bg" x="0" y="0" width="1024" height="832"/>
+  <style>.canvas-bg{fill:var(--paper)}.canvas-grid{pointer-events:none}text{fill:var(--ink)}.diagram-title-text{fill:var(--ink)}.diagram-lede{fill:var(--muted)}.ds-node .card{fill:var(--panel);stroke:var(--line);stroke-width:1.25}.ds-node .card-rim{fill:none;stroke:var(--line);stroke-width:1.25}.ds-node.is-dashed .card{stroke-dasharray:6 6}.ds-node .node-title{fill:var(--ink)}.ds-node .node-sub{fill:var(--soft)}.ds-node.tone-outline .card{fill:var(--accent-tint);stroke:var(--accent);stroke-width:1.5}.ds-node.tone-outline .node-title{fill:var(--ink)}.ds-node .node-icon{color:var(--muted)}.ds-node.tone-accent .card{fill:var(--accent-tint);stroke:var(--accent);stroke-width:1.75}.ds-node.tone-accent .node-title{fill:var(--ink)}.ds-node.tone-accent .node-sub{fill:var(--muted)}.ds-node.tone-solid .card{fill:var(--accent);stroke:var(--accent)}.ds-node.tone-solid .node-title,.ds-node.tone-solid .node-sub{fill:var(--on-accent)}.ds-node.tone-muted .card{fill:var(--paper)}.ds-node.tone-muted .node-title{fill:var(--muted)}.ds-node.role-external .card,.ds-node.role-optional .card,.ds-node.role-legacy .card{stroke-dasharray:6 6}.ds-node.role-legacy .node-title{fill:var(--muted)}.ds-node.role-security .card{stroke:var(--accent-2);stroke-width:1.5}.ds-node.role-store .card{fill:var(--paper)}.ds-node.is-selected .card{stroke:var(--accent-2);stroke-width:2.5}.ds-node .node-badge rect{fill:var(--paper);stroke:var(--line)}.ds-node .badge-text{fill:var(--muted)}.ds-edge .line{fill:none;stroke:var(--line-strong);stroke-width:1.25;stroke-linejoin:round;stroke-linecap:butt}.ds-edge .edge-hit{fill:none;stroke:transparent;stroke-width:14}.ds-edge.is-dashed .line{stroke-dasharray:7 6}.ds-edge.tone-accent .line{stroke:var(--accent);stroke-width:2}.ds-edge.kind-weak .line{stroke:var(--line);stroke-width:1}.ds-edge.kind-external .line{stroke:var(--link)}.ds-edge.kind-external .edge-label-text{fill:var(--link)}.ds-edge.is-selected .line{stroke:var(--accent-2);stroke-width:2.5}.ds-edge .edge-label rect{fill:var(--paper);stroke:none}.ds-edge .edge-label-text{fill:var(--muted)}.lane rect,.group rect{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:4 5}.lane.is-filled rect{fill:var(--paper-2);stroke-dasharray:none}.lane-title{fill:var(--muted)}.series-0{fill:var(--series-0)}.series-1{fill:var(--series-1)}.series-2{fill:var(--series-2)}.series-line-0{stroke:var(--series-0)}.series-line-1{stroke:var(--series-1)}.series-line-2{stroke:var(--series-2)}.plot-bg{fill:var(--paper-2);stroke:none}.axis-line{fill:none;stroke:var(--line-strong);stroke-width:1.25}.grid-line{fill:none;stroke:var(--line);stroke-width:1}.axis-label,.caption{fill:var(--muted)}.mark{fill:var(--accent-2)}.mark.is-focus{fill:var(--accent)}.mark-line{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}.mark-area{fill:var(--accent);fill-opacity:.12;stroke:none}.mark-label{fill:var(--muted)}.mark-value{fill:var(--ink)}.lifeline{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:5 6}.activation{fill:var(--panel);stroke:var(--line);stroke-width:1}.timeline-axis{fill:none;stroke:var(--line-strong);stroke-width:1.25}.timeline-stem{fill:none;stroke:var(--line);stroke-width:1}.timeline-dot{fill:var(--paper);stroke:var(--line-strong);stroke-width:1.5}.timeline-dot.is-focus{fill:var(--accent);stroke:var(--accent)}.set-ring{fill:var(--accent);fill-opacity:.14;stroke:var(--accent);stroke-width:1.5}.set-ring.set-1{fill:var(--accent-2);stroke:var(--accent-2)}.set-ring.set-2{fill:var(--ink);stroke:var(--ink);fill-opacity:.08}.set-label{fill:var(--ink)}.tier{fill:var(--panel);stroke:var(--line);stroke-width:1.25}.tier.is-focus{fill:var(--accent);stroke:var(--accent)}.tier-label{fill:var(--ink)}.tier.is-focus .tier-label{fill:var(--on-accent)}.hub{fill:var(--accent-2);stroke:none}.hub-label{fill:var(--on-accent)}.legend-swatch{fill:var(--accent)}.legend-swatch.is-secondary{fill:var(--accent-2)}.legend-swatch.is-muted{fill:var(--line)}.legend-label{fill:var(--muted)}.entity-header{fill:var(--paper-2);stroke:var(--line);stroke-width:1.25}.entity-header.is-focus{fill:var(--accent);stroke:var(--accent)}.entity-row{fill:none;stroke:var(--line);stroke-width:1}.entity-field{fill:var(--ink)}.entity-type{fill:var(--muted)}.style-terminal{--font-sans:var(--font-mono);--font-serif:var(--font-mono)}.style-terminal .card{fill:none;stroke-width:1.5}.style-terminal .card-rim,.style-terminal .plot-bg{fill:none}.style-terminal .ds-node.tone-accent .card{fill:none;stroke:var(--accent);stroke-width:2.5}.style-terminal .ds-node.tone-accent .node-title,.style-terminal .ds-node.tone-accent .node-sub{fill:var(--accent)}.style-terminal .edge-label rect{fill:var(--paper)}.style-terminal .tier,.style-terminal .entity-header{fill:none}.style-terminal .tier.is-focus,.style-terminal .entity-header.is-focus{fill:none;stroke:var(--accent)}.style-terminal .tier.is-focus .tier-label{fill:var(--accent)}.style-sketchy .card,.style-sketchy .line,.style-sketchy .tier,.style-sketchy .set-ring{filter:var(--sketch)}.style-sketchy .lane rect{filter:var(--sketch)}.plate-rule{fill:none;stroke:var(--line);stroke-width:1}.plate-tick{fill:none;stroke:var(--accent);stroke-width:1}.plate-label{fill:var(--ink)}.plate-spec{fill:var(--soft)}.annotation-text{fill:var(--muted)}.annotation-rule{stroke:var(--accent);stroke-width:2;fill:none}.annotation-leader{stroke:var(--line);stroke-width:1;fill:none;stroke-dasharray:3 4}@keyframes ds-reveal{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}@keyframes ds-flow{to{stroke-dashoffset:-28}}.motion-reveal .ds-node,.motion-reveal .ds-edge{animation:ds-reveal .5s ease both;animation-delay:calc(var(--step,0)*.14s)}.motion-loop .ds-edge .line{stroke-dasharray:6 8;animation:ds-flow 1.6s linear infinite}.motion-loop .ds-edge.tone-accent .line{animation-duration:1.1s}.motion-ready .motion-step .ds-node,.motion-ready .motion-step .ds-edge{opacity:.12;transition:opacity .3s ease}.motion-ready .motion-step .ds-node.is-shown,.motion-ready .motion-step .ds-edge.is-shown{opacity:1}@media (prefers-reduced-motion: reduce){.motion-reveal .ds-node,.motion-reveal .ds-edge{animation:none;opacity:1;transform:none}.motion-loop .ds-edge .line{animation:none;stroke-dasharray:none}.motion-ready .motion-step .ds-node,.motion-ready .motion-step .ds-edge{transition:none}}@media print{.motion-ready .motion-step .ds-node,.motion-ready .motion-step .ds-edge{opacity:1}}.editor-overlay{pointer-events:none}.snap-guide{fill:none;stroke:var(--accent-2);stroke-width:1;stroke-dasharray:3 4}.marquee{fill:var(--accent-2);fill-opacity:.08;stroke:var(--accent-2);stroke-width:1;stroke-dasharray:4 4}.message-mask{fill:var(--paper)}.stepping .ds-node,.stepping .ds-edge{transition:opacity .3s ease}.stepping.no-motion .ds-node,.stepping.no-motion .ds-edge{transition:none}.ds-node.is-pending,.ds-edge.is-pending{opacity:.1}.ds-node[data-node-id]{cursor:grab}.ds-node[data-node-id]:focus-visible .card{stroke:var(--accent-2);stroke-width:2.5}.ds-node[data-node-id]:focus{outline:none}.ds-edge[data-edge-id]{cursor:pointer}</style>
+  <rect class="canvas-bg" x="0" y="0" width="1024" height="888"/>
   
   <g class="diagram-heading"><text class="diagram-title-text" x="96" y="72" text-anchor="start" style="font-family:var(--font-serif,'Instrument Serif', ui-serif, Georgia, 'Times New Roman', serif);font-size:32px;font-weight:400">Scatter plot overview</text><text class="diagram-lede" x="96" y="108" text-anchor="start" style="font-family:var(--font-sans,Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:16px;font-weight:400">Distribution and correlation across two measures</text></g>
-  <g class="diagram-content"><rect class="plot-bg" x="152" y="160" width="720" height="520" rx="4"/>
-      <path class="grid-line" d="M 152 680 H 872"/><text class="axis-label" x="140" y="684" text-anchor="end" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">0</text><path class="grid-line" d="M 152 550 H 872"/><text class="axis-label" x="140" y="554" text-anchor="end" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">25</text><path class="grid-line" d="M 152 420 H 872"/><text class="axis-label" x="140" y="424" text-anchor="end" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">50</text><path class="grid-line" d="M 152 290 H 872"/><text class="axis-label" x="140" y="294" text-anchor="end" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">75</text><path class="grid-line" d="M 152 160 H 872"/><text class="axis-label" x="140" y="164" text-anchor="end" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">100</text><path class="grid-line" d="M 152 160 V 680"/><text class="axis-label" x="152" y="704" text-anchor="middle" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">0</text><path class="grid-line" d="M 332 160 V 680"/><text class="axis-label" x="332" y="704" text-anchor="middle" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">25</text><path class="grid-line" d="M 512 160 V 680"/><text class="axis-label" x="512" y="704" text-anchor="middle" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">50</text><path class="grid-line" d="M 692 160 V 680"/><text class="axis-label" x="692" y="704" text-anchor="middle" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">75</text><path class="grid-line" d="M 872 160 V 680"/><text class="axis-label" x="872" y="704" text-anchor="middle" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">100</text>
-      <path class="axis-line" d="M 152 160 V 680 H 872"/>
-      <text class="axis-label" x="512" y="732" text-anchor="middle" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:700;letter-spacing:1.2px">ADOPTION</text>
-      <g transform="translate(108 420) rotate(-90)"><text class="axis-label" x="0" y="0" text-anchor="middle" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:700;letter-spacing:1.2px">SATISFACTION</text></g>
+  <g class="plate" aria-hidden="true">
+    <path class="plate-rule" d="M 96 164 H 928"/>
+    <path class="plate-rule" d="M 96 812 H 928"/>
+    <path class="plate-tick" d="M 96 164 v 6 M 96 164 h 6 M 100 164 v 3 M 96 168 h 3 M 104 164 v 3 M 96 172 h 3 M 108 164 v 3 M 96 176 h 3 M 112 164 v 6 M 96 180 h 6 M 116 164 v 3 M 96 184 h 3 M 120 164 v 3 M 96 188 h 3 M 124 164 v 3 M 96 192 h 3 M 128 164 v 6 M 96 196 h 6 M 132 164 v 3 M 96 200 h 3 M 136 164 v 3 M 96 204 h 3 M 140 164 v 3 M 96 208 h 3 M 144 164 v 6 M 96 212 h 6"/>
+    <text class="plate-label" x="96" y="152" text-anchor="start" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:700;letter-spacing:1.2px">SCATTER PLOT</text>
+    <text class="plate-spec" x="928" y="152" text-anchor="end" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">1024 × 888 · 4PX MODULE</text>
+    
+    <text class="plate-spec" x="928" y="834" text-anchor="end" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">6 ELEMENTS · 0 CONNECTIONS</text>
+  </g>
+  <g class="diagram-content"><rect class="plot-bg" x="152" y="200" width="720" height="520" rx="4"/>
+      <path class="grid-line" d="M 152 720 H 872"/><text class="axis-label" x="140" y="724" text-anchor="end" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">0</text><path class="grid-line" d="M 152 590 H 872"/><text class="axis-label" x="140" y="594" text-anchor="end" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">25</text><path class="grid-line" d="M 152 460 H 872"/><text class="axis-label" x="140" y="464" text-anchor="end" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">50</text><path class="grid-line" d="M 152 330 H 872"/><text class="axis-label" x="140" y="334" text-anchor="end" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">75</text><path class="grid-line" d="M 152 200 H 872"/><text class="axis-label" x="140" y="204" text-anchor="end" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">100</text><path class="grid-line" d="M 152 200 V 720"/><text class="axis-label" x="152" y="744" text-anchor="middle" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">0</text><path class="grid-line" d="M 332 200 V 720"/><text class="axis-label" x="332" y="744" text-anchor="middle" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">25</text><path class="grid-line" d="M 512 200 V 720"/><text class="axis-label" x="512" y="744" text-anchor="middle" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">50</text><path class="grid-line" d="M 692 200 V 720"/><text class="axis-label" x="692" y="744" text-anchor="middle" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">75</text><path class="grid-line" d="M 872 200 V 720"/><text class="axis-label" x="872" y="744" text-anchor="middle" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">100</text>
+      <path class="axis-line" d="M 152 200 V 720 H 872"/>
+      <text class="axis-label" x="512" y="772" text-anchor="middle" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:700;letter-spacing:1.2px">ADOPTION</text>
+      <g transform="translate(108 460) rotate(-90)"><text class="axis-label" x="0" y="0" text-anchor="middle" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:700;letter-spacing:1.2px">SATISFACTION</text></g>
       <g class="ds-node chart-mark" data-node-id="node-zt-ijzp" tabindex="0" role="button" aria-label="Alpha: 12, 34">
-        <circle class="mark " cx="240" cy="504" r="8"/>
-        <text class="mark-label" x="252" y="509" text-anchor="start" style="font-family:var(--font-sans,Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:12px;font-weight:500">Alpha</text>
+        <circle class="mark " cx="240" cy="544" r="8"/>
+        <text class="mark-label" x="252" y="549" text-anchor="start" style="font-family:var(--font-sans,Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:12px;font-weight:500">Alpha</text>
       </g><g class="ds-node chart-mark" data-node-id="node-zu-ijzp" tabindex="0" role="button" aria-label="Beta: 28, 52">
-        <circle class="mark " cx="352" cy="408" r="8"/>
-        <text class="mark-label" x="364" y="413" text-anchor="start" style="font-family:var(--font-sans,Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:12px;font-weight:500">Beta</text>
+        <circle class="mark " cx="352" cy="448" r="8"/>
+        <text class="mark-label" x="364" y="453" text-anchor="start" style="font-family:var(--font-sans,Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:12px;font-weight:500">Beta</text>
       </g><g class="ds-node chart-mark" data-node-id="node-zv-ijzp" tabindex="0" role="button" aria-label="Gamma: 44, 41">
-        <circle class="mark " cx="468" cy="468" r="8"/>
-        <text class="mark-label" x="480" y="473" text-anchor="start" style="font-family:var(--font-sans,Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:12px;font-weight:500">Gamma</text>
+        <circle class="mark " cx="468" cy="508" r="8"/>
+        <text class="mark-label" x="480" y="513" text-anchor="start" style="font-family:var(--font-sans,Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:12px;font-weight:500">Gamma</text>
       </g><g class="ds-node chart-mark" data-node-id="node-zw-ijzp" tabindex="0" role="button" aria-label="Delta: 61, 76">
-        <circle class="mark is-focus" cx="592" cy="284" r="8"/>
-        <text class="mark-label" x="604" y="289" text-anchor="start" style="font-family:var(--font-sans,Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:12px;font-weight:500">Delta</text>
+        <circle class="mark is-focus" cx="592" cy="324" r="8"/>
+        <text class="mark-label" x="604" y="329" text-anchor="start" style="font-family:var(--font-sans,Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:12px;font-weight:500">Delta</text>
       </g><g class="ds-node chart-mark" data-node-id="node-zx-ijzp" tabindex="0" role="button" aria-label="Epsilon: 73, 68">
-        <circle class="mark " cx="676" cy="328" r="8"/>
-        <text class="mark-label" x="688" y="333" text-anchor="start" style="font-family:var(--font-sans,Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:12px;font-weight:500">Epsilon</text>
+        <circle class="mark " cx="676" cy="368" r="8"/>
+        <text class="mark-label" x="688" y="373" text-anchor="start" style="font-family:var(--font-sans,Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:12px;font-weight:500">Epsilon</text>
       </g><g class="ds-node chart-mark" data-node-id="node-zy-ijzp" tabindex="0" role="button" aria-label="Zeta: 88, 91">
-        <circle class="mark " cx="784" cy="208" r="8"/>
-        <text class="mark-label" x="796" y="213" text-anchor="start" style="font-family:var(--font-sans,Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:12px;font-weight:500">Zeta</text>
+        <circle class="mark " cx="784" cy="248" r="8"/>
+        <text class="mark-label" x="796" y="253" text-anchor="start" style="font-family:var(--font-sans,Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:12px;font-weight:500">Zeta</text>
       </g></g>
   
 </svg>
-  <figcaption>Distribution and correlation across two measures Title and standfirst drawn on the canvas, for a standalone figure.</figcaption>
-  
-</figure>
+    
+  </figure>
+  <dl class="titleblock">
+    <div><dt>Type</dt><dd>Scatter plot</dd></div>
+    <div><dt>Family</dt><dd>chart</dd></div>
+    <div><dt>Sheet</dt><dd>Full plate</dd></div>
+    <div><dt>Canvas</dt><dd>1024 × 888</dd></div>
+    <div><dt>Census</dt><dd>6 elements · 0 connections</dd></div>
+    <div><dt>Module</dt><dd>4 px</dd></div>
+  </dl>
+  <p class="note">Title on the canvas and the plate furniture: the rules, the spec line, and module ticks at the 4 px grid the engine snaps to. <a href="index.html">All sheets</a></p>
+</div>
 
 </body>
 </html>

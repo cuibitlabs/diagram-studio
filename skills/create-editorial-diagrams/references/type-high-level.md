@@ -32,7 +32,7 @@ Node: `sublabel`, `tone`
 
 ```ds
 high-level "High-level system overview"
-theme editorial
+theme plate
 describe "End-to-end platform view for a non-specialist audience"
 
 customers "Customers"

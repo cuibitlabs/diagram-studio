@@ -235,7 +235,11 @@ function restore() {
   try {
     const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (!parsed) return null;
-    return validateDiagram(parsed).length ? null : parsed;
+    if (validateDiagram(parsed).length) return null;
+    // A project saved before a role existed has to gain it, or the render falls
+    // back to `transparent` for every token added since it was written.
+    parsed.theme = completeTheme(parsed.theme ?? {});
+    return parsed;
   } catch {
     return null;
   }

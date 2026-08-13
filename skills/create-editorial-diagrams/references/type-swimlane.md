@@ -33,7 +33,7 @@ Diagram: `lanes`
 
 ```ds
 swimlane "Swimlane overview"
-theme editorial
+theme plate
 describe "Cross-functional flow with explicit ownership"
 
 request-raised "Request raised"

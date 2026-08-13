@@ -33,7 +33,7 @@ Node: `icon`, `role`, `sublabel`, `tone`
 
 ```ds
 architecture "Architecture overview"
-theme editorial
+theme plate
 describe "Systems, services and the connections between them"
 
 customer: actor "Customer" #user

@@ -31,7 +31,7 @@ Node: `fixedSize`, `sublabel`, `tone`
 
 ```ds
 medallion "Medallion overview"
-theme editorial
+theme plate
 describe "Raw, cleaned and trusted data tiers with promotion rules"
 
 bronze "Bronze" / "Landed exactly as received. Nothing dropped, nothing renamed."

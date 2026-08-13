@@ -31,7 +31,7 @@ Node: `fixedSize`, `sublabel`, `tone`
 
 ```ds
 nested "Nested systems overview"
-theme editorial
+theme plate
 describe "Hierarchy expressed by containment rather than flow"
 
 platform "Platform" / "Everything we run"

@@ -33,7 +33,7 @@ Diagram: `unit`
 
 ```ds
 line "Line chart overview"
-theme editorial
+theme plate
 describe "A measured trend over an ordered axis"
 unit "Active teams"
 

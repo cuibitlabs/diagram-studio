@@ -1,5 +1,23 @@
 # Editorial visual system
 
+## The direction
+
+A drafting plate, not a magazine spread.
+
+The default skin used to be warm cream paper, a high-contrast serif and a
+terracotta accent. That combination had become the house style of generated
+design — it arrives regardless of subject, and it is also what the nearest
+comparable project ships, so it read as neither distinctive nor ours.
+
+The default is now `plate`: cool vellum rather than cream, graphite with a green
+cast rather than jet black, and the three inks a technical drawing actually
+uses — raw sienna for the one thing to look at first, deep teal for the
+secondary cue, ultramarine for anything leaving the system. The serif is kept
+for the diagram title and nothing else.
+
+The nine palettes are all still there; `editorial` remains available if the warm
+direction is what a brand needs.
+
 ## Tokens
 
 Roles, not colour names. `paper` is the page, `panel` is a surface, `ink` is body text, `accent` is the one thing you want read first.
@@ -20,7 +38,7 @@ Roles, not colour names. `paper` is the page, `panel` is a surface, `ink` is bod
 | `lineStrong` | connectors and arrowheads |
 | `onAccent` | text sitting on the accent |
 
-Eight palettes ship, and **every one is audited**: `scripts/lint-a11y.mjs` checks twelve contrast pairs per palette at the sizes the type scale actually uses, and fails the build on any that misses.
+Nine palettes ship, and **every one is audited**: `scripts/lint-a11y.mjs` checks twelve contrast pairs per palette at the sizes the type scale actually uses, and fails the build on any that misses.
 
 ### Series colours
 
@@ -56,6 +74,27 @@ The family is emitted as a custom property, not a literal stack, so a style vari
 - Connectors are orthogonal elbows with an 8 px corner radius. Attach points on the same side are spread at least 12 px apart and ordered so connectors fan out without crossing at the border. A connector never passes through a node that is not its endpoint; when the direct routes are blocked, an A\* pass over a visibility lattice finds one that is not.
 - A jog smaller than 8 px is collapsed into a straight run, so slightly different node heights do not produce a visible stair-step.
 - Accent elements: no more than two, and no more than 20 percent of the composition.
+
+## Emphasis
+
+An accent node is a **tinted card behind an accent border**, with the text still
+in ink. Enough to pull the eye, without turning the focal element into a button
+— a solid block reads as a control, and it forces the label into reversed text
+that is harder to keep legible across nine palettes.
+
+`tone: "solid"` gives the filled block for the rare case where the focal element
+really should read as a slab. `tone: "muted"` recedes.
+
+## The plate
+
+`settings.plate` adds the furniture: hairline rules above and below the drawing,
+the type name and the canvas spec on the top rule, the census on the bottom, and
+**module ticks at the real 4 px grid** the engine snaps every coordinate to.
+
+It is the signature of the system and the one place it is loud. It is also not
+decoration: a reader who wants to know whether a drawing was measured or
+eyeballed can see the answer in the corner. Off by default — a diagram pasted
+into a slide does not want a frame around it.
 
 ## Accessibility
 

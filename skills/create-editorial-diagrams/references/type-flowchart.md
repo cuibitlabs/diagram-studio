@@ -33,7 +33,7 @@ Node: `role`, `tone`
 
 ```ds
 flowchart "Flowchart overview"
-theme editorial
+theme plate
 describe "Decisions and process logic"
 
 request-received: terminal "Request received"

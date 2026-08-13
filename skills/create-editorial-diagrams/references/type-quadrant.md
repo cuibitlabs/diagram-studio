@@ -33,7 +33,7 @@ Diagram: `axes`
 
 ```ds
 quadrant "Quadrant overview"
-theme editorial
+theme plate
 describe "Items positioned against two named axes"
 axis x "Effort" "Low effort" "High effort"
 axis y "Value" "Low value" "High value"

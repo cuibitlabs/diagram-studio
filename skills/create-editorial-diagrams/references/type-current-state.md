@@ -32,7 +32,7 @@ Node: `constraint`, `dashed`, `role`, `sublabel`, `tone`
 
 ```ds
 current-state "Current state overview"
-theme editorial
+theme plate
 describe "Legacy landscape with its constraints made explicit"
 
 channels "Channels" / "Five front doors"

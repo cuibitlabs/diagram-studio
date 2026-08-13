@@ -31,7 +31,7 @@ Node: `fixedSize`, `sublabel`, `tone`
 
 ```ds
 pyramid "Pyramid / funnel overview"
-theme editorial
+theme plate
 describe "Priority, maturity or drop-off across levels"
 
 vision "Vision" / "Why this exists"

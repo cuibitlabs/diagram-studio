@@ -67,10 +67,12 @@ function styleTable(theme) {
 /** Overrides that depend on an ancestor's class. */
 function contextual(theme) {
   return {
+    // An accent node is a tinted, bordered card rather than a solid block, so a
+    // design tool import has to resolve the tint and the border, not a fill.
     "tone-accent": {
-      card: { fill: theme.accent, stroke: theme.accent },
-      "node-title": { fill: theme.onAccent },
-      "node-sub": { fill: theme.onAccent },
+      card: { fill: theme.accentTint ?? theme.accent, stroke: theme.accent, "stroke-width": "1.75" },
+      "node-title": { fill: theme.ink },
+      "node-sub": { fill: theme.muted },
       tier: { fill: theme.accent, stroke: theme.accent },
       "tier-label": { fill: theme.onAccent },
       "entity-header": { fill: theme.accent, stroke: theme.accent },
@@ -89,6 +91,11 @@ function contextual(theme) {
     "role-external": { card: { "stroke-dasharray": "6 6" } },
     "role-legacy": { card: { "stroke-dasharray": "6 6" }, "node-title": { fill: theme.muted } },
     "role-store": { card: { fill: theme.paper } },
+    "tone-solid": {
+      card: { fill: theme.accent, stroke: theme.accent },
+      "node-title": { fill: theme.onAccent },
+      "node-sub": { fill: theme.onAccent },
+    },
     lane: { rect: { fill: "none", stroke: theme.line, "stroke-width": "1", "stroke-dasharray": "4 5" } },
     "is-filled": { rect: { fill: theme.panel, "stroke-dasharray": "none" } },
     "set-1": { "set-ring": { fill: theme.accent2, stroke: theme.accent2 } },

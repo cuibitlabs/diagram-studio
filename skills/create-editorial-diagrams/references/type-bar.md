@@ -33,7 +33,7 @@ Diagram: `unit`
 
 ```ds
 bar "Bar chart overview"
-theme editorial
+theme plate
 describe "Comparison across categories"
 unit "Days"
 
