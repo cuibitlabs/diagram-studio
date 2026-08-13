@@ -24,6 +24,10 @@ jobs:
           node-version: '22'
       - run: npm ci || npm install
       - run: npm run build
+      - name: Build the type gallery
+        run: npm run gallery
+      - name: Publish the studio with the gallery alongside it
+        run: cp -r docs/gallery dist/gallery
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

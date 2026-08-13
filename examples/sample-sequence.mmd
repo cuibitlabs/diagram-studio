@@ -1,0 +1,11 @@
+sequenceDiagram
+    participant U as Customer
+    participant W as Web app
+    participant A as Auth service
+    participant D as Account store
+    U->>W: Sign in
+    W->>A: Authenticate
+    A->>D: Look up account
+    D-->>A: Profile
+    A-->>W: Session token
+    W-->>U: Signed in

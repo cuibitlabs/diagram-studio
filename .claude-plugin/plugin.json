@@ -1,7 +1,28 @@
 {
   "name": "diagram-studio",
-  "description": "Create, edit, import, brand, and export 31 types of accessible editorial diagrams with a visual SVG studio.",
-  "version": "1.0.0",
+  "description": "Create, edit, import, brand, simplify and export 31 types of accessible editorial diagram. One deterministic layout engine behind a browser studio, a CLI and an MCP server.",
+  "version": "2.0.0",
   "license": "MIT",
-  "keywords": ["diagrams", "svg", "architecture", "flowchart", "visualization", "drawio", "mermaid", "editor"]
+  "homepage": "https://github.com/cuibit/diagram-studio",
+  "keywords": [
+    "diagrams",
+    "svg",
+    "architecture",
+    "flowchart",
+    "sequence",
+    "visualization",
+    "drawio",
+    "mermaid",
+    "accessibility",
+    "editor",
+    "mcp"
+  ],
+  "skills": "./skills/",
+  "commands": "./commands/",
+  "mcpServers": {
+    "diagram-studio": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/bin/mcp-server.mjs"]
+    }
+  }
 }

@@ -12,6 +12,7 @@ import { join } from "node:path";
 
 import { parseDrawio } from "../src/import/drawio.js";
 import { parseMermaid } from "../src/import/mermaid.js";
+import { parse as parseDSL } from "../src/dsl/index.js";
 import { toDrawio } from "../src/export/drawio.js";
 import { toMermaid } from "../src/export/mermaid.js";
 import { DIAGRAM_TYPES, createDiagram, validateDiagram } from "../src/model.js";
@@ -30,6 +31,7 @@ for (const file of await readdir(examplesDir)) {
   try {
     if (/\.(mmd|mermaid|md)$/i.test(file)) diagram = parseMermaid(source);
     else if (/\.(drawio|xml)$/i.test(file)) diagram = await parseDrawio(source);
+    else if (/\.ds$/i.test(file)) diagram = parseDSL(source);
     else continue;
   } catch (error) {
     fail(file, `import threw: ${error.message}`);
@@ -40,7 +42,8 @@ for (const file of await readdir(examplesDir)) {
   const errors = validateDiagram(diagram);
   if (errors.length) fail(file, `invalid project: ${errors.join("; ")}`);
   if (!diagram.nodes.length) fail(file, "produced no nodes");
-  if (!diagram.provenance) fail(file, "no fidelity ledger recorded");
+  // The diagram language is authored, not imported, so it has nothing to record.
+  if (!diagram.provenance && !/\.ds$/i.test(file)) fail(file, "no fidelity ledger recorded");
 
   try {
     const svg = buildSVG(diagram, { uid: "verify", interactive: false });

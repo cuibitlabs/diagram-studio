@@ -1,0 +1,23 @@
+// The diagram language. Render it with:
+//   diagram-studio convert examples/sample-platform.ds platform.svg
+architecture "Order platform"
+theme harbour
+direction LR
+describe "The path an order takes from a customer to the ledger"
+
+group "Public" {
+  customer: actor "Customer" #user
+  storefront "Storefront" / "Server rendered" #browser
+}
+
+gateway: gateway "API gateway" / "Auth, rate limits" * #gateway
+orders "Orders" / "Owns the order lifecycle" #server
+ledger: store "Ledger" / "Append only" #database
+payments: external "Payment provider" #cloud
+
+customer -> storefront
+storefront -> gateway "TLS"
+gateway -> orders
+orders -> ledger "append"
+orders ~> payments "authorise"
+payments ~> orders "webhook"
