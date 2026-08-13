@@ -8,3 +8,7 @@ __pycache__/
 .vite/
 coverage/
 docs/screenshots/*.tmp.png
+
+# Generated, but committed on purpose: the example library and the type gallery
+# are the deliverable, and verify-examples/verify-docs-sync prove they are
+# current. Do not add them here.

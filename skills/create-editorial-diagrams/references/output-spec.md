@@ -100,6 +100,25 @@ Above nine nodes the reading order stops being obvious. The editor's review pane
 
 **Export → Variants** writes three files at once: light, dark, and titled. Dark is not an inverted light theme; it is a separate audited palette.
 
+## The example library
+
+`assets/` holds every type in all five delivery variants — 155 self-contained
+HTML files, plus an [index](../assets/index.html). Open the one that matches your
+destination and use it as a starting point.
+
+| Variant | What it is |
+| --- | --- |
+| `light` | inline in a document, canvas follows the drawing |
+| `dark` | a separately audited dark palette |
+| `full` | title and standfirst drawn on the canvas |
+| `slide` | pinned to a 1600×900 stage and centred |
+| `terminal` | monospace, unfilled shapes, for docs beside code |
+
+They are generated from the engine, not maintained by hand, and
+`scripts/verify-examples.mjs` fails the build if any file drifts from it. An
+example library that shows a skin the code has moved on from is worse than no
+library, because it teaches the wrong thing confidently.
+
 ## The output contract
 
 Every SVG:

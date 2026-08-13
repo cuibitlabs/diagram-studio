@@ -28,11 +28,15 @@ All three must pass. CI runs them on Linux, Windows, and macOS.
 
 ## Adding a diagram type
 
-1. Add the entry to `DIAGRAM_TYPES` in `src/model.js`.
-2. Add `src/types/<id>.js` exporting `{ layout, draw }`.
-3. Add `skills/create-editorial-diagrams/references/type-<id>.md`.
-4. Add example assets in light, dark, and full variants.
-5. `python scripts/verify-docs-sync.py` must stay green.
+1. Add `src/types/<id>.js` exporting `{ id, label, description, family, sample, layout, draw }`.
+2. Register it in `src/types/index.js`.
+3. Add its entry to `src/types/guidance.js` — when the form is right, when it is
+   wrong, its composition rules, and the mistake people make with it. The build
+   fails without it, which is the intended pressure: a type nobody can explain
+   when to use should not ship.
+4. Run `npm run docs`. The reference page and the five example variants are
+   generated; do not hand-edit either.
+5. `python scripts/run-verifiers.py` must stay green.
 
 ## Commit style
 

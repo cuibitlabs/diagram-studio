@@ -74,8 +74,9 @@ src/import|export Mermaid, draw.io, ASCII, the diagram language
 src/edit/         simplification with a ledger, project diff, stable redraw
 src/editor/       selection, snapping, command palette, presentation
 bin/              CLI and MCP server
-skills/           the agent skill: 31 type references plus 10 guides
-scripts/          doc generator, gallery, and five verifiers
+skills/           the agent skill: 31 type references, 10 guides,
+                  and 155 self-contained example pages
+scripts/          doc and example generators, gallery, and six verifiers
 docs/gallery/     every type rendered light and dark
 ```
 
@@ -85,7 +86,7 @@ docs/gallery/     every type rendered light and dark
 npm run check      # tests, build and verifiers
 ```
 
-160+ tests, plus five verifiers that fail the build on: content drawn outside the canvas, overlapping nodes, a diagonal or node-crossing connector, geometry off the 4 px grid, a truncated label, a contrast pair below target, a missing accessible name, a shadow or gradient, a literal colour outside the token set, an over-budget accent count, a stale type reference, and an import that no longer renders.
+210+ tests, plus six verifiers that fail the build on: content drawn outside the canvas, overlapping nodes, a diagonal or node-crossing connector, geometry off the 4 px grid, a truncated label, a contrast pair below target, a missing accessible name, a shadow or gradient, a literal colour outside the token set, an over-budget accent count, a stale type reference, a stale or orphaned example page, an example that would make a network request, and an import that no longer renders.
 
 CI runs all of it on Linux, Windows and macOS.
 
