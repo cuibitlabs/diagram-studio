@@ -10,8 +10,13 @@ import { buildSVG, uidFor } from "./render/svg.js";
 import { DARK_FOR, PALETTES } from "./theme/palettes.js";
 import { toDrawio } from "./export/drawio.js";
 import { toMermaid } from "./export/mermaid.js";
+import { toPPTX } from "./export/pptx.js";
+import { toExcalidrawJSON } from "./export/excalidraw.js";
+import { toFlatSVG } from "./export/flat.js";
+import { toReact, toWebComponent } from "./export/component.js";
+import { toASCII } from "./export/ascii.js";
 
-export { toDrawio, toMermaid };
+export { toASCII, toDrawio, toExcalidrawJSON, toFlatSVG, toMermaid, toPPTX, toReact, toWebComponent };
 
 function save(blob, filename) {
   const link = document.createElement("a");
@@ -90,6 +95,26 @@ export function exportVariants(diagram) {
   exportSVG(diagram, { suffix: "-light" });
   exportSVG(dark, { suffix: "-dark" });
   exportSVG(titled, { suffix: "-titled" });
+}
+
+/** Real, editable PowerPoint shapes — not a picture of a diagram. */
+export function exportPPTX(diagram) {
+  save(new Blob([toPPTX(diagram)], { type: "application/vnd.openxmlformats-officedocument.presentationml.presentation" }), `${slug(diagram.title)}.pptx`);
+}
+
+/** An Excalidraw scene, for a workshop. */
+export function exportExcalidraw(diagram) {
+  save(new Blob([toExcalidrawJSON(diagram)], { type: "application/json" }), `${slug(diagram.title)}.excalidraw`);
+}
+
+/** SVG with the stylesheet resolved into attributes, for Figma and Illustrator. */
+export function exportFlatSVG(diagram) {
+  save(new Blob([toFlatSVG(diagram)], { type: "image/svg+xml;charset=utf-8" }), `${slug(diagram.title)}-flat.svg`);
+}
+
+/** A React component with theme props. */
+export function exportReact(diagram) {
+  save(new Blob([toReact(diagram)], { type: "text/plain;charset=utf-8" }), `${slug(diagram.title)}.jsx`);
 }
 
 /**

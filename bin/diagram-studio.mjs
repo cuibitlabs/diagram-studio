@@ -35,6 +35,10 @@ import { LEVELS, simplify } from "../src/edit/simplify.js";
 import { describeDiff, diffProjects, stableRedraw } from "../src/edit/diff.js";
 import { parse as parseDSL, stringify as stringifyDSL } from "../src/dsl/index.js";
 import { toASCII } from "../src/export/ascii.js";
+import { toExcalidrawJSON } from "../src/export/excalidraw.js";
+import { toReact, toWebComponent } from "../src/export/component.js";
+import { toFlatSVG } from "../src/export/flat.js";
+import { toPPTX } from "../src/export/pptx.js";
 
 const IMPORTABLE = new Set([".mmd", ".mermaid", ".md", ".drawio", ".xml", ".json", ".ds"]);
 
@@ -84,7 +88,20 @@ function applyTheme(diagram, id) {
 function serialise(diagram, path, options = {}) {
   switch (extname(path).toLowerCase()) {
     case ".svg":
-      return buildSVG(diagram, { interactive: false, showTitle: options.title === true });
+      // `--flat` resolves the stylesheet into presentation attributes and names
+      // the layers, which is what Figma and Illustrator need on import.
+      return options.flat
+        ? toFlatSVG(diagram)
+        : buildSVG(diagram, { interactive: false, showTitle: options.title === true });
+    case ".excalidraw":
+      return toExcalidrawJSON(diagram);
+    case ".pptx":
+      return toPPTX(diagram);
+    case ".jsx":
+      return toReact(diagram);
+    case ".js":
+    case ".mjs":
+      return toWebComponent(diagram);
     case ".html": {
       const svg = buildSVG(diagram, { interactive: false, showTitle: true });
       return `<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>${diagram.title}</title>\n<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:${diagram.theme.paper};padding:32px}svg{max-width:100%;height:auto}</style>\n</head>\n<body>\n${svg}\n</body>\n</html>\n`;
@@ -107,7 +124,8 @@ function serialise(diagram, path, options = {}) {
 
 const write = async (path, content) => {
   await mkdir(resolve(path, ".."), { recursive: true });
-  await writeFile(path, content, "utf8");
+  // Binary formats (pptx) come back as bytes; everything else is text.
+  await writeFile(path, content, typeof content === "string" ? "utf8" : undefined);
   console.log(`wrote ${path}`);
 };
 
@@ -186,7 +204,7 @@ const commands = {
     const [input, output] = positional;
     if (!input || !output) die("usage: diagram-studio convert <in> <out>");
     const diagram = applyTheme(await loadProject(input), flags.theme);
-    await write(output, serialise(diagram, output));
+    await write(output, serialise(diagram, output, { flat: flags.flat === true, width: flags.width }));
   },
 
   /** A folder of sources becomes a folder of branded diagrams. */
@@ -289,8 +307,15 @@ async function main() {
   audit <project.json>     contrast, composition and import fidelity report
   types                    list the ${DIAGRAM_TYPES.length} diagram types
 
-Formats in: .ds .mmd .mermaid .md .drawio .xml .json
-Formats out: .ds .svg .html .mmd .drawio .json .txt (box-drawing, for a README)`);
+Formats in:  .ds .mmd .mermaid .md .drawio .xml .json
+Formats out: .ds .svg .html .mmd .drawio .json
+             .txt        box drawing, for a README or a terminal
+             .pptx       a slide of real, editable PowerPoint shapes
+             .excalidraw real Excalidraw elements, for a workshop
+             .jsx        a React component with theme props
+             .js         a framework-free custom element
+             --flat      with .svg: presentation attributes and named layers,
+                         for Figma, Illustrator and Sketch`);
     return;
   }
   const handler = commands[command];

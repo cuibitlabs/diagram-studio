@@ -36,7 +36,11 @@ import {
   exportMermaid,
   exportPDF,
   exportPNG,
+  exportExcalidraw,
+  exportFlatSVG,
+  exportPPTX,
   exportProject,
+  exportReact,
   exportSVG,
   exportText,
   exportVariants,
@@ -198,6 +202,10 @@ Customer -> Web app -> API gateway -> Orders service -> Order store</textarea>
     <button data-export="mermaid"><b>Mermaid</b><small>Back into a README</small></button>
     <button data-export="drawio"><b>draw.io</b><small>Uncompressed, diffable XML</small></button>
     <button data-export="ds"><b>Diagram language</b><small>Readable .ds source for git</small></button>
+    <button data-export="pptx"><b>PowerPoint</b><small>Real, editable shapes</small></button>
+    <button data-export="excalidraw"><b>Excalidraw</b><small>For a workshop</small></button>
+    <button data-export="flat"><b>Figma SVG</b><small>Resolved styles, named layers</small></button>
+    <button data-export="react"><b>React</b><small>Component with theme props</small></button>
     <button data-export="copy"><b>Copy SVG</b><small>Paste into design tools</small></button>
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>`;
@@ -513,6 +521,10 @@ async function runExport(format) {
     if (format === "variants") exportVariants(diagram);
     if (format === "drawio") exportDrawio(diagram);
     if (format === "ds") exportText(stringifyDSL(diagram), `${slug(diagram.title)}.ds`, "text/plain");
+    if (format === "pptx") exportPPTX(diagram);
+    if (format === "excalidraw") exportExcalidraw(diagram);
+    if (format === "flat") exportFlatSVG(diagram);
+    if (format === "react") exportReact(diagram);
     if (format === "copy") await copySVG(diagram);
     let note = "";
     if (format === "mermaid") {
