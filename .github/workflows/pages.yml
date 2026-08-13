@@ -37,6 +37,7 @@ jobs:
       # message than the one you get without it. Left explicit so nobody spends
       # the afternoon rediscovering that.
       - uses: actions/configure-pages@v5
+        continue-on-error: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
