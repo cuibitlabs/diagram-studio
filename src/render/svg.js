@@ -7,7 +7,9 @@
  */
 
 import { ceilTo } from "../engine/text.js";
-import { TYPE, fontAttrs } from "../engine/typography.js";
+import { FONT_MONO, FONT_SANS, FONT_SERIF, FONT_STACK, TYPE, fontAttrs } from "../engine/typography.js";
+import { assignRanks } from "../engine/layout/graph.js";
+import { annotationMarkup } from "./annotations.js";
 import { getRenderer } from "../types/index.js";
 import { iconSymbols, iconsUsedBy } from "./icons.js";
 import { esc, text } from "./primitives.js";
@@ -55,12 +57,20 @@ function defs(uid, theme, icons = "") {
     <pattern id="${uid}-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
       <path d="M 0 0 V 8" stroke="${theme.line}" stroke-width="2" stroke-opacity="0.5"/>
     </pattern>
+    <filter id="${uid}-sketch" x="-5%" y="-5%" width="110%" height="110%" filterUnits="objectBoundingBox">
+      <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="3" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
   </defs>`;
 }
 
 /** CSS custom properties for one theme. */
-export function themeVariables(theme, settings = {}) {
+export function themeVariables(theme, settings = {}, uid = "d") {
   return [
+    `--font-sans:${FONT_STACK[FONT_SANS]}`,
+    `--font-mono:${FONT_STACK[FONT_MONO]}`,
+    `--font-serif:${FONT_STACK[FONT_SERIF]}`,
+    `--sketch:url(#${uid}-sketch)`,
     `--paper:${theme.paper}`,
     `--panel:${theme.panel}`,
     `--ink:${theme.ink}`,
@@ -102,6 +112,18 @@ export function buildSVG(diagram, options = {}) {
     margin,
   };
 
+  // Motion is opt-in and staggered by reading order, so a reveal follows the
+  // same sequence a reader would take.
+  if (settings.motion && diagram.edges?.length) {
+    const ranks = assignRanks(diagram.nodes, diagram.edges);
+    ctx.steps = new Map(diagram.nodes.map((node) => [node.id, ranks.get(node.id) ?? 0]));
+    for (const edge of diagram.edges) {
+      ctx.steps.set(edge.id, Math.max(ctx.steps.get(edge.source) ?? 0, ctx.steps.get(edge.target) ?? 0));
+    }
+  } else if (settings.motion) {
+    ctx.steps = new Map(diagram.nodes.map((node, index) => [node.id, index]));
+  }
+
   const layout = renderer.layout(diagram, ctx) ?? {};
   const fit = options.fit ?? settings.autoFit !== false;
 
@@ -123,7 +145,13 @@ export function buildSVG(diagram, options = {}) {
       }</g>`
     : "";
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" class="ds-svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" role="img" aria-labelledby="${uid}-title ${uid}-desc" style="${themeVariables(diagram.theme, settings)}">
+  const contentClasses = [
+    "diagram-content",
+    settings.style && settings.style !== "editorial" ? `style-${settings.style}` : "",
+    settings.motion ? `motion-${settings.motion}` : "",
+  ].filter(Boolean).join(" ");
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" class="ds-svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" role="img" aria-labelledby="${uid}-title ${uid}-desc" style="${themeVariables(diagram.theme, settings, uid)}">
   <title id="${uid}-title">${esc(diagram.title)}</title>
   <desc id="${uid}-desc">${esc(diagram.description || `${diagram.type} diagram with ${diagram.nodes.length} elements.`)}</desc>
   ${defs(uid, diagram.theme, iconSymbols(iconsUsedBy(diagram), uid))}
@@ -131,7 +159,8 @@ export function buildSVG(diagram, options = {}) {
   <rect class="canvas-bg" x="0" y="0" width="${width}" height="${height}"/>
   ${settings.grid ? `<rect class="canvas-grid" x="0" y="0" width="${width}" height="${height}" fill="url(#${uid}-grid)"/>` : ""}
   ${heading}
-  <g class="diagram-content">${body}</g>
+  <g class="${contentClasses}">${body}</g>
+  ${annotationMarkup(diagram, ctx)}
 </svg>`;
 }
 

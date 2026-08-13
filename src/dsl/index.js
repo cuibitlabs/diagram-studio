@@ -27,6 +27,7 @@
 import { LIMITS, createDiagram, hasType, makeId } from "../model.js";
 import { PALETTES, paletteOf } from "../theme/palettes.js";
 import { ROLE_SHAPE } from "../render/shapes.js";
+import { MOTIONS, STYLES } from "../render/skin.js";
 
 const ROLES = new Set(Object.keys(ROLE_SHAPE));
 const ARROWS = [
@@ -178,6 +179,16 @@ export function parse(source) {
       diagram.settings.direction = rest[0]?.toUpperCase() === "TD" ? "TB" : rest[0]?.toUpperCase();
       return;
     }
+    if (word === "style") {
+      if (!STYLES.includes(rest[0])) throw new ParseError(`unknown style "${rest[0]}". Use ${STYLES.join(", ")}.`, lineNumber);
+      diagram.settings.style = rest[0];
+      return;
+    }
+    if (word === "motion") {
+      if (!MOTIONS.includes(rest[0])) throw new ParseError(`unknown motion "${rest[0]}". Use ${MOTIONS.filter(Boolean).join(", ")}.`, lineNumber);
+      diagram.settings.motion = rest[0];
+      return;
+    }
     if (word === "describe") {
       diagram.description = strings(line)[0] ?? "";
       return;
@@ -268,6 +279,8 @@ export function stringify(diagram) {
   const palette = paletteIdFor(diagram.theme);
   if (palette) lines.push(`theme ${palette}`);
   if (diagram.settings?.direction) lines.push(`direction ${diagram.settings.direction}`);
+  if (diagram.settings?.style && diagram.settings.style !== "editorial") lines.push(`style ${diagram.settings.style}`);
+  if (diagram.settings?.motion) lines.push(`motion ${diagram.settings.motion}`);
   if (diagram.description) lines.push(`describe "${escape(diagram.description)}"`);
   if (diagram.unit) lines.push(`unit "${escape(diagram.unit)}"`);
   for (const axis of ["x", "y"]) {

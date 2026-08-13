@@ -108,8 +108,9 @@ export function nodeCard(node, spec = {}) {
   const interactive = spec.interactive === false
     ? ""
     : ` data-node-id="${esc(node.id)}" tabindex="0" role="button" aria-label="${esc(node.label)}${node.sublabel ? `. ${esc(node.sublabel)}` : ""}"`;
+  const step = spec.steps?.has(node.id) ? ` style="--step:${spec.steps.get(node.id)}"` : "";
 
-  return `<g class="${classes}"${interactive}>
+  return `<g class="${classes}"${interactive}${step}>
     <path class="card" d="${geometry.d}"/>${geometry.rim ? `<path class="card-rim" d="${geometry.rim}"/>` : ""}
     ${icon}${titleMarkup}${subMarkup}${badge}
   </g>`;
@@ -153,7 +154,9 @@ export function connector(edge, route, spec = {}) {
     )}</g>`;
   }
 
-  return `<g class="${classes}" data-edge-id="${esc(edge.id)}">
+  const step = spec.steps?.has(edge.id) ? ` style="--step:${spec.steps.get(edge.id)}"` : "";
+
+  return `<g class="${classes}" data-edge-id="${esc(edge.id)}"${step}>
     <path class="edge-hit" d="${route.d}"/>
     <path class="line" d="${route.d}" marker-end="url(#${spec.uid}-${marker})"${startMarker}/>
     ${labelMarkup}

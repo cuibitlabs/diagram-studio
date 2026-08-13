@@ -47,10 +47,17 @@ export const FONT_STACK = {
   [FONT_SERIF]: "'Instrument Serif', ui-serif, Georgia, 'Times New Roman', serif",
 };
 
-/** Inline SVG style attributes for a scale entry. */
+/**
+ * Inline SVG style attributes for a scale entry.
+ *
+ * The family is emitted as a custom property rather than a literal stack so a
+ * style variant (the terminal skin, for one) can redefine what "sans" means for
+ * a subtree. An inline literal could not be overridden by a class.
+ */
 export function fontAttrs(style) {
+  const family = style.family ?? FONT_SANS;
   const parts = [
-    `font-family:${FONT_STACK[style.family] ?? FONT_STACK[FONT_SANS]}`,
+    `font-family:var(--font-${family},${FONT_STACK[family] ?? FONT_STACK[FONT_SANS]})`,
     `font-size:${style.size}px`,
     `font-weight:${style.weight}`,
   ];

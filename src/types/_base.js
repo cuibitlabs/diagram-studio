@@ -69,7 +69,9 @@ export const drawGroups = (groups = [], options = {}) =>
   groups.map((group) => container(group, group.label, { className: group.filled ? "lane is-filled" : "lane", id: group.id, ...options })).join("");
 
 export const drawEdges = (diagram, ctx, routes, spec = {}) =>
-  (diagram.edges ?? []).map((edge) => connector(edge, routes.get(edge.id), { uid: ctx.uid, selectedId: ctx.selectedId, ...spec })).join("");
+  (diagram.edges ?? [])
+    .map((edge) => connector(edge, routes.get(edge.id), { uid: ctx.uid, selectedId: ctx.selectedId, steps: ctx.steps, ...spec }))
+    .join("");
 
 export const drawNodes = (diagram, ctx, spec = {}) =>
   (diagram.nodes ?? []).map((node) => nodeCard(node, {
@@ -78,6 +80,7 @@ export const drawNodes = (diagram, ctx, spec = {}) =>
     dense: ctx.dense,
     selectedId: ctx.selectedId,
     selectedIds: ctx.selectedIds,
+    steps: ctx.steps,
     interactive: ctx.interactive,
     ...spec,
   })).join("");

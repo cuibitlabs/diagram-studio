@@ -88,6 +88,48 @@ text{fill:var(--ink)}
 .entity-type{fill:var(--muted)}
 `;
 
+/**
+ * Style variants.
+ *
+ * Applied to the content group rather than the root, so they can redefine the
+ * font custom properties the root sets inline.
+ */
+const VARIANTS = `
+.style-terminal{--font-sans:var(--font-mono);--font-serif:var(--font-mono)}
+.style-terminal .card{fill:none;stroke-width:1.5}
+.style-terminal .card-rim,.style-terminal .plot-bg{fill:none}
+.style-terminal .ds-node.tone-accent .card{fill:none;stroke:var(--accent);stroke-width:2.5}
+.style-terminal .ds-node.tone-accent .node-title,.style-terminal .ds-node.tone-accent .node-sub{fill:var(--accent)}
+.style-terminal .edge-label rect{fill:var(--paper)}
+.style-terminal .tier,.style-terminal .entity-header{fill:none}
+.style-terminal .tier.is-focus,.style-terminal .entity-header.is-focus{fill:none;stroke:var(--accent)}
+.style-terminal .tier.is-focus .tier-label{fill:var(--accent)}
+.style-sketchy .card,.style-sketchy .line,.style-sketchy .tier,.style-sketchy .set-ring{filter:var(--sketch)}
+.style-sketchy .lane rect{filter:var(--sketch)}
+
+.annotation-text{fill:var(--muted)}
+.annotation-rule{stroke:var(--accent);stroke-width:2;fill:none}
+.annotation-leader{stroke:var(--line);stroke-width:1;fill:none;stroke-dasharray:3 4}
+`;
+
+/**
+ * Motion.
+ *
+ * Never on by default, always staggered by reading order, and switched off
+ * entirely for anyone who has asked for reduced motion.
+ */
+const MOTION = `
+@keyframes ds-reveal{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes ds-flow{to{stroke-dashoffset:-28}}
+.motion-reveal .ds-node,.motion-reveal .ds-edge{animation:ds-reveal .5s ease both;animation-delay:calc(var(--step,0)*.14s)}
+.motion-loop .ds-edge .line{stroke-dasharray:6 8;animation:ds-flow 1.6s linear infinite}
+.motion-loop .ds-edge.tone-accent .line{animation-duration:1.1s}
+@media (prefers-reduced-motion: reduce){
+.motion-reveal .ds-node,.motion-reveal .ds-edge{animation:none;opacity:1;transform:none}
+.motion-loop .ds-edge .line{animation:none;stroke-dasharray:none}
+}
+`;
+
 /** Editor overlays and the presentation reveal. */
 const OVERLAYS = `
 .editor-overlay{pointer-events:none}
@@ -110,7 +152,11 @@ const INTERACTIVE = `
 const collapse = (value) => value.replace(/\s*\n\s*/g, "").trim();
 
 /** @param {{interactive?: boolean}} [options] */
-export const skinCSS = (options = {}) => collapse(RULES + OVERLAYS + (options.interactive === false ? "" : INTERACTIVE));
+export const skinCSS = (options = {}) =>
+  collapse(RULES + VARIANTS + MOTION + OVERLAYS + (options.interactive === false ? "" : INTERACTIVE));
 
 /** Raw rules, exported so the linter can parse them without a browser. */
-export const SKIN_RULES = RULES + OVERLAYS;
+export const SKIN_RULES = RULES + VARIANTS + MOTION + OVERLAYS;
+
+export const STYLES = ["editorial", "sketchy", "terminal"];
+export const MOTIONS = ["", "reveal", "loop"];

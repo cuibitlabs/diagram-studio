@@ -34,6 +34,7 @@ import { extractBrand, describeBrandReport } from "../src/theme/brand.js";
 import { LEVELS, simplify } from "../src/edit/simplify.js";
 import { describeDiff, diffProjects, stableRedraw } from "../src/edit/diff.js";
 import { parse as parseDSL, stringify as stringifyDSL } from "../src/dsl/index.js";
+import { toASCII } from "../src/export/ascii.js";
 
 const IMPORTABLE = new Set([".mmd", ".mermaid", ".md", ".drawio", ".xml", ".json", ".ds"]);
 
@@ -95,10 +96,12 @@ function serialise(diagram, path, options = {}) {
       return toDrawio(diagram);
     case ".ds":
       return stringifyDSL(diagram);
+    case ".txt":
+      return toASCII(diagram, options.width ? { width: Number(options.width) } : {});
     case ".json":
       return `${JSON.stringify(diagram, null, 2)}\n`;
     default:
-      return die(`unsupported output "${extname(path)}". Use .svg, .html, .mmd, .drawio or .json`);
+      return die(`unsupported output "${extname(path)}". Use .svg, .html, .mmd, .drawio, .ds, .txt or .json`);
   }
 }
 
@@ -286,7 +289,8 @@ async function main() {
   audit <project.json>     contrast, composition and import fidelity report
   types                    list the ${DIAGRAM_TYPES.length} diagram types
 
-Formats in and out: .ds (the diagram language) .svg .html .mmd .drawio .json`);
+Formats in: .ds .mmd .mermaid .md .drawio .xml .json
+Formats out: .ds .svg .html .mmd .drawio .json .txt (box-drawing, for a README)`);
     return;
   }
   const handler = commands[command];

@@ -38,6 +38,7 @@ export { parseMermaid, describeProvenance } from "./import/mermaid.js";
 export { parseDrawio, unwrapModel } from "./import/drawio.js";
 export { toMermaid } from "./export/mermaid.js";
 export { toDrawio } from "./export/drawio.js";
+export { toASCII } from "./export/ascii.js";
 
 export { PALETTE_IDS, completeTheme, paletteOf } from "./theme/palettes.js";
 export { auditTheme, contrastRatio, repairTheme, simulateTheme } from "./theme/contrast.js";

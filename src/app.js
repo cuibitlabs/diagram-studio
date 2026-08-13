@@ -43,6 +43,7 @@ import {
   slug,
 } from "./exporters.js";
 import { ROLE_SHAPE, SHAPES } from "./render/shapes.js";
+import { MOTIONS, STYLES } from "./render/skin.js";
 import { completeTheme } from "./theme/palettes.js";
 import { CVD_TYPES, auditTheme, simulateTheme } from "./theme/contrast.js";
 import { align, distribute, duplicate, nodesInMarquee } from "./editor/selection.js";
@@ -144,6 +145,10 @@ Customer -> Web app -> API gateway -> Orders service -> Order store</textarea>
         <label>Canvas colour<div class="color-row"><input id="paper-color" type="color"/><input id="paper-text" /></div></label>
         <label>Accent colour<div class="color-row"><input id="accent-color" type="color"/><input id="accent-text" /></div></label>
         <label>Secondary colour<div class="color-row"><input id="accent2-color" type="color"/><input id="accent2-text" /></div></label>
+        <div class="position-grid">
+          <label>Style<select id="style-select">${STYLES.map((style) => `<option value="${style}">${style}</option>`).join("")}</select></label>
+          <label>Motion<select id="motion-select"><option value="">none</option>${MOTIONS.filter(Boolean).map((motion) => `<option value="${motion}">${motion}</option>`).join("")}</select></label>
+        </div>
         <label class="check-row"><input id="grid-check" type="checkbox"/><span>Show alignment grid</span></label>
         <label class="check-row"><input id="title-check" type="checkbox"/><span>Draw title on the canvas</span></label>
         <div class="section-heading"><span>Review</span></div>
@@ -385,6 +390,8 @@ function syncInspector() {
   syncColor("accent2", diagram.theme.accent2);
   $("#grid-check").checked = Boolean(diagram.settings.grid);
   $("#title-check").checked = Boolean(diagram.settings.showTitle);
+  $("#style-select").value = diagram.settings.style ?? "editorial";
+  $("#motion-select").value = diagram.settings.motion ?? "";
 }
 
 function syncColor(name, value) {
@@ -662,6 +669,8 @@ $("#cvd-select").addEventListener("change", (event) => {
 });
 $("#grid-check").addEventListener("change", (event) => updateDiagram((next) => (next.settings.grid = event.target.checked)));
 $("#title-check").addEventListener("change", (event) => updateDiagram((next) => (next.settings.showTitle = event.target.checked)));
+$("#style-select").addEventListener("change", (event) => updateDiagram((next) => (next.settings.style = event.target.value)));
+$("#motion-select").addEventListener("change", (event) => updateDiagram((next) => (next.settings.motion = event.target.value || undefined)));
 
 for (const [selector, key] of [["#node-label", "label"], ["#node-sublabel", "sublabel"], ["#node-role", "role"], ["#node-shape", "shape"], ["#node-tone", "tone"]]) {
   $(selector).addEventListener("input", (event) => {
