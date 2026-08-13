@@ -155,4 +155,7 @@ export const ROLE_SHAPE = {
   terminal: "stadium",
   state: "stadium",
   event: "circle",
+  // Same box, different outline treatment in the skin.
+  legacy: "box",
+  optional: "box",
 };

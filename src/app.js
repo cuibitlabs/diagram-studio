@@ -38,7 +38,9 @@ import {
   exportPNG,
   exportProject,
   exportSVG,
+  exportText,
   exportVariants,
+  slug,
 } from "./exporters.js";
 import { ROLE_SHAPE, SHAPES } from "./render/shapes.js";
 import { completeTheme } from "./theme/palettes.js";
@@ -46,6 +48,7 @@ import { CVD_TYPES, auditTheme, simulateTheme } from "./theme/contrast.js";
 import { align, distribute, duplicate, nodesInMarquee } from "./editor/selection.js";
 import { buildCommands, filterCommands } from "./editor/commands.js";
 import { simplify } from "./edit/simplify.js";
+import { parse as parseDSL, stringify as stringifyDSL } from "./dsl/index.js";
 import { present } from "./editor/present.js";
 
 const icons = {
@@ -102,7 +105,7 @@ Customer -> Web app -> API gateway -> Orders service -> Order store</textarea>
           <button id="toggle-grid">${icon("grid")}<span>Grid</span></button>
         </div>
         <div class="section-heading"><span>Import</span><span>Mermaid · draw.io · JSON</span></div>
-        <label class="drop-zone" for="file-import">${icon("import")}<span><b>Choose a source file</b><small>.mmd, .mermaid, .md, .drawio, .xml, .diagram.json</small></span><input id="file-import" type="file" accept=".mmd,.mermaid,.md,.drawio,.xml,.json" /></label>
+        <label class="drop-zone" for="file-import">${icon("import")}<span><b>Choose a source file</b><small>.ds, .mmd, .mermaid, .md, .drawio, .xml, .diagram.json</small></span><input id="file-import" type="file" accept=".ds,.mmd,.mermaid,.md,.drawio,.xml,.json" /></label>
         <button class="text-button" id="paste-source">${icon("code")} Paste source instead</button>
       </section>
       <section class="panel-view" data-view="library">
@@ -189,6 +192,7 @@ Customer -> Web app -> API gateway -> Orders service -> Order store</textarea>
     <button data-export="variants"><b>Variants</b><small>Light, dark and titled SVGs</small></button>
     <button data-export="mermaid"><b>Mermaid</b><small>Back into a README</small></button>
     <button data-export="drawio"><b>draw.io</b><small>Uncompressed, diffable XML</small></button>
+    <button data-export="ds"><b>Diagram language</b><small>Readable .ds source for git</small></button>
     <button data-export="copy"><b>Copy SVG</b><small>Paste into design tools</small></button>
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>`;
@@ -501,6 +505,7 @@ async function runExport(format) {
     if (format === "html") exportHTML(diagram);
     if (format === "variants") exportVariants(diagram);
     if (format === "drawio") exportDrawio(diagram);
+    if (format === "ds") exportText(stringifyDSL(diagram), `${slug(diagram.title)}.ds`, "text/plain");
     if (format === "copy") await copySVG(diagram);
     let note = "";
     if (format === "mermaid") {
@@ -581,6 +586,7 @@ async function importFile(file) {
     let next;
     if (/\.(mmd|mermaid|md)$/i.test(file.name)) next = parseMermaid(source);
     else if (/\.(drawio|xml)$/i.test(file.name)) next = await parseDrawio(source);
+    else if (/\.ds$/i.test(file.name)) next = parseDSL(source);
     else next = parseProject(source);
     replaceDiagram(next, `${file.name} imported`);
     if (next.provenance) setStatus(describeProvenance(next.provenance).split("\n")[0]);
@@ -596,7 +602,13 @@ $("#import-source").addEventListener("click", async (event) => {
   event.preventDefault();
   try {
     const source = $("#source-text").value;
-    const next = source.trim().startsWith("<") ? await parseDrawio(source) : parseMermaid(source);
+    const trimmed = source.trim();
+    // Pick the language from the text rather than making the author declare it.
+    const next = trimmed.startsWith("<")
+      ? await parseDrawio(source)
+      : /^(flowchart|graph|sequenceDiagram|stateDiagram|erDiagram|gantt|journey|mindmap|quadrantChart|pie|timeline)\b/i.test(trimmed)
+        ? parseMermaid(source)
+        : parseDSL(source);
     $("#source-dialog").close();
     replaceDiagram(next, "Pasted source imported");
     if (next.provenance) setStatus(describeProvenance(next.provenance).split("\n")[0]);

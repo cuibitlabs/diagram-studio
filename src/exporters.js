@@ -21,6 +21,10 @@ function save(blob, filename) {
   setTimeout(() => URL.revokeObjectURL(link.href), 1000);
 }
 
+/** Download arbitrary text — used by the diagram-language export. */
+export const exportText = (content, filename, mime = "text/plain") =>
+  save(new Blob([content], { type: `${mime};charset=utf-8` }), filename);
+
 export const slug = (value) =>
   String(value ?? "")
     .toLowerCase()

@@ -33,8 +33,9 @@ import { auditTheme } from "../src/theme/contrast.js";
 import { extractBrand, describeBrandReport } from "../src/theme/brand.js";
 import { LEVELS, simplify } from "../src/edit/simplify.js";
 import { describeDiff, diffProjects, stableRedraw } from "../src/edit/diff.js";
+import { parse as parseDSL, stringify as stringifyDSL } from "../src/dsl/index.js";
 
-const IMPORTABLE = new Set([".mmd", ".mermaid", ".md", ".drawio", ".xml", ".json"]);
+const IMPORTABLE = new Set([".mmd", ".mermaid", ".md", ".drawio", ".xml", ".json", ".ds"]);
 
 function parseArgs(argv) {
   const positional = [];
@@ -67,6 +68,7 @@ async function loadProject(path) {
     return parsed;
   }
   if (extension === ".drawio" || extension === ".xml") return parseDrawio(source);
+  if (extension === ".ds") return parseDSL(source);
   return parseMermaid(source);
 }
 
@@ -91,6 +93,8 @@ function serialise(diagram, path, options = {}) {
       return `${toMermaid(diagram).text}\n`;
     case ".drawio":
       return toDrawio(diagram);
+    case ".ds":
+      return stringifyDSL(diagram);
     case ".json":
       return `${JSON.stringify(diagram, null, 2)}\n`;
     default:
@@ -282,7 +286,7 @@ async function main() {
   audit <project.json>     contrast, composition and import fidelity report
   types                    list the ${DIAGRAM_TYPES.length} diagram types
 
-Output formats: .svg .html .mmd .drawio .json`);
+Formats in and out: .ds (the diagram language) .svg .html .mmd .drawio .json`);
     return;
   }
   const handler = commands[command];

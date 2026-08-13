@@ -23,7 +23,8 @@ text{fill:var(--ink)}
 .ds-node.tone-accent .node-title,.ds-node.tone-accent .node-sub{fill:var(--on-accent)}
 .ds-node.tone-muted .card{fill:var(--paper)}
 .ds-node.tone-muted .node-title{fill:var(--muted)}
-.ds-node.role-external .card,.ds-node.role-optional .card{stroke-dasharray:6 6}
+.ds-node.role-external .card,.ds-node.role-optional .card,.ds-node.role-legacy .card{stroke-dasharray:6 6}
+.ds-node.role-legacy .node-title{fill:var(--muted)}
 .ds-node.role-security .card{stroke:var(--accent-2);stroke-width:1.5}
 .ds-node.role-store .card{fill:var(--paper)}
 .ds-node.is-selected .card{stroke:var(--accent-2);stroke-width:2.5}
