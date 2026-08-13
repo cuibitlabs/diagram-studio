@@ -17,7 +17,9 @@ text{fill:var(--ink)}
 .ds-node .card-rim{fill:none;stroke:var(--line);stroke-width:1.25}
 .ds-node.is-dashed .card{stroke-dasharray:6 6}
 .ds-node .node-title{fill:var(--ink)}
-.ds-node .node-sub{fill:var(--muted)}
+.ds-node .node-sub{fill:var(--soft)}
+.ds-node.tone-outline .card{fill:var(--accent-tint);stroke:var(--accent);stroke-width:1.5}
+.ds-node.tone-outline .node-title{fill:var(--ink)}
 .ds-node .node-icon{color:var(--muted)}
 .ds-node.tone-accent .card{fill:var(--accent);stroke:var(--accent)}
 .ds-node.tone-accent .node-title,.ds-node.tone-accent .node-sub{fill:var(--on-accent)}
@@ -36,13 +38,17 @@ text{fill:var(--ink)}
 .ds-edge.is-dashed .line{stroke-dasharray:7 6}
 .ds-edge.tone-accent .line{stroke:var(--accent);stroke-width:2}
 .ds-edge.kind-weak .line{stroke:var(--line);stroke-width:1}
+.ds-edge.kind-external .line{stroke:var(--link)}
+.ds-edge.kind-external .edge-label-text{fill:var(--link)}
 .ds-edge.is-selected .line{stroke:var(--accent-2);stroke-width:2.5}
 .ds-edge .edge-label rect{fill:var(--paper);stroke:none}
 .ds-edge .edge-label-text{fill:var(--muted)}
 
 .lane rect,.group rect{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:4 5}
-.lane.is-filled rect{fill:var(--panel);stroke-dasharray:none}
+.lane.is-filled rect{fill:var(--paper-2);stroke-dasharray:none}
 .lane-title{fill:var(--muted)}
+.series-0{fill:var(--series-0)}.series-1{fill:var(--series-1)}.series-2{fill:var(--series-2)}
+.series-line-0{stroke:var(--series-0)}.series-line-1{stroke:var(--series-1)}.series-line-2{stroke:var(--series-2)}
 
 .plot-bg{fill:var(--panel);stroke:var(--line);stroke-width:1}
 .axis-line{fill:none;stroke:var(--line-strong);stroke-width:1.25}
@@ -124,9 +130,15 @@ const MOTION = `
 .motion-reveal .ds-node,.motion-reveal .ds-edge{animation:ds-reveal .5s ease both;animation-delay:calc(var(--step,0)*.14s)}
 .motion-loop .ds-edge .line{stroke-dasharray:6 8;animation:ds-flow 1.6s linear infinite}
 .motion-loop .ds-edge.tone-accent .line{animation-duration:1.1s}
+.motion-ready .motion-step .ds-node,.motion-ready .motion-step .ds-edge{opacity:.12;transition:opacity .3s ease}
+.motion-ready .motion-step .ds-node.is-shown,.motion-ready .motion-step .ds-edge.is-shown{opacity:1}
 @media (prefers-reduced-motion: reduce){
 .motion-reveal .ds-node,.motion-reveal .ds-edge{animation:none;opacity:1;transform:none}
 .motion-loop .ds-edge .line{animation:none;stroke-dasharray:none}
+.motion-ready .motion-step .ds-node,.motion-ready .motion-step .ds-edge{transition:none}
+}
+@media print{
+.motion-ready .motion-step .ds-node,.motion-ready .motion-step .ds-edge{opacity:1}
 }
 `;
 
@@ -159,4 +171,4 @@ export const skinCSS = (options = {}) =>
 export const SKIN_RULES = RULES + VARIANTS + MOTION + OVERLAYS;
 
 export const STYLES = ["editorial", "sketchy", "terminal"];
-export const MOTIONS = ["", "reveal", "loop"];
+export { MOTION_MODES as MOTIONS } from "./motion.js";

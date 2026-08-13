@@ -120,15 +120,18 @@ export const THEME_PAIRS = [
   { id: "accent2-on-paper", fg: "accent2", bg: "paper", target: TARGET.graphics, note: "secondary marks" },
   { id: "ink-on-paper", fg: "ink", bg: "paper", target: TARGET.bodyText, note: "diagram titles and free text" },
   { id: "ink-on-panel", fg: "ink", bg: "panel", target: TARGET.bodyText, note: "node titles" },
-  { id: "muted-on-panel", fg: "muted", bg: "panel", target: TARGET.bodyText, note: "node sublabels at 12px" },
+  { id: "muted-on-panel", fg: "muted", bg: "panel", target: TARGET.bodyText, note: "lane and section labels" },
   { id: "muted-on-paper", fg: "muted", bg: "paper", target: TARGET.bodyText, note: "axis labels and captions" },
+  { id: "soft-on-panel", fg: "soft", bg: "panel", target: TARGET.bodyText, note: "node sublabels at 12px" },
+  { id: "soft-on-paper2", fg: "soft", bg: "paper2", target: TARGET.bodyText, note: "sublabels inside a filled lane" },
+  { id: "link-on-paper", fg: "link", bg: "paper", target: TARGET.bodyText, note: "external call labels" },
   { id: "linestrong-on-paper", fg: "lineStrong", bg: "paper", target: TARGET.graphics, note: "connectors" },
   { id: "onaccent-on-accent", fg: "onAccent", bg: "accent", target: TARGET.bodyText, note: "text inside an accent node" },
   { id: "line-on-panel", fg: "line", bg: "panel", target: 1.4, decorative: true, note: "hairline borders (decorative)" },
 ];
 
 /** Roles that are surfaces: repair never moves these. */
-export const BACKGROUND_ROLES = new Set(["paper", "panel"]);
+export const BACKGROUND_ROLES = new Set(["paper", "paper2", "panel"]);
 
 /**
  * Audit a theme.

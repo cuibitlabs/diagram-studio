@@ -8,7 +8,7 @@
 import { BOX } from "../engine/box.js";
 import { layoutParagraph, measureText } from "../engine/text.js";
 import { TYPE, applyCase, fontAttrs } from "../engine/typography.js";
-import { ROLE_SHAPE, shapePath } from "./shapes.js";
+import { ROLE_SHAPE, shapePadding, shapePath } from "./shapes.js";
 
 export const esc = (value = "") =>
   String(value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
@@ -42,8 +42,13 @@ export const shapeOf = (node, fallback = "box") => node.shape || ROLE_SHAPE[node
 export function nodeText(node, spec = {}) {
   const shape = shapeOf(node, spec.shape);
   const geometry = shapePath(shape, { x: 0, y: 0, w: node.w, h: node.h }, spec.corner ?? 8);
-  const padX = (spec.padX ?? BOX.padX) + (geometry.inset.x ?? 0);
-  const padY = (spec.padY ?? BOX.padY) + (geometry.inset.y ?? 0);
+  // The padding here must match what `sizeAll` reserved when it measured the
+  // box. Taking it from `geometry.inset` instead double-counted the allowance
+  // for stadiums, diamonds and hexagons, which squeezed the line box until
+  // single words were hard-broken ("Customer" became "Custo" / "mer").
+  const allowance = shapePadding(shape);
+  const padX = (spec.padX ?? BOX.padX) + allowance.x / 2;
+  const padY = (spec.padY ?? BOX.padY) + allowance.y / 2;
   const titleStyle = spec.titleStyle ?? (spec.dense ? TYPE.nodeTitleSmall : TYPE.nodeTitle);
   const subStyle = spec.subStyle ?? TYPE.nodeSub;
   const iconAllowance = node.icon ? BOX.iconSize + BOX.iconGap : 0;

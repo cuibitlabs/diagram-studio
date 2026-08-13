@@ -42,6 +42,7 @@ import { toPPTX } from "../src/export/pptx.js";
 import { toReport } from "../src/export/report.js";
 import { toDiffSVG } from "../src/export/diffview.js";
 import { toDeckHTML, toDeckPPTX } from "../src/export/deck.js";
+import { AUDIENCES, PRESET_IDS } from "../src/render/presets.js";
 
 const IMPORTABLE = new Set([".mmd", ".mermaid", ".md", ".drawio", ".xml", ".json", ".ds"]);
 
@@ -78,6 +79,20 @@ async function loadProject(path) {
   if (extension === ".drawio" || extension === ".xml") return parseDrawio(source);
   if (extension === ".ds") return parseDSL(source);
   return parseMermaid(source);
+}
+
+function applyDials(diagram, flags) {
+  if (flags.preset) {
+    if (!PRESET_IDS.includes(String(flags.preset))) die(`unknown preset "${flags.preset}". Use ${PRESET_IDS.join(", ")}.`);
+    diagram.settings.preset = String(flags.preset);
+  }
+  if (flags.audience) {
+    if (!AUDIENCES.includes(String(flags.audience))) die(`unknown audience "${flags.audience}". Use ${AUDIENCES.join(", ")}.`);
+    diagram.settings.audience = String(flags.audience);
+  }
+  if (flags.motion) diagram.settings.motion = String(flags.motion);
+  if (flags.style) diagram.settings.style = String(flags.style);
+  return diagram;
 }
 
 function applyTheme(diagram, id) {
@@ -148,14 +163,14 @@ const commands = {
     const diagram = flags.prompt
       ? createFromPrompt(String(flags.prompt))
       : createDiagram(type, flags.title ? String(flags.title) : undefined);
-    applyTheme(diagram, flags.theme);
+    applyDials(applyTheme(diagram, flags.theme), flags);
     const out = String(flags.out ?? `${type}.svg`);
     await write(out, serialise(diagram, out, { title: flags.title !== undefined }));
   },
 
   async import({ positional, flags }) {
     const input = positional[0] ?? die("an input file is required");
-    let diagram = applyTheme(await loadProject(input), flags.theme);
+    let diagram = applyDials(applyTheme(await loadProject(input), flags.theme), flags);
 
     // `--onto` re-imports a changed source without throwing away the layout the
     // author had already settled on.
@@ -221,7 +236,7 @@ const commands = {
 
   async render({ positional, flags }) {
     const input = positional[0] ?? die("a project file is required");
-    const diagram = applyTheme(await loadProject(input), flags.theme);
+    const diagram = applyDials(applyTheme(await loadProject(input), flags.theme), flags);
     const out = String(flags.out ?? `${basename(input, extname(input))}.svg`);
     await write(out, serialise(diagram, out, { title: flags.title === true }));
   },
@@ -229,7 +244,7 @@ const commands = {
   async convert({ positional, flags }) {
     const [input, output] = positional;
     if (!input || !output) die("usage: diagram-studio convert <in> <out>");
-    const diagram = applyTheme(await loadProject(input), flags.theme);
+    const diagram = applyDials(applyTheme(await loadProject(input), flags.theme), flags);
     await write(output, serialise(diagram, output, { flat: flags.flat === true, width: flags.width }));
   },
 
@@ -244,7 +259,7 @@ const commands = {
     let ok = 0;
     for (const file of entries) {
       try {
-        const diagram = applyTheme(await loadProject(join(dir, file)), flags.theme);
+        const diagram = applyDials(applyTheme(await loadProject(join(dir, file)), flags.theme), flags);
         const stem = basename(file, extname(file));
         if (flags.variants) {
           for (const [suffix, palette] of [["light", flags.theme ?? "editorial"], ["dark", "midnight"]]) {
@@ -318,7 +333,7 @@ async function main() {
 
   create <type>            new diagram from a type's starter content
     --prompt "…"           compose from a description instead
-    --title "…"  --theme id  -o out.svg
+    --title "…" --theme id --preset id --audience level -o out.svg
   import <file>            .mmd, .mermaid, .md, .drawio, .xml, .diagram.json
     --onto <project.json>  keep the existing layout for everything that survived
   simplify <file>          editorial simplification with a fidelity ledger
@@ -336,6 +351,12 @@ async function main() {
   validate <project.json>  structural check
   audit <project.json>     contrast, composition and import fidelity report
   types                    list the ${DIAGRAM_TYPES.length} diagram types
+
+Dials (any command that renders):
+  --preset    ${PRESET_IDS.join(" ")}
+  --audience  ${AUDIENCES.join(" ")}
+  --style     editorial sketchy terminal
+  --motion    reveal step loop
 
 Formats in:  .ds .mmd .mermaid .md .drawio .xml .json
 Formats out: .ds .svg .html .mmd .drawio .json

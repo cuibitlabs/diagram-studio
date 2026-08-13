@@ -62,7 +62,7 @@ test("looping motion animates the connector dash, not the layout", () => {
   const svg = buildSVG(diagram);
   assert.match(svg, /motion-loop/);
   assert.match(SKIN_RULES, /\.motion-loop .ds-edge .line\{stroke-dasharray/);
-  assert.deepEqual(MOTIONS, ["", "reveal", "loop"]);
+  assert.deepEqual(MOTIONS, ["", "reveal", "step", "loop"]);
 });
 
 test("annotations render in the margin with a leader to their target", () => {

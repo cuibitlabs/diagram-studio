@@ -31,7 +31,9 @@ orders ~> store "read/write"
 | `direction LR\|TB\|RL\|BT` | flow direction where the type supports one |
 | `describe "…"` | the accessible description |
 | `style editorial\|sketchy\|terminal` | style variant |
-| `motion reveal\|loop` | opt-in animation |
+| `motion reveal\|step\|loop` | opt-in animation |
+| `preset fit\|doc-inline\|doc-wide\|slide-16x9\|…` | pin the canvas to a destination |
+| `audience executive\|mixed\|engineer` | how much technical detail is drawn |
 | `unit "…"` | the unit for a chart's values |
 | `axis x "Label" "Low" "High"` | axis names for quadrant, matrix and scatter |
 | `hub "Label" ["Sublabel"]` | the centre of a loop |

@@ -16,6 +16,7 @@ import { toFlatSVG } from "./export/flat.js";
 import { toReact, toWebComponent } from "./export/component.js";
 import { toASCII } from "./export/ascii.js";
 import { toReport } from "./export/report.js";
+import { MOTION_CONTROL_CSS, isStepped, motionControls, motionController, stepTotal } from "./render/motion.js";
 
 export { toASCII, toDrawio, toExcalidrawJSON, toFlatSVG, toMermaid, toPPTX, toReact, toReport, toWebComponent };
 
@@ -55,6 +56,11 @@ export function exportSVG(diagram, options = {}) {
 
 export function htmlDocument(diagram, options = {}) {
   const svg = renderForExport(diagram, options);
+  const stepped = isStepped(diagram);
+  // The controls and the script are only added for a stepped diagram, and even
+  // then the figure is complete before either of them runs.
+  const controls = stepped ? motionControls(stepTotal(svg)) : "";
+  const script = stepped ? `<script>${motionController()}</script>` : "";
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -67,13 +73,16 @@ export function htmlDocument(diagram, options = {}) {
   figure{margin:0;max-width:100%}
   svg{max-width:100%;height:auto;display:block}
   figcaption{margin-top:16px;color:${diagram.theme.muted};font-size:14px;max-width:72ch}
+${stepped ? MOTION_CONTROL_CSS : ""}
 </style>
 </head>
 <body>
-<figure>
+<figure data-motion-figure>
   ${svg}
   ${diagram.description ? `<figcaption>${diagram.description}</figcaption>` : ""}
+  ${controls}
 </figure>
+${script}
 </body>
 </html>`;
 }

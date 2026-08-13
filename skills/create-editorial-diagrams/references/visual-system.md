@@ -7,16 +7,26 @@ Roles, not colour names. `paper` is the page, `panel` is a surface, `ink` is bod
 | Token | Role |
 | --- | --- |
 | `paper` | canvas |
+| `paper2` | a recessed surface: filled lanes, plot grounds |
 | `panel` | node and plot surfaces |
 | `ink` | primary text |
-| `muted` | secondary text, axis labels |
+| `muted` | secondary text, lane and section labels |
+| `soft` | a third weight below `muted`: sublabels, boundary labels |
 | `accent` | the focal element, at most two per diagram |
+| `accentTint` | the fill behind an accent-**bordered** box, where a solid accent would shout |
 | `accent2` | a secondary cue, and the selection ring in the editor |
+| `link` | calls that leave the system — an external arrow that reads differently without spending the accent |
 | `line` | hairlines and borders |
 | `lineStrong` | connectors and arrowheads |
 | `onAccent` | text sitting on the accent |
 
-Eight palettes ship, four light and two dark plus two neutral, and **every one is audited**: `scripts/lint-a11y.mjs` checks nine contrast pairs per palette at the sizes the type scale actually uses, and fails the build on any that misses.
+Eight palettes ship, and **every one is audited**: `scripts/lint-a11y.mjs` checks twelve contrast pairs per palette at the sizes the type scale actually uses, and fails the build on any that misses.
+
+### Series colours
+
+For the chart types that genuinely compare more than one entity, `--series-0…2`
+provide quieter companions to the accent. The accent stays reserved for the
+focal series: a chart with six equally loud series has no focal point at all.
 
 ## Typography
 

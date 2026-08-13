@@ -1,5 +1,63 @@
 # Output specification
 
+Four dials decide what a diagram becomes. Set them **before** drawing: they
+change the canvas, the wording and the node count, so retrofitting them means
+redrawing.
+
+| Dial | Question | Default |
+| --- | --- | --- |
+| **Canvas preset** | Where does this land, and how big is the stage? | `fit` |
+| **Audience** | How technical should the wording be? | `mixed` |
+| **Detail level** | Reproduce everything, or compress it? | `balanced` |
+| **Format** | What file does the destination take? | `svg` |
+
+```bash
+diagram-studio create architecture --preset slide-16x9 --audience executive -o slide.svg
+```
+
+```ds
+architecture "Checkout platform"
+preset slide-16x9
+audience executive
+```
+
+## Canvas presets
+
+`fit` follows the drawing, which is right for a document and wrong for a deck:
+a deck wants every diagram on the same stage whatever it contains. A named
+preset pins the canvas and centres the drawing inside it, shrinking to fit but
+**never enlarging** — a four-node picture blown up to fill a slide looks like it
+is hiding something.
+
+| Preset | Canvas | For |
+| --- | --- | --- |
+| `fit` | follows the content | documents, READMEs, anything inline |
+| `doc-inline` | 720×480 | inside a text column |
+| `doc-wide` | 1200×720 | full-bleed in a document |
+| `slide-16x9` | 1600×900 | Keynote, PowerPoint, Google Slides |
+| `slide-4x3` | 1440×1080 | older projector stacks |
+| `social-og` | 1200×632 | link previews |
+| `social-square` | 1080×1080 | feed posts |
+| `print-a4-landscape` | 1684×1192 | handouts at 144 dpi |
+
+Every value is divisible by 4, so the grid rule still holds.
+
+## Audience
+
+The same model serves a board and an on-call engineer. What differs is how much
+technical detail is *drawn* — a decision about the reader, not about the system.
+The dial runs before sizing, so the boxes shrink with the text rather than
+keeping a gap where the detail used to be.
+
+| Level | Keeps | Removes |
+| --- | --- | --- |
+| `executive` | names, structure, the accent | sublabels, icons, badges, protocol labels on edges |
+| `mixed` (default) | sublabels that say something | sublabels that are only a protocol or a port |
+| `engineer` | everything, including ports and identifiers | nothing |
+
+Shrinking a detailed diagram is not the same as redrawing it for a different
+audience: detail removed by scaling is still detail the reader tries to parse.
+
 ## Pick the destination first
 
 | Destination | Size | Minimum label | Notes |

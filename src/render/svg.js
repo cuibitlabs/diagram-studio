@@ -12,6 +12,8 @@ import { assignRanks } from "../engine/layout/graph.js";
 import { annotationMarkup } from "./annotations.js";
 import { getRenderer } from "../types/index.js";
 import { iconSymbols, iconsUsedBy } from "./icons.js";
+import { seriesColour } from "../theme/palettes.js";
+import { CANVAS_PRESETS, applyAudience, fitToPreset, presetFor } from "./presets.js";
 import { esc, text } from "./primitives.js";
 import { skinCSS } from "./skin.js";
 
@@ -72,14 +74,21 @@ export function themeVariables(theme, settings = {}, uid = "d") {
     `--font-serif:${FONT_STACK[FONT_SERIF]}`,
     `--sketch:url(#${uid}-sketch)`,
     `--paper:${theme.paper}`,
+    `--paper-2:${theme.paper2 ?? theme.paper}`,
     `--panel:${theme.panel}`,
     `--ink:${theme.ink}`,
     `--muted:${theme.muted}`,
+    `--soft:${theme.soft ?? theme.muted}`,
     `--accent:${theme.accent}`,
+    `--accent-tint:${theme.accentTint ?? "transparent"}`,
     `--accent-2:${theme.accent2}`,
+    `--link:${theme.link ?? theme.accent2}`,
     `--line:${theme.line}`,
     `--line-strong:${theme.lineStrong ?? theme.ink}`,
     `--on-accent:${theme.onAccent ?? "#ffffff"}`,
+    `--series-0:${seriesColour(theme, 0)}`,
+    `--series-1:${seriesColour(theme, 1)}`,
+    `--series-2:${seriesColour(theme, 2)}`,
     `--corner:${settings.corner ?? 8}px`,
   ].join(";");
 }
@@ -112,6 +121,10 @@ export function buildSVG(diagram, options = {}) {
     margin,
   };
 
+  // The audience dial runs before layout so boxes are measured against the text
+  // that will actually be drawn.
+  const audience = applyAudience(diagram, settings.audience);
+
   // Motion is opt-in and staggered by reading order, so a reveal follows the
   // same sequence a reader would take.
   if (settings.motion && diagram.edges?.length) {
@@ -129,7 +142,16 @@ export function buildSVG(diagram, options = {}) {
 
   let width = diagram.width || CANVAS.minWidth;
   let height = diagram.height || CANVAS.minHeight;
-  if (fit && layout.width && layout.height) {
+
+  // A named preset pins the canvas and centres the drawing in it — a deck wants
+  // every diagram on the same stage regardless of what it contains.
+  const preset = presetFor(settings.preset);
+  const pinned = preset.width ? fitToPreset(diagram, preset, margin) : null;
+
+  if (pinned) {
+    width = pinned.width;
+    height = pinned.height;
+  } else if (fit && layout.width && layout.height) {
     width = ceilTo(Math.min(CANVAS.maxWidth, Math.max(CANVAS.minWidth, layout.width + margin.left + margin.right)), 8);
     height = ceilTo(Math.min(CANVAS.maxHeight, Math.max(CANVAS.minHeight, layout.height + margin.top + margin.bottom)), 8);
   }
@@ -149,6 +171,7 @@ export function buildSVG(diagram, options = {}) {
     "diagram-content",
     settings.style && settings.style !== "editorial" ? `style-${settings.style}` : "",
     settings.motion ? `motion-${settings.motion}` : "",
+    audience.audience !== "mixed" ? `audience-${audience.audience}` : "",
   ].filter(Boolean).join(" ");
 
   return `<svg xmlns="http://www.w3.org/2000/svg" class="ds-svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" role="img" aria-labelledby="${uid}-title ${uid}-desc" style="${themeVariables(diagram.theme, settings, uid)}">

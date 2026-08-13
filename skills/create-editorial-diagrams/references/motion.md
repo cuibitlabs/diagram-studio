@@ -12,15 +12,37 @@ Motion is opt-in, carries no meaning on its own, and is switched off entirely fo
 
 ## Modes
 
-| Mode | What it does | Use it for |
-| --- | --- | --- |
-| _(unset)_ | Nothing moves. | Everything, unless there is a reason. |
-| `reveal` | Elements fade and rise in, staggered by rank. | A diagram embedded in a page that is being talked through. |
-| `loop` | The connector dash travels along the path. | A cycle or a pipeline where continuous flow is the subject. |
+| Mode | What it does | Controls | Use it for |
+| --- | --- | --- | --- |
+| _(unset)_ | Nothing moves. | — | Everything, unless there is a reason. |
+| `reveal` | Elements fade and rise in, staggered by rank. One run, no replay. | none, CSS only | A diagram embedded in a page that is being talked through. |
+| `step` | Paused states the reader advances. | Play/Pause, ←/→, Show all, live step count | Teaching, comparing two traces, walking a room through a decision. |
+| `loop` | The connector dash travels along the path. | none, CSS only | A cycle or a pipeline where continuous flow is the subject. |
+
+Only `loop` repeats. `reveal` runs once and finishes complete; it never restarts on scroll.
+
+## The `step` contract
+
+`step` is the only mode that needs script, which is exactly where motion
+contracts usually break — the diagram stops working when the script does not
+run. So:
+
+1. **The static frame is the source.** Every node, label and connector is in the markup and fully visible before any script runs. The rules that dim anything sit under `.motion-ready`, a class the controller adds *to itself*.
+2. **No script, no problem.** JavaScript disabled, print, or a stable capture all give the finished diagram.
+3. **`?motion=static` opts out** without editing the file — use it for screenshots.
+4. **Reduced motion removes the transition, not the stepping.** The reader can still advance; nothing animates.
+5. **The script never touches labels or values.** It toggles one class and updates a counter. No fetches, no markup injection.
+6. **A live region announces the step**, so it is followable without sight.
+
+The controls ship only when a diagram opts in, and only in the HTML export — an SVG has nowhere to put them.
 
 ```ds
 architecture "Checkout platform"
-motion reveal
+motion step
+```
+
+```bash
+diagram-studio create architecture --motion step -o walkthrough.html
 ```
 
 Or in a project: `"settings": { "motion": "reveal" }`.

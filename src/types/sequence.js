@@ -6,10 +6,10 @@
  * Returns are dashed with an open arrowhead; self-calls loop to the right.
  */
 
-import { measureNodeBox } from "../engine/box.js";
 import { measureText, roundTo } from "../engine/text.js";
 import { TYPE } from "../engine/typography.js";
 import { nodeCard, text } from "../render/primitives.js";
+import { sizeAll } from "./_base.js";
 
 const HEAD_GAP = 64;
 const FIRST_MESSAGE = 72;
@@ -28,11 +28,11 @@ export default {
 
   layout(diagram, ctx) {
     const nodes = diagram.nodes;
+    // Sized through the shared path so the shape allowance a participant needs
+    // — actors are stadiums — is reserved before the heads are placed.
+    sizeAll(nodes, ctx, { minW: 144, maxW: 224, minH: 64, maxSubLines: 1 });
     let cursor = ctx.margin.left;
     for (const node of nodes) {
-      const box = measureNodeBox(node, { minW: 144, maxW: 224, minH: 64, maxSubLines: 1 });
-      node.w = box.w;
-      node.h = box.h;
       node.x = roundTo(cursor);
       node.y = roundTo(ctx.margin.top);
       cursor += node.w + HEAD_GAP;

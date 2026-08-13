@@ -15,7 +15,7 @@
 import { DIAGRAM_TYPES, createDiagram } from "../src/model.js";
 import { buildSVG, uidFor } from "../src/render/svg.js";
 import { rectOf, rectsOverlap } from "../src/engine/geom.js";
-import { measureNodeBox } from "../src/engine/box.js";
+import { nodeText } from "../src/render/primitives.js";
 import { getRenderer } from "../src/types/index.js";
 
 const TOLERANCE = 4;
@@ -80,10 +80,19 @@ for (const type of DIAGRAM_TYPES) {
     }
   }
 
-  // 5. truncation at starter size
+  // 5. truncation, measured through the same path the renderer draws with.
+  // Checking `measureNodeBox` here instead hid a real defect: sizing and
+  // drawing disagreed about shape padding, so text was clipped in the output
+  // while the sizing pass reported it fitting.
   for (const node of diagram.nodes) {
     if (node.fixedSize) continue;
-    if (measureNodeBox(node).truncated) fail(type.id, "truncated", `${node.label}`);
+    const drawn = nodeText(node, { corner: ctx.corner, dense: ctx.dense });
+    if (drawn.title.truncated) fail(type.id, "truncated", `${node.label} (title)`);
+    if (drawn.sub?.truncated) fail(type.id, "truncated", `${node.label} (sublabel)`);
+    // A single word spread over more than one line means the box was too narrow.
+    if (node.label.trim().split(/\s+/).length === 1 && drawn.title.lines.length > 1) {
+      fail(type.id, "hard-break", `${node.label} was split mid-word`);
+    }
   }
 }
 

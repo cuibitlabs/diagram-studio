@@ -4,7 +4,7 @@
 
 - **Family:** `sequence`
 - **Type id:** `sequence`
-- **Starter size:** 960×696 px, 4 nodes, 6 connections
+- **Starter size:** 984×712 px, 4 nodes, 6 connections
 
 ## Use it for
 

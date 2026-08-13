@@ -28,6 +28,7 @@ import { LIMITS, createDiagram, hasType, makeId } from "../model.js";
 import { PALETTES, paletteOf } from "../theme/palettes.js";
 import { ROLE_SHAPE } from "../render/shapes.js";
 import { MOTIONS, STYLES } from "../render/skin.js";
+import { AUDIENCES, PRESET_IDS } from "../render/presets.js";
 
 const ROLES = new Set(Object.keys(ROLE_SHAPE));
 const ARROWS = [
@@ -189,6 +190,16 @@ export function parse(source) {
       diagram.settings.motion = rest[0];
       return;
     }
+    if (word === "preset") {
+      if (!PRESET_IDS.includes(rest[0])) throw new ParseError(`unknown preset "${rest[0]}". Use ${PRESET_IDS.join(", ")}.`, lineNumber);
+      diagram.settings.preset = rest[0];
+      return;
+    }
+    if (word === "audience") {
+      if (!AUDIENCES.includes(rest[0])) throw new ParseError(`unknown audience "${rest[0]}". Use ${AUDIENCES.join(", ")}.`, lineNumber);
+      diagram.settings.audience = rest[0];
+      return;
+    }
     if (word === "describe") {
       diagram.description = strings(line)[0] ?? "";
       return;
@@ -281,6 +292,8 @@ export function stringify(diagram) {
   if (diagram.settings?.direction) lines.push(`direction ${diagram.settings.direction}`);
   if (diagram.settings?.style && diagram.settings.style !== "editorial") lines.push(`style ${diagram.settings.style}`);
   if (diagram.settings?.motion) lines.push(`motion ${diagram.settings.motion}`);
+  if (diagram.settings?.preset && diagram.settings.preset !== "fit") lines.push(`preset ${diagram.settings.preset}`);
+  if (diagram.settings?.audience && diagram.settings.audience !== "mixed") lines.push(`audience ${diagram.settings.audience}`);
   if (diagram.description) lines.push(`describe "${escape(diagram.description)}"`);
   if (diagram.unit) lines.push(`unit "${escape(diagram.unit)}"`);
   for (const axis of ["x", "y"]) {
