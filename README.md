@@ -5,7 +5,7 @@ sequence, flowchart, ER, Wardley, Sankey, Gantt and more — from a text file, a
 Mermaid or draw.io import, or an AI agent. One deterministic layout engine
 behind a browser editor, a CLI and an MCP server.
 
-[![CI](https://github.com/cuibit-labs/diagram-studio/actions/workflows/ci.yml/badge.svg)](https://github.com/cuibit-labs/diagram-studio/actions/workflows/ci.yml)
+[![CI](https://github.com/cuibitlabs/diagram-studio/actions/workflows/ci.yml/badge.svg)](https://github.com/cuibitlabs/diagram-studio/actions/workflows/ci.yml)
 [![Licence: MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%E2%89%A518-brightgreen.svg)](package.json)
 [![Dependencies](https://img.shields.io/badge/runtime%20dependencies-0-brightgreen.svg)](package.json)

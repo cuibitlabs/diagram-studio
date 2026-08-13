@@ -7,7 +7,7 @@
     {
       "name": "diagram-studio",
       "source": "./",
-      "description": "31 editorial diagram types with a real layout engine: measured text, orthogonal connector routing, audited contrast, honest imports, and round-trip export to Mermaid, draw.io, ASCII and a readable diagram language.",
+      "description": "43 editorial diagram types with a real layout engine: measured text, orthogonal connector routing, audited contrast, honest imports, and round-trip export to Mermaid, draw.io, ASCII and a readable diagram language.",
       "version": "2.0.0",
       "license": "MIT",
       "category": "productivity",

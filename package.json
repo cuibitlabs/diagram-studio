@@ -33,12 +33,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cuibit-labs/diagram-studio.git"
+    "url": "git+https://github.com/cuibitlabs/diagram-studio.git"
   },
   "bugs": {
-    "url": "https://github.com/cuibit-labs/diagram-studio/issues"
+    "url": "https://github.com/cuibitlabs/diagram-studio/issues"
   },
-  "homepage": "https://github.com/cuibit-labs/diagram-studio#readme",
+  "homepage": "https://github.com/cuibitlabs/diagram-studio#readme",
   "engines": {
     "node": ">=18"
   },

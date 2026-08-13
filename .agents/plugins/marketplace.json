@@ -10,7 +10,7 @@
       "source": "./",
       "version": "2.0.0",
       "license": "MIT",
-      "description": "Editorial diagrams for agents: 31 structures, a deterministic layout engine shared by the studio, the CLI and an MCP server, honest imports with a fidelity ledger, and audited accessibility.",
+      "description": "Editorial diagrams for agents: 43 structures, a deterministic layout engine shared by the studio, the CLI and an MCP server, honest imports with a fidelity ledger, and audited accessibility.",
       "entry": {
         "skill": "./skills/create-editorial-diagrams/SKILL.md",
         "agents": "./AGENTS.md",
