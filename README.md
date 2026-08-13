@@ -55,6 +55,8 @@ Register the MCP server and the agent gets typed tools plus the composition budg
 claude mcp add diagram-studio -- node ./bin/mcp-server.mjs
 ```
 
+`.mcp.json`, `.vscode/mcp.json` and `.cursor/mcp.json` ship with the repo, so opening it is enough for Claude Code, VS Code Copilot agent mode and Cursor. Claude Desktop, Windsurf, Zed, Cline, Continue and JetBrains are covered in [`adapters/MCP.md`](adapters/MCP.md) — the config key name differs between them, which is the usual reason an MCP server appears not to work.
+
 Or point any agent at `skills/create-editorial-diagrams/SKILL.md`. Adapters ship for Claude Code, Codex, Gemini CLI, Copilot, Cursor, Windsurf, Cline, Continue, Roo Code, Amazon Q and Aider, plus `AGENTS.md` for everything else.
 
 Example requests:

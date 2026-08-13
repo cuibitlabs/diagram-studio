@@ -10,6 +10,11 @@ The skill is Markdown plus a command-line tool, so it works in any agent that ca
 claude mcp add diagram-studio -- node /path/to/diagram-studio/bin/mcp-server.mjs
 ```
 
+Per-client configs — the key name differs (`mcpServers`, `servers`,
+`context_servers`) and that is the usual reason a server appears not to work —
+are in [`adapters/MCP.md`](../../../adapters/MCP.md), along with a one-line
+command that separates a server problem from a config problem.
+
 Tools: `list_diagram_types`, `create_diagram`, `import_diagram`, `render_diagram`, `audit_diagram`, `extract_brand`. Tool errors come back in band, so a bad project is a recoverable message rather than a crashed server.
 
 **2. CLI.** Anything that can run a shell command.

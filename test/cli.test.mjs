@@ -116,6 +116,62 @@ async function mcp(requests) {
     .map((line) => JSON.parse(line));
 }
 
+test("mcp negotiates the protocol revision the client asked for", async () => {
+  const [current, older, unknown] = await mcp([
+    { jsonrpc: "2.0", id: 1, method: "initialize", params: { protocolVersion: "2025-06-18" } },
+    { jsonrpc: "2.0", id: 2, method: "initialize", params: { protocolVersion: "2024-11-05" } },
+    { jsonrpc: "2.0", id: 3, method: "initialize", params: { protocolVersion: "1999-01-01" } },
+  ]);
+  assert.equal(current.result.protocolVersion, "2025-06-18");
+  assert.equal(older.result.protocolVersion, "2024-11-05", "an older client is answered in its own revision");
+  assert.equal(unknown.result.protocolVersion, "2025-06-18", "an unknown revision falls back to ours");
+});
+
+test("mcp answers the capabilities clients probe for, without advertising them", async () => {
+  const responses = await mcp([
+    { jsonrpc: "2.0", id: 1, method: "resources/list" },
+    { jsonrpc: "2.0", id: 2, method: "prompts/list" },
+    { jsonrpc: "2.0", id: 3, method: "resources/templates/list" },
+    { jsonrpc: "2.0", id: 4, method: "ping" },
+  ]);
+  assert.deepEqual(responses[0].result.resources, []);
+  assert.deepEqual(responses[1].result.prompts, []);
+  assert.deepEqual(responses[2].result.resourceTemplates, []);
+  assert.deepEqual(responses[3].result, {});
+  assert.ok(responses.every((response) => !response.error), "a probe must not look like a broken server");
+});
+
+test("mcp never answers a notification", async () => {
+  const responses = await mcp([
+    { jsonrpc: "2.0", method: "notifications/initialized" },
+    { jsonrpc: "2.0", method: "notifications/cancelled", params: { requestId: 1 } },
+    { jsonrpc: "2.0", method: "notifications/roots/list_changed" },
+    { jsonrpc: "2.0", id: 9, method: "ping" },
+  ]);
+  assert.equal(responses.length, 1, "only the ping is answered");
+  assert.equal(responses[0].id, 9);
+});
+
+test("mcp handles a JSON-RPC batch", async () => {
+  const responses = await mcp([
+    [
+      { jsonrpc: "2.0", id: 1, method: "ping" },
+      { jsonrpc: "2.0", id: 2, method: "tools/list" },
+    ],
+  ]);
+  assert.equal(responses.length, 2);
+  assert.equal(responses[0].id, 1);
+  assert.ok(responses[1].result.tools.length > 0);
+});
+
+test("mcp keeps stdout free of anything but protocol", async () => {
+  const input = `${JSON.stringify({ jsonrpc: "2.0", id: 1, method: "tools/call", params: { name: "create_diagram", arguments: { type: "sankey" } } })}\n`;
+  const { stdout } = await run(MCP, [], input);
+  for (const line of stdout.trim().split("\n")) {
+    assert.doesNotThrow(() => JSON.parse(line), `non-protocol output on stdout: ${line.slice(0, 80)}`);
+  }
+});
+
 test("mcp server handshakes and advertises its tools", async () => {
   const [initialize, list] = await mcp([
     { jsonrpc: "2.0", id: 1, method: "initialize", params: {} },

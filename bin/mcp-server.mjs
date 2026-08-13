@@ -23,8 +23,16 @@ import { PALETTES, paletteOf } from "../src/theme/palettes.js";
 import { auditTheme } from "../src/theme/contrast.js";
 import { extractBrand, describeBrandReport } from "../src/theme/brand.js";
 
-const PROTOCOL_VERSION = "2024-11-05";
+/** Revisions this server speaks. The newest is the default. */
+const SUPPORTED_PROTOCOLS = ["2025-06-18", "2025-03-26", "2024-11-05"];
+const PROTOCOL_VERSION = SUPPORTED_PROTOCOLS[0];
 const SERVER = { name: "diagram-studio", version: "2.0.0" };
+
+const INSTRUCTIONS =
+  "Choose the diagram type by the relationship being shown, not by habit — call list_diagram_types first. " +
+  "Keep to nine nodes and two accent elements; split into an overview plus detail beyond that. " +
+  "Never invent a value: a chart with a missing number shows a gap, not a zero. " +
+  "Every import returns a fidelity ledger — pass it on rather than presenting a redraw as a faithful copy.";
 
 const text = (value) => ({ content: [{ type: "text", text: value }] });
 const json = (value) => text(JSON.stringify(value, null, 2));
@@ -170,17 +178,31 @@ async function handle(request) {
   const { id, method, params } = request;
 
   if (method === "initialize") {
+    // Echo the client's protocol revision when it is one we understand, rather
+    // than always answering with ours. A client that asked for a later revision
+    // and is told a much older one may refuse to continue.
+    const asked = params?.protocolVersion;
+    const agreed = SUPPORTED_PROTOCOLS.includes(asked) ? asked : PROTOCOL_VERSION;
     return reply(id, {
-      protocolVersion: PROTOCOL_VERSION,
+      protocolVersion: agreed,
       capabilities: { tools: { listChanged: false } },
       serverInfo: SERVER,
-      instructions:
-        "Choose the diagram type by the relationship being shown, not by habit. Keep to nine nodes and two accent elements; split into an overview plus detail beyond that. Every import returns a fidelity ledger — pass it on rather than presenting a redraw as a faithful copy.",
+      instructions: INSTRUCTIONS,
     });
   }
-  if (method === "notifications/initialized" || method === "notifications/cancelled") return;
+
+  // Notifications carry no id and must never be answered.
+  if (typeof method === "string" && method.startsWith("notifications/")) return;
   if (method === "ping") return reply(id, {});
   if (method === "tools/list") return reply(id, { tools: TOOLS });
+
+  // Not advertised, but answered anyway: several clients probe for these on
+  // connect, and an error reply shows up in their logs as a broken server.
+  if (method === "resources/list") return reply(id, { resources: [] });
+  if (method === "resources/templates/list") return reply(id, { resourceTemplates: [] });
+  if (method === "prompts/list") return reply(id, { prompts: [] });
+  if (method === "logging/setLevel") return reply(id, {});
+  if (method === "completion/complete") return reply(id, { completion: { values: [], hasMore: false } });
 
   if (method === "tools/call") {
     const handler = handlers[params?.name];
@@ -194,17 +216,43 @@ async function handle(request) {
     }
   }
 
-  if (id !== undefined) failWith(id, -32601, `method not found: ${method}`);
+  if (id !== undefined && id !== null) failWith(id, -32601, `method not found: ${method}`);
 }
 
-createInterface({ input: process.stdin }).on("line", (line) => {
+/** One line in, zero or more lines out. Batches are answered as a batch. */
+async function dispatch(payload) {
+  if (Array.isArray(payload)) {
+    for (const entry of payload) await handle(entry).catch((error) => failWith(entry?.id ?? null, -32603, error.message));
+    return;
+  }
+  await handle(payload);
+}
+
+const input = createInterface({ input: process.stdin });
+
+input.on("line", (line) => {
   const trimmed = line.trim();
   if (!trimmed) return;
-  let request;
+  let payload;
   try {
-    request = JSON.parse(trimmed);
+    payload = JSON.parse(trimmed);
   } catch {
     return failWith(null, -32700, "parse error");
   }
-  handle(request).catch((error) => failWith(request.id ?? null, -32603, error.message));
+  dispatch(payload).catch((error) => failWith(payload?.id ?? null, -32603, error.message));
+});
+
+// The client closing stdin is how a well-behaved shutdown arrives.
+input.on("close", () => process.exit(0));
+
+/**
+ * stdout carries the protocol and nothing else. An uncaught error printed there
+ * would corrupt the stream and take the whole session down, so diagnostics go
+ * to stderr, which every client treats as log output.
+ */
+process.on("uncaughtException", (error) => {
+  process.stderr.write(`diagram-studio: ${error?.stack ?? error}\n`);
+});
+process.on("unhandledRejection", (error) => {
+  process.stderr.write(`diagram-studio: ${error?.stack ?? error}\n`);
 });
