@@ -8,7 +8,7 @@
     {
       "name": "diagram-studio",
       "source": "./",
-      "version": "2.0.0",
+      "version": "0.1.0",
       "license": "MIT",
       "description": "Editorial diagrams for agents: 43 structures, a deterministic layout engine shared by the studio, the CLI and an MCP server, honest imports with a fidelity ledger, and audited accessibility.",
       "entry": {

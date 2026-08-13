@@ -1,7 +1,7 @@
 {
   "name": "diagram-studio",
   "description": "Create, edit, import, brand, and export 43 types of accessible editorial diagrams with a visual SVG studio.",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "author": { "name": "Diagram Studio contributors" },
   "license": "MIT",
   "keywords": ["diagrams", "svg", "architecture", "flowchart", "visualization", "drawio", "mermaid", "editor"],

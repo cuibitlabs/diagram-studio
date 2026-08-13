@@ -1,6 +1,6 @@
 {
   "name": "diagram-studio",
-  "version": "2.0.0",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "description": "Diagrams as code: 43 diagram types with a real layout engine, honest imports and audited accessibility. Browser studio, CLI and MCP server on one deterministic engine.",

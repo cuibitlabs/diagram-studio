@@ -26,7 +26,7 @@ import { extractBrand, describeBrandReport } from "../src/theme/brand.js";
 /** Revisions this server speaks. The newest is the default. */
 const SUPPORTED_PROTOCOLS = ["2025-06-18", "2025-03-26", "2024-11-05"];
 const PROTOCOL_VERSION = SUPPORTED_PROTOCOLS[0];
-const SERVER = { name: "diagram-studio", version: "2.0.0" };
+const SERVER = { name: "diagram-studio", version: "0.1.0" };
 
 const INSTRUCTIONS =
   "Choose the diagram type by the relationship being shown, not by habit — call list_diagram_types first. " +
