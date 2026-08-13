@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: npm ci || npm install
+
+      # A tag never ships without the full gate passing.
+      - name: Test, build and verify
+        run: npm run check
+
+      - name: Package the studio and the example library
+        run: |
+          npm run gallery
+          mkdir -p release
+          cp -r dist release/studio
+          cp -r docs/gallery release/gallery
+          cp -r skills/create-editorial-diagrams/assets release/examples
+          tar -czf diagram-studio-${{ github.ref_name }}.tar.gz -C release .
+
+      - name: Publish the release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: diagram-studio-${{ github.ref_name }}.tar.gz
+          body_path: CHANGELOG.md

@@ -1,11 +1,40 @@
 # Diagram Studio
 
-An editorial diagram system for people and for coding agents. One deterministic layout engine behind three front ends — a browser studio, a command-line tool and an MCP server — so a diagram an agent generates is byte-identical to the one a person opens and edits.
+**Diagrams as code, drawn properly.** 43 diagram types — architecture, C4,
+sequence, flowchart, ER, Wardley, Sankey, Gantt and more — from a text file, a
+Mermaid or draw.io import, or an AI agent. One deterministic layout engine
+behind a browser editor, a CLI and an MCP server.
+
+[![CI](https://github.com/cuibit-labs/diagram-studio/actions/workflows/ci.yml/badge.svg)](https://github.com/cuibit-labs/diagram-studio/actions/workflows/ci.yml)
+[![Licence: MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
+[![Node](https://img.shields.io/badge/node-%E2%89%A518-brightgreen.svg)](package.json)
+[![Dependencies](https://img.shields.io/badge/runtime%20dependencies-0-brightgreen.svg)](package.json)
+
+**[Tutorial](TUTORIAL.md)** · **[All 43 types](skills/create-editorial-diagrams/references/diagram-types.md)** · **[215 examples](skills/create-editorial-diagrams/assets/index.html)** · **[MCP setup](adapters/MCP.md)** · **[Changelog](CHANGELOG.md)**
 
 ```bash
 npm install
 npm run dev            # the studio
 npx diagram-studio --help
+```
+
+Write a diagram in a file your reviewers can read a diff of:
+
+```ds
+architecture "Checkout platform"
+
+customer: actor "Customer" #user
+gateway: gateway "API gateway" *
+orders "Orders" #go
+ledger: store "Ledger" #postgresql
+
+customer -> gateway
+gateway -> orders
+orders -> ledger "append"
+```
+
+```bash
+npx diagram-studio convert checkout.ds checkout.svg
 ```
 
 ## What it does
