@@ -76,7 +76,7 @@ export function nodeCard(node, spec = {}) {
     node.tone === "accent" ? "tone-accent" : node.tone === "muted" ? "tone-muted" : "tone-default",
     node.role ? `role-${node.role}` : "",
     node.dashed ? "is-dashed" : "",
-    spec.selectedId === node.id ? "is-selected" : "",
+    spec.selectedIds?.has(node.id) || spec.selectedId === node.id ? "is-selected" : "",
   ].filter(Boolean).join(" ");
 
   const anchor = layout.centred ? "middle" : "start";

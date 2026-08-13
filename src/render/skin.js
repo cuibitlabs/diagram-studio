@@ -87,6 +87,17 @@ text{fill:var(--ink)}
 .entity-type{fill:var(--muted)}
 `;
 
+/** Editor overlays and the presentation reveal. */
+const OVERLAYS = `
+.editor-overlay{pointer-events:none}
+.snap-guide{fill:none;stroke:var(--accent-2);stroke-width:1;stroke-dasharray:3 4}
+.marquee{fill:var(--accent-2);fill-opacity:.08;stroke:var(--accent-2);stroke-width:1;stroke-dasharray:4 4}
+.message-mask{fill:var(--paper)}
+.stepping .ds-node,.stepping .ds-edge{transition:opacity .3s ease}
+.stepping.no-motion .ds-node,.stepping.no-motion .ds-edge{transition:none}
+.ds-node.is-pending,.ds-edge.is-pending{opacity:.1}
+`;
+
 /** Interactive affordances, only added when the SVG is embedded in the editor. */
 const INTERACTIVE = `
 .ds-node[data-node-id]{cursor:grab}
@@ -98,7 +109,7 @@ const INTERACTIVE = `
 const collapse = (value) => value.replace(/\s*\n\s*/g, "").trim();
 
 /** @param {{interactive?: boolean}} [options] */
-export const skinCSS = (options = {}) => collapse(RULES + (options.interactive === false ? "" : INTERACTIVE));
+export const skinCSS = (options = {}) => collapse(RULES + OVERLAYS + (options.interactive === false ? "" : INTERACTIVE));
 
 /** Raw rules, exported so the linter can parse them without a browser. */
-export const SKIN_RULES = RULES;
+export const SKIN_RULES = RULES + OVERLAYS;

@@ -77,6 +77,7 @@ export const drawNodes = (diagram, ctx, spec = {}) =>
     corner: ctx.corner,
     dense: ctx.dense,
     selectedId: ctx.selectedId,
+    selectedIds: ctx.selectedIds,
     interactive: ctx.interactive,
     ...spec,
   })).join("");

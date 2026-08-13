@@ -43,6 +43,9 @@ import {
 import { ROLE_SHAPE, SHAPES } from "./render/shapes.js";
 import { completeTheme } from "./theme/palettes.js";
 import { CVD_TYPES, auditTheme, simulateTheme } from "./theme/contrast.js";
+import { align, distribute, duplicate, nodesInMarquee } from "./editor/selection.js";
+import { buildCommands, filterCommands } from "./editor/commands.js";
+import { present } from "./editor/present.js";
 
 const icons = {
   spark: '<path d="M12 2l1.6 5.4L19 9l-5.4 1.6L12 16l-1.6-5.4L5 9l5.4-1.6L12 2Z"/><path d="M19 16l.7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/>',
@@ -57,10 +60,19 @@ const icons = {
   trash: '<path d="M4 7h16M9 7V4h6v3m3 0-1 14H7L6 7"/>',
   grid: '<path d="M4 4h16v16H4zM4 10h16M10 4v16"/>',
   code: '<path d="m9 6-6 6 6 6m6-12 6 6-6 6"/>',
+  play: '<path d="M7 4l12 8-12 8z"/>',
 };
 const icon = (name) => `<svg viewBox="0 0 24 24" aria-hidden="true">${icons[name]}</svg>`;
 
 const ROLES = ["", ...Object.keys(ROLE_SHAPE)];
+const ALIGN_BUTTONS = [
+  ["left", "Align left"],
+  ["centre-x", "Align centres horizontally"],
+  ["right", "Align right"],
+  ["top", "Align top"],
+  ["centre-y", "Align centres vertically"],
+  ["bottom", "Align bottom"],
+];
 
 document.querySelector("#app").innerHTML = `
   <header class="topbar">
@@ -68,6 +80,7 @@ document.querySelector("#app").innerHTML = `
     <div class="document-title"><span class="status-dot"></span><input id="title-input" aria-label="Diagram title" /></div>
     <div class="top-actions">
       <button class="icon-button" id="undo" title="Undo (Ctrl/Cmd+Z)">${icon("undo")}</button><button class="icon-button" id="redo" title="Redo (Ctrl/Cmd+Shift+Z)">${icon("redo")}</button>
+      <button class="button secondary" id="present-button" title="Present (F5)">${icon("play")} Present</button>
       <button class="button secondary" id="save-project">${icon("save")} Project</button><button class="button primary" id="export-menu">${icon("export")} Export</button>
     </div>
   </header>
@@ -107,9 +120,18 @@ Customer -> Web app -> API gateway -> Orders service -> Order store</textarea>
       </section>
     </aside>
     <section class="stage-shell">
-      <div class="stage-toolbar"><div class="crumb"><b id="type-label">Architecture</b><span>·</span><span id="node-count">0 objects</span></div><div class="zoom"><button id="zoom-out">−</button><span id="zoom-label">100%</span><button id="zoom-in">+</button><button id="zoom-fit">Fit</button></div></div>
+      <div class="stage-toolbar">
+        <div class="crumb"><b id="type-label">Architecture</b><span>·</span><span id="node-count">0 objects</span></div>
+        <div class="align-tools" id="align-tools" hidden>
+          ${ALIGN_BUTTONS.map(([mode, label]) => `<button data-align="${mode}" title="${label}" aria-label="${label}"><i class="align-glyph align-${mode}"></i></button>`).join("")}
+          <span class="align-divider"></span>
+          <button data-distribute="horizontal" title="Distribute horizontally" aria-label="Distribute horizontally">⇹</button>
+          <button data-distribute="vertical" title="Distribute vertically" aria-label="Distribute vertically">⇳</button>
+        </div>
+        <div class="zoom"><button id="zoom-out">−</button><span id="zoom-label">100%</span><button id="zoom-in">+</button><button id="zoom-fit">Fit</button></div>
+      </div>
       <div class="stage" id="stage"><div class="canvas" id="canvas"></div></div>
-      <footer class="statusbar"><span id="status">Ready</span><span id="review-note">Autosaved locally · SVG-native · WCAG-labelled</span></footer>
+      <footer class="statusbar"><span id="status">Ready · press Ctrl+K for commands</span><span id="review-note">Autosaved locally · SVG-native · WCAG-labelled</span></footer>
     </section>
     <aside class="right-panel">
       <div class="right-header"><span>Inspector</span><span id="selection-kind">Diagram</span></div>
@@ -135,6 +157,12 @@ Customer -> Web app -> API gateway -> Orders service -> Order store</textarea>
         <div class="position-grid"><label>X<input id="node-x" type="number"/></label><label>Y<input id="node-y" type="number"/></label><label>W<input id="node-w" type="number"/></label><label>H<input id="node-h" type="number"/></label></div>
         <button class="button danger wide" id="delete-node">${icon("trash")} Delete object</button>
       </div>
+      <div id="multi-inspector" hidden>
+        <p class="help"><b id="multi-count">0 objects</b> selected. Use the alignment tools above the canvas, or Ctrl+D to duplicate.</p>
+        <label>Emphasis<select id="multi-tone"><option value="">Leave as is</option><option value="default">Standard</option><option value="accent">Accent</option><option value="muted">Recede</option></select></label>
+        <button class="button secondary wide" id="multi-duplicate">Duplicate selection</button>
+        <button class="button danger wide" id="multi-delete">${icon("trash")} Delete selection</button>
+      </div>
       <div id="edge-inspector" hidden>
         <label>Label<input id="edge-label" /></label>
         <label>Kind<select id="edge-kind"><option value="">Standard</option><option value="return">Return</option><option value="weak">Weak</option></select></label>
@@ -144,10 +172,14 @@ Customer -> Web app -> API gateway -> Orders service -> Order store</textarea>
         <button class="button secondary wide" id="reverse-edge">Reverse direction</button>
         <button class="button danger wide" id="delete-edge">${icon("trash")} Delete connection</button>
       </div>
-      <div class="tip"><span>PRO TIP</span><p>Double-click a node to rename it. Click a connection to edit it. Drag on the canvas, then Ctrl/Cmd+Z to undo the whole move.</p></div>
+      <div class="tip"><span>PRO TIP</span><p>Shift-click or drag a box to select several objects. Ctrl+K opens the command palette. F5 presents the diagram step by step.</p></div>
     </aside>
   </main>
   <dialog id="source-dialog"><form method="dialog"><div class="dialog-head"><div><span class="eyebrow">Source import</span><h2>Paste Mermaid or draw.io XML</h2></div><button value="cancel" aria-label="Close">×</button></div><textarea id="source-text" rows="16" placeholder="flowchart LR&#10;  A[Idea] --> B[Polished diagram]"></textarea><div class="dialog-actions"><button class="button secondary" value="cancel">Cancel</button><button class="button primary" id="import-source" value="default">Import source</button></div></form></dialog>
+  <dialog id="palette-dialog" class="command-dialog" aria-label="Command palette">
+    <input id="palette-input" type="text" placeholder="Type a command…" autocomplete="off" />
+    <ul id="palette-list" role="listbox"></ul>
+  </dialog>
   <div class="export-popover" id="export-popover" hidden>
     <button data-export="svg"><b>SVG</b><small>Editable vector, text stays text</small></button>
     <button data-export="png"><b>PNG</b><small>2× raster</small></button>
@@ -164,7 +196,7 @@ const $ = (selector) => document.querySelector(selector);
 const STORAGE_KEY = "diagram-studio.project";
 
 let diagram = restore() ?? createDiagram("architecture");
-let selectedId = null;
+let selection = new Set();
 let selectedEdgeId = null;
 let zoom = 1;
 let connectFrom = null;
@@ -172,6 +204,7 @@ let history = [];
 let future = [];
 let renderQueued = false;
 let previewCVD = "";
+let clipboard = null;
 
 function restore() {
   try {
@@ -195,22 +228,46 @@ function toast(message) {
   element.classList.add("show");
   setTimeout(() => element.classList.remove("show"), 2400);
 }
-const selectedNode = () => diagram.nodes.find((node) => node.id === selectedId);
+
+const selectedNodes = () => diagram.nodes.filter((node) => selection.has(node.id));
+const singleNode = () => (selection.size === 1 ? selectedNodes()[0] : null);
 const selectedEdge = () => diagram.edges.find((edge) => edge.id === selectedEdgeId);
+const setSelection = (ids) => {
+  selection = new Set(ids);
+  if (selection.size) selectedEdgeId = null;
+};
+
+/**
+ * Coalesce renders to one per frame, but never depend on a frame arriving:
+ * a tab that is not compositing (backgrounded, or an embedded preview pane)
+ * gets no `requestAnimationFrame` callbacks at all, which left the canvas
+ * permanently empty. The timer is the guarantee; the frame is the optimisation.
+ */
+function schedule(callback) {
+  let done = false;
+  const run = () => {
+    if (done) return;
+    done = true;
+    callback();
+  };
+  if (typeof requestAnimationFrame === "function") requestAnimationFrame(run);
+  setTimeout(run, 32);
+}
 
 function render({ preserveFocus = false } = {}) {
   if (renderQueued) return;
   renderQueued = true;
-  requestAnimationFrame(() => {
+  schedule(() => {
     renderQueued = false;
     // The simulation is a viewing aid: swap the theme for the draw, then put
     // the author's colours back so nothing is persisted.
     const authoredTheme = diagram.theme;
     if (previewCVD) diagram.theme = simulateTheme(authoredTheme, previewCVD);
     renderDiagram(diagram, $("#canvas"), {
-      selectedId,
+      selectedIds: selection,
       selectedEdgeId,
       onSelect: selectNode,
+      onSelectMany: selectMarquee,
       onSelectEdge: selectEdge,
       onEdit: editNode,
       onDragStart: () => snapshot(),
@@ -224,6 +281,7 @@ function render({ preserveFocus = false } = {}) {
     $("#node-count").textContent = `${diagram.nodes.length} objects`;
     $("#title-input").value = diagram.title;
     $("#type-select").value = diagram.type;
+    $("#align-tools").hidden = selection.size < 2;
     if (!preserveFocus || !$(".right-panel :focus")) syncInspector();
     syncReview();
     persist();
@@ -245,7 +303,7 @@ function syncReview() {
     : "Autosaved locally · SVG-native · WCAG-labelled";
 }
 
-function selectNode(id) {
+function selectNode(id, event = {}) {
   if (connectFrom && id && id !== connectFrom) {
     snapshot();
     diagram.edges.push({ id: makeId("edge"), source: connectFrom, target: id, label: "", dashed: false });
@@ -253,20 +311,29 @@ function selectNode(id) {
     $("#connect").classList.remove("active");
     toast("Connection added");
   }
-  selectedId = id;
-  if (id) selectedEdgeId = null;
+  if (!id) setSelection([]);
+  else if (event.additive) {
+    if (selection.has(id)) selection.delete(id);
+    else selection.add(id);
+    selectedEdgeId = null;
+  } else setSelection([id]);
+  render();
+}
+
+function selectMarquee(marquee, event = {}) {
+  const hits = nodesInMarquee(diagram.nodes, marquee);
+  setSelection(event.additive ? [...selection, ...hits] : hits);
   render();
 }
 
 function selectEdge(id) {
   selectedEdgeId = id;
-  if (id) selectedId = null;
+  if (id) selection = new Set();
   render();
 }
 
 function editNode(id) {
-  selectedId = id;
-  selectedEdgeId = null;
+  setSelection([id]);
   render();
   setTimeout(() => {
     $("#node-label").focus();
@@ -275,13 +342,19 @@ function editNode(id) {
 }
 
 function syncInspector() {
-  const node = selectedNode();
+  const node = singleNode();
   const edge = selectedEdge();
-  $("#diagram-inspector").hidden = Boolean(node || edge);
+  const many = selection.size > 1;
+  $("#diagram-inspector").hidden = Boolean(node || edge || many);
   $("#node-inspector").hidden = !node;
+  $("#multi-inspector").hidden = !many;
   $("#edge-inspector").hidden = !edge;
-  $("#selection-kind").textContent = node ? "Object" : edge ? "Connection" : "Diagram";
+  $("#selection-kind").textContent = many ? `${selection.size} objects` : node ? "Object" : edge ? "Connection" : "Diagram";
 
+  if (many) {
+    $("#multi-count").textContent = `${selection.size} objects`;
+    return;
+  }
   if (node) {
     $("#node-label").value = node.label;
     $("#node-sublabel").value = node.sublabel ?? "";
@@ -317,7 +390,7 @@ function syncColor(name, value) {
 function replaceDiagram(next, message) {
   snapshot();
   diagram = next;
-  selectedId = null;
+  setSelection([]);
   selectedEdgeId = null;
   render();
   setStatus(message);
@@ -330,6 +403,109 @@ function updateDiagram(mutator) {
   render();
 }
 
+/* ---- actions shared by buttons, shortcuts and the palette ---- */
+
+const applyPositions = (positions) => {
+  const byId = new Map(diagram.nodes.map((node) => [node.id, node]));
+  for (const position of positions) {
+    const node = byId.get(position.id);
+    if (!node) continue;
+    node.x = position.x;
+    node.y = position.y;
+  }
+};
+
+const actions = {
+  addNode() {
+    snapshot();
+    const id = makeId("node");
+    diagram.nodes.push({ id, label: "New object", x: 0, y: 0, w: 0, h: 0 });
+    setSelection([id]);
+    render();
+  },
+  duplicate() {
+    const nodes = selectedNodes();
+    if (!nodes.length) return;
+    snapshot();
+    const copy = duplicate(nodes, diagram.edges, makeId);
+    diagram.nodes.push(...copy.nodes);
+    diagram.edges.push(...copy.edges);
+    setSelection(copy.nodes.map((node) => node.id));
+    render();
+    toast(`${copy.nodes.length} object${copy.nodes.length === 1 ? "" : "s"} duplicated`);
+  },
+  deleteSelection() {
+    if (selectedEdgeId) return deleteSelectedEdge();
+    const ids = new Set(selection);
+    if (!ids.size) return;
+    snapshot();
+    diagram.nodes = diagram.nodes.filter((node) => !ids.has(node.id));
+    diagram.edges = diagram.edges.filter((edge) => !ids.has(edge.source) && !ids.has(edge.target));
+    for (const group of diagram.groups ?? []) group.nodes = group.nodes.filter((id) => !ids.has(id));
+    setSelection([]);
+    render();
+  },
+  align(mode) {
+    const nodes = selectedNodes();
+    if (nodes.length < 2) return;
+    snapshot();
+    applyPositions(align(nodes, mode));
+    for (const node of nodes) node.fixedSize = node.fixedSize ?? false;
+    render();
+  },
+  distribute(axis) {
+    const nodes = selectedNodes();
+    if (nodes.length < 3) return;
+    snapshot();
+    applyPositions(distribute(nodes, axis));
+    render();
+  },
+  relayout() {
+    updateDiagram((next) => {
+      delete next.settings.preserveLayout;
+      for (const node of next.nodes) delete node.fixedSize;
+    });
+    toast("Layout recomputed from the model");
+  },
+  toggleGrid: () => updateDiagram((next) => (next.settings.grid = !next.settings.grid)),
+  toggleTitle: () => updateDiagram((next) => (next.settings.showTitle = !next.settings.showTitle)),
+  fit: () => $("#zoom-fit").click(),
+  present: () => present(diagram),
+  undo,
+  redo,
+  saveProject() {
+    exportProject(diagram);
+    toast("Editable project downloaded");
+  },
+  setType: (id) => replaceDiagram(createDiagram(id), `${getType(id).label} loaded`),
+  setPalette: (id) => updateDiagram((next) => (next.theme = { ...PALETTES[id] })),
+  export: runExport,
+};
+
+async function runExport(format) {
+  try {
+    if (format === "svg") exportSVG(diagram);
+    if (format === "png") await exportPNG(diagram);
+    if (format === "pdf") await exportPDF(diagram);
+    if (format === "html") exportHTML(diagram);
+    if (format === "variants") exportVariants(diagram);
+    if (format === "drawio") exportDrawio(diagram);
+    if (format === "copy") await copySVG(diagram);
+    let note = "";
+    if (format === "mermaid") {
+      const notes = exportMermaid(diagram);
+      if (notes.length) {
+        note = notes[0];
+        setStatus(notes.join(" "));
+      }
+    }
+    $("#export-popover").hidden = true;
+    toast(note || (format === "copy" ? "SVG copied" : `${format.toUpperCase()} exported`));
+  } catch (error) {
+    toast(`Export failed: ${error.message}`);
+  }
+}
+
 /* ---- composition ---- */
 
 $("#prompt").addEventListener("input", (event) => {
@@ -338,35 +514,21 @@ $("#prompt").addEventListener("input", (event) => {
 $("#prompt-count").textContent = `${$("#prompt").value.length} characters`;
 
 $("#generate").addEventListener("click", () => replaceDiagram(createFromPrompt($("#prompt").value), "Prompt composed into a diagram"));
-$("#type-select").addEventListener("change", (event) => replaceDiagram(createDiagram(event.target.value), "Diagram structure changed"));
+$("#type-select").addEventListener("change", (event) => actions.setType(event.target.value));
 $("#title-input").addEventListener("change", (event) => updateDiagram((next) => (next.title = event.target.value)));
-
-$("#add-node").addEventListener("click", () => {
-  snapshot();
-  const id = makeId("node");
-  diagram.nodes.push({ id, label: "New object", x: 0, y: 0, w: 0, h: 0 });
-  selectedId = id;
-  selectedEdgeId = null;
-  render();
-});
+$("#add-node").addEventListener("click", actions.addNode);
+$("#auto-layout").addEventListener("click", actions.relayout);
+$("#toggle-grid").addEventListener("click", actions.toggleGrid);
+$("#present-button").addEventListener("click", actions.present);
 
 $("#connect").addEventListener("click", () => {
-  const node = selectedNode();
+  const node = singleNode();
   if (!node) return toast("Select the starting object first");
   connectFrom = node.id;
   $("#connect").classList.add("active");
   toast("Now select the destination object");
 });
 
-$("#auto-layout").addEventListener("click", () => {
-  updateDiagram((next) => {
-    delete next.settings.preserveLayout;
-    for (const node of next.nodes) delete node.fixedSize;
-  });
-  toast("Layout recomputed from the model");
-});
-
-$("#toggle-grid").addEventListener("click", () => updateDiagram((next) => (next.settings.grid = !next.settings.grid)));
 $("#zoom-in").addEventListener("click", () => { zoom = Math.min(2, zoom + 0.1); render(); });
 $("#zoom-out").addEventListener("click", () => { zoom = Math.max(0.25, zoom - 0.1); render(); });
 $("#zoom-fit").addEventListener("click", () => {
@@ -374,7 +536,19 @@ $("#zoom-fit").addEventListener("click", () => {
   zoom = Math.min(1, (stage.clientWidth - 64) / diagram.width, (stage.clientHeight - 64) / diagram.height);
   render();
 });
+$("#stage").addEventListener("wheel", (event) => {
+  if (!event.ctrlKey && !event.metaKey) return;
+  event.preventDefault();
+  zoom = Math.max(0.25, Math.min(2, zoom - Math.sign(event.deltaY) * 0.1));
+  render();
+}, { passive: false });
 
+for (const button of document.querySelectorAll("[data-align]")) {
+  button.addEventListener("click", () => actions.align(button.dataset.align));
+}
+for (const button of document.querySelectorAll("[data-distribute]")) {
+  button.addEventListener("click", () => actions.distribute(button.dataset.distribute));
+}
 for (const button of document.querySelectorAll("[data-tab]")) {
   button.addEventListener("click", () => {
     for (const tab of document.querySelectorAll("[data-tab]")) tab.classList.toggle("active", tab === button);
@@ -382,10 +556,10 @@ for (const button of document.querySelectorAll("[data-tab]")) {
   });
 }
 for (const button of document.querySelectorAll("[data-template]")) {
-  button.addEventListener("click", () => replaceDiagram(createDiagram(button.dataset.template), `${getType(button.dataset.template).label} loaded`));
+  button.addEventListener("click", () => actions.setType(button.dataset.template));
 }
 for (const button of document.querySelectorAll("[data-palette]")) {
-  button.addEventListener("click", () => updateDiagram((next) => (next.theme = { ...PALETTES[button.dataset.palette] })));
+  button.addEventListener("click", () => actions.setPalette(button.dataset.palette));
 }
 
 /* ---- import ---- */
@@ -468,7 +642,7 @@ $("#title-check").addEventListener("change", (event) => updateDiagram((next) => 
 
 for (const [selector, key] of [["#node-label", "label"], ["#node-sublabel", "sublabel"], ["#node-role", "role"], ["#node-shape", "shape"], ["#node-tone", "tone"]]) {
   $(selector).addEventListener("input", (event) => {
-    const node = selectedNode();
+    const node = singleNode();
     if (!node) return;
     const value = event.target.value;
     if (value === "") delete node[key];
@@ -477,7 +651,7 @@ for (const [selector, key] of [["#node-label", "label"], ["#node-sublabel", "sub
   });
 }
 $("#node-value").addEventListener("input", (event) => {
-  const node = selectedNode();
+  const node = singleNode();
   if (!node) return;
   if (event.target.value === "") delete node.value;
   else node.value = Number(event.target.value);
@@ -485,7 +659,7 @@ $("#node-value").addEventListener("input", (event) => {
 });
 for (const key of ["x", "y", "w", "h"]) {
   $(`#node-${key}`).addEventListener("change", (event) => {
-    const node = selectedNode();
+    const node = singleNode();
     if (!node) return;
     snapshot();
     node[key] = Number(event.target.value);
@@ -493,6 +667,20 @@ for (const key of ["x", "y", "w", "h"]) {
     render();
   });
 }
+
+$("#multi-tone").addEventListener("change", (event) => {
+  const value = event.target.value;
+  if (!value) return;
+  snapshot();
+  for (const node of selectedNodes()) {
+    if (value === "default") delete node.tone;
+    else node.tone = value;
+  }
+  event.target.value = "";
+  render();
+});
+$("#multi-duplicate").addEventListener("click", actions.duplicate);
+$("#multi-delete").addEventListener("click", actions.deleteSelection);
 
 $("#edge-label").addEventListener("input", (event) => {
   const edge = selectedEdge();
@@ -529,17 +717,6 @@ $("#reverse-edge").addEventListener("click", () => {
   render();
 });
 
-function deleteSelectedNode() {
-  const node = selectedNode();
-  if (!node) return;
-  snapshot();
-  diagram.nodes = diagram.nodes.filter((item) => item.id !== node.id);
-  diagram.edges = diagram.edges.filter((edge) => edge.source !== node.id && edge.target !== node.id);
-  for (const group of diagram.groups ?? []) group.nodes = group.nodes.filter((id) => id !== node.id);
-  selectedId = null;
-  render();
-}
-
 function deleteSelectedEdge() {
   const edge = selectedEdge();
   if (!edge) return;
@@ -549,7 +726,7 @@ function deleteSelectedEdge() {
   render();
 }
 
-$("#delete-node").addEventListener("click", deleteSelectedNode);
+$("#delete-node").addEventListener("click", actions.deleteSelection);
 $("#delete-edge").addEventListener("click", deleteSelectedEdge);
 
 /* ---- history ---- */
@@ -558,7 +735,7 @@ function undo() {
   if (!history.length) return;
   future.push(cloneDiagram(diagram));
   diagram = history.pop();
-  selectedId = null;
+  setSelection([]);
   selectedEdgeId = null;
   render();
 }
@@ -566,71 +743,151 @@ function redo() {
   if (!future.length) return;
   history.push(cloneDiagram(diagram));
   diagram = future.pop();
-  selectedId = null;
+  setSelection([]);
   selectedEdgeId = null;
   render();
 }
 $("#undo").addEventListener("click", undo);
 $("#redo").addEventListener("click", redo);
 
+/* ---- command palette ---- */
+
+const paletteDialog = $("#palette-dialog");
+let paletteCommands = [];
+let paletteIndex = 0;
+
+function renderPalette(query = "") {
+  const matches = filterCommands(paletteCommands, query).slice(0, 40);
+  paletteIndex = Math.min(paletteIndex, Math.max(0, matches.length - 1));
+  $("#palette-list").innerHTML = matches
+    .map((command, index) => `<li role="option" data-index="${index}" class="${index === paletteIndex ? "is-active" : ""}"><span class="palette-group">${command.group}</span><span>${command.label}</span>${command.hint ? `<kbd>${command.hint}</kbd>` : ""}</li>`)
+    .join("");
+  return matches;
+}
+
+function openPalette() {
+  paletteCommands = buildCommands(actions, {
+    selectionCount: selection.size,
+    types: DIAGRAM_TYPES,
+    palettes: Object.entries(PALETTES).map(([id, palette]) => ({ id, name: palette.name })),
+  });
+  paletteIndex = 0;
+  $("#palette-input").value = "";
+  renderPalette("");
+  paletteDialog.showModal();
+  $("#palette-input").focus();
+}
+
+$("#palette-input").addEventListener("input", (event) => {
+  paletteIndex = 0;
+  renderPalette(event.target.value);
+});
+$("#palette-input").addEventListener("keydown", (event) => {
+  const matches = filterCommands(paletteCommands, event.target.value).slice(0, 40);
+  if (event.key === "ArrowDown") {
+    event.preventDefault();
+    paletteIndex = Math.min(paletteIndex + 1, matches.length - 1);
+    renderPalette(event.target.value);
+  } else if (event.key === "ArrowUp") {
+    event.preventDefault();
+    paletteIndex = Math.max(paletteIndex - 1, 0);
+    renderPalette(event.target.value);
+  } else if (event.key === "Enter") {
+    event.preventDefault();
+    const command = matches[paletteIndex];
+    paletteDialog.close();
+    command?.run?.();
+  }
+});
+$("#palette-list").addEventListener("click", (event) => {
+  const item = event.target.closest("li");
+  if (!item) return;
+  const matches = filterCommands(paletteCommands, $("#palette-input").value).slice(0, 40);
+  paletteDialog.close();
+  matches[Number(item.dataset.index)]?.run?.();
+});
+
+/* ---- keyboard ---- */
+
 window.addEventListener("keydown", (event) => {
   const typing = /INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName ?? "");
-  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "z") {
+  const meta = event.metaKey || event.ctrlKey;
+
+  if (meta && event.key.toLowerCase() === "k") {
+    event.preventDefault();
+    openPalette();
+    return;
+  }
+  if (meta && event.key.toLowerCase() === "z") {
     event.preventDefault();
     event.shiftKey ? redo() : undo();
     return;
   }
-  if (typing) return;
-  if (event.key === "Delete" || event.key === "Backspace") {
-    if (selectedId) deleteSelectedNode();
-    else if (selectedEdgeId) deleteSelectedEdge();
+  if (event.key === "F5") {
+    event.preventDefault();
+    actions.present();
     return;
   }
-  const node = selectedNode();
-  if (node && event.key.startsWith("Arrow")) {
+  if (typing) return;
+
+  if (meta && event.key.toLowerCase() === "a") {
+    event.preventDefault();
+    setSelection(diagram.nodes.map((node) => node.id));
+    render();
+    return;
+  }
+  if (meta && event.key.toLowerCase() === "d") {
+    event.preventDefault();
+    actions.duplicate();
+    return;
+  }
+  if (meta && event.key.toLowerCase() === "c") {
+    clipboard = cloneDiagram({ nodes: selectedNodes(), edges: diagram.edges });
+    toast(`${selection.size} object${selection.size === 1 ? "" : "s"} copied`);
+    return;
+  }
+  if (meta && event.key.toLowerCase() === "v") {
+    if (!clipboard?.nodes?.length) return;
+    snapshot();
+    const copy = duplicate(clipboard.nodes, clipboard.edges, makeId);
+    diagram.nodes.push(...copy.nodes);
+    diagram.edges.push(...copy.edges);
+    setSelection(copy.nodes.map((node) => node.id));
+    render();
+    return;
+  }
+  if (event.key === "Escape") {
+    setSelection([]);
+    selectedEdgeId = null;
+    connectFrom = null;
+    $("#connect").classList.remove("active");
+    render();
+    return;
+  }
+  if (event.key === "Delete" || event.key === "Backspace") {
+    actions.deleteSelection();
+    return;
+  }
+  if (event.key.startsWith("Arrow") && selection.size) {
     event.preventDefault();
     snapshot();
     const step = event.shiftKey ? 20 : 4;
-    if (event.key === "ArrowLeft") node.x -= step;
-    if (event.key === "ArrowRight") node.x += step;
-    if (event.key === "ArrowUp") node.y -= step;
-    if (event.key === "ArrowDown") node.y += step;
+    const dx = event.key === "ArrowLeft" ? -step : event.key === "ArrowRight" ? step : 0;
+    const dy = event.key === "ArrowUp" ? -step : event.key === "ArrowDown" ? step : 0;
+    for (const node of selectedNodes()) {
+      node.x += dx;
+      node.y += dy;
+    }
     render();
   }
 });
 
 /* ---- export ---- */
 
-$("#save-project").addEventListener("click", () => {
-  exportProject(diagram);
-  toast("Editable project downloaded");
-});
+$("#save-project").addEventListener("click", actions.saveProject);
 $("#export-menu").addEventListener("click", () => ($("#export-popover").hidden = !$("#export-popover").hidden));
 for (const button of document.querySelectorAll("[data-export]")) {
-  button.addEventListener("click", async () => {
-    try {
-      const format = button.dataset.export;
-      if (format === "svg") exportSVG(diagram);
-      if (format === "png") await exportPNG(diagram);
-      if (format === "pdf") await exportPDF(diagram);
-      if (format === "html") exportHTML(diagram);
-      if (format === "variants") exportVariants(diagram);
-      if (format === "drawio") exportDrawio(diagram);
-      if (format === "copy") await copySVG(diagram);
-      let note = "";
-      if (format === "mermaid") {
-        const notes = exportMermaid(diagram);
-        if (notes.length) {
-          note = notes[0];
-          setStatus(notes.join(" "));
-        }
-      }
-      $("#export-popover").hidden = true;
-      toast(note || (format === "copy" ? "SVG copied" : `${format.toUpperCase()} exported`));
-    } catch (error) {
-      toast(`Export failed: ${error.message}`);
-    }
-  });
+  button.addEventListener("click", () => runExport(button.dataset.export));
 }
 document.addEventListener("click", (event) => {
   if (!event.target.closest("#export-menu, #export-popover")) $("#export-popover").hidden = true;

@@ -9,3 +9,41 @@
 .review-list li{font-size:10px;line-height:1.5;color:#8a5a3c;background:#fff8f3;border:1px solid #e6d4c6;padding:8px 10px}
 .review-list li.is-clear{color:var(--muted);background:#fffdf8;border-color:var(--hair)}
 .right-panel select{text-transform:none;letter-spacing:0}
+
+/* --- v2: alignment tools, command palette, presentation --- */
+.align-tools{display:flex;align-items:center;gap:2px;height:28px;padding:0 4px;border:1px solid var(--hair);background:#f6f3ed}
+.align-tools button{width:26px;height:26px;display:grid;place-items:center;border:0;background:transparent;font-size:13px;line-height:1}
+.align-tools button:hover{background:#e6e2d9}
+.align-divider{width:1px;height:16px;background:var(--hair);margin:0 4px}
+.align-glyph{display:block;width:14px;height:14px;position:relative}
+.align-glyph:before{content:"";position:absolute;background:var(--ink)}
+.align-glyph:after{content:"";position:absolute;background:var(--muted)}
+.align-left:before{left:0;top:0;width:2px;height:14px}
+.align-left:after{left:4px;top:3px;width:10px;height:8px}
+.align-right:before{right:0;top:0;width:2px;height:14px}
+.align-right:after{right:4px;top:3px;width:10px;height:8px}
+.align-centre-x:before{left:6px;top:0;width:2px;height:14px}
+.align-centre-x:after{left:2px;top:3px;width:10px;height:8px}
+.align-top:before{left:0;top:0;width:14px;height:2px}
+.align-top:after{left:3px;top:4px;width:8px;height:10px}
+.align-bottom:before{left:0;bottom:0;width:14px;height:2px}
+.align-bottom:after{left:3px;bottom:4px;width:8px;height:10px}
+.align-centre-y:before{left:0;top:6px;width:14px;height:2px}
+.align-centre-y:after{left:3px;top:2px;width:8px;height:10px}
+
+.command-dialog{width:min(560px,92vw);padding:0;border:1px solid var(--hair);background:#fffdf8}
+.command-dialog::backdrop{background:#1119}
+.command-dialog input{border:0;border-bottom:1px solid var(--hair);border-radius:0;padding:16px 18px;font-size:14px}
+.command-dialog input:focus{box-shadow:none;border-color:var(--green)}
+.command-dialog ul{list-style:none;margin:0;padding:6px;max-height:52vh;overflow-y:auto}
+.command-dialog li{display:grid;grid-template-columns:96px 1fr auto;align-items:center;gap:10px;padding:9px 12px;font-size:12px;cursor:pointer}
+.command-dialog li.is-active{background:#efece4}
+.palette-group{font:500 9px DM Mono;text-transform:uppercase;letter-spacing:.08em;color:var(--accent)}
+.command-dialog kbd{font:9px DM Mono;color:var(--muted);border:1px solid var(--hair);padding:2px 5px}
+
+.present-overlay{position:fixed;inset:0;z-index:60;display:grid;grid-template-rows:1fr auto;place-items:center;background:#12100c}
+.present-stage{display:grid;place-items:center;width:100%;height:100%;padding:40px;overflow:auto}
+.present-stage svg{max-width:100%;max-height:100%;height:auto}
+.present-bar{display:flex;align-items:center;gap:10px;padding:14px 18px}
+.present-bar button{min-width:44px;height:36px;border:1px solid #4a453c;background:#1d1a15;color:#f1efe7;font-size:13px}
+.present-count{font:11px DM Mono;color:#a8a196;min-width:64px;text-align:center}

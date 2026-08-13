@@ -89,11 +89,13 @@ export function buildSVG(diagram, options = {}) {
   const margin = { ...CANVAS.margin, ...(settings.margin ?? {}) };
   if (showTitle) margin.top = Math.max(margin.top, 160);
 
+  const selectedIds = new Set(options.selectedIds ?? (options.selectedId ? [options.selectedId] : []));
   const ctx = {
     uid,
     theme: diagram.theme,
     settings,
     selectedId: options.selectedId ?? null,
+    selectedIds,
     interactive: options.interactive ?? true,
     corner: settings.corner ?? 8,
     dense: settings.density === "detailed",
