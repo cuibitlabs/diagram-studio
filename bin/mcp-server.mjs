@@ -151,13 +151,14 @@ const handlers = {
     const project = args.project;
     const errors = validateDiagram(project);
     if (errors.length) throw new Error(`invalid project: ${errors.join("; ")}`);
+    const composition = reviewDiagram(project);
     buildSVG(project, { interactive: false });
     return json({
       title: project.title,
       type: project.type,
       size: { width: project.width, height: project.height },
       contrast: auditTheme(project.theme),
-      composition: reviewDiagram(project),
+      composition,
       provenance: project.provenance ?? null,
     });
   },

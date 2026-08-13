@@ -8,6 +8,7 @@
 
 import { DIAGRAM_TYPES, getType, hasType, sampleFor } from "./types/index.js";
 import { DEFAULT_PALETTE, PALETTES, paletteOf } from "./theme/palettes.js";
+import { unknownIconsIn } from "./render/icons.js";
 
 export { DIAGRAM_TYPES, getType, hasType, sampleFor, DEFAULT_PALETTE, PALETTES, paletteOf };
 
@@ -236,5 +237,12 @@ export function reviewDiagram(diagram) {
   );
   const graphFamily = ["layered", "hierarchy", "er", "sequence", "swimlane"].includes(getType(diagram.type).family);
   if (graphFamily && orphans.length) notes.push(`${orphans.length} unconnected element${orphans.length === 1 ? "" : "s"}: ${orphans.map((node) => node.label).join(", ")}`);
+  const unknown = unknownIconsIn(diagram);
+  if (unknown.length) {
+    notes.push(
+      `${unknown.length} icon name${unknown.length === 1 ? "" : "s"} this build cannot draw and will omit: ${unknown.join(", ")}. ` +
+        `See UNAVAILABLE_MARKS for the concept icon to use instead of a withdrawn product mark.`,
+    );
+  }
   return notes;
 }

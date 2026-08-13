@@ -7,6 +7,11 @@
 
 import { ceilTo, layoutParagraph, measureText } from "./text.js";
 import { TYPE } from "./typography.js";
+// Which names resolve to a glyph is a fact about the icon set, and the box has
+// to agree with what will be drawn. Sizing here against `node.icon` while
+// `nodeCard` drew against the resolved name left a gutter reserved for a glyph
+// that was never emitted. `icons.js` is a static table with no dependencies.
+import { resolveIcon } from "../render/icons.js";
 
 export const BOX = {
   padX: 20,
@@ -38,8 +43,7 @@ export function measureNodeBox(node, spec = {}) {
   const titleStyle = spec.titleStyle ?? (spec.dense ? TYPE.nodeTitleSmall : TYPE.nodeTitle);
   const subStyle = spec.subStyle ?? TYPE.nodeSub;
 
-  const hasIcon = Boolean(node.icon);
-  const iconAllowance = hasIcon ? BOX.iconSize + BOX.iconGap : 0;
+  const iconAllowance = resolveIcon(node.icon) ? BOX.iconSize + BOX.iconGap : 0;
   const hasBadge = Boolean(node.badge);
   const badgeAllowance = hasBadge ? BOX.badge + BOX.gap : 0;
 

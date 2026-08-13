@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { DIAGRAM_TYPES, createDiagram } from "../src/model.js";
+import { DIAGRAM_TYPES, createDiagram, reviewDiagram } from "../src/model.js";
 import { buildSVG, uidFor } from "../src/render/svg.js";
 import { rectOf, rectsOverlap } from "../src/engine/geom.js";
 import { getRenderer } from "../src/types/index.js";
@@ -131,4 +131,39 @@ test("rendering the same project twice gives identical output", () => {
     const second = buildSVG(structuredClone(diagram), { uid: "fixed" });
     assert.equal(first, second, type.id);
   }
+});
+
+test("an icon name the build cannot draw is omitted, not half-drawn", () => {
+  const withUnknown = createDiagram("architecture");
+  withUnknown.nodes = withUnknown.nodes.slice(0, 2);
+  withUnknown.edges = [];
+  withUnknown.nodes[0].icon = "not-a-real-icon";
+  withUnknown.nodes[1].icon = "not-a-real-icon";
+
+  const svg = buildSVG(structuredClone(withUnknown), { uid: "u" });
+
+  // No dangling reference: every <use> must point at a <symbol> that exists.
+  for (const [, href] of svg.matchAll(/<use[^>]+href="#([^"]+)"/g)) {
+    assert.ok(svg.includes(`<symbol id="${href}"`), `<use> references a missing symbol: ${href}`);
+  }
+
+  // And the box must not reserve the icon gutter for a glyph never emitted.
+  const bare = structuredClone(withUnknown);
+  for (const node of bare.nodes) node.icon = "";
+  const widthsOf = (diagram) => {
+    buildSVG(diagram, { uid: "u" });
+    return diagram.nodes.map((node) => node.w);
+  };
+  assert.deepEqual(widthsOf(structuredClone(withUnknown)), widthsOf(bare), "unknown icon still padded the box");
+});
+
+test("an unknown icon name is reported rather than silently dropped", () => {
+  const diagram = createDiagram("architecture");
+  diagram.nodes[0].icon = "aws";
+  const notes = reviewDiagram(diagram);
+  assert.ok(notes.some((note) => note.includes("aws")), "review did not mention the unknown mark");
+
+  const known = createDiagram("architecture");
+  known.nodes[0].icon = "database";
+  assert.ok(!reviewDiagram(known).some((note) => note.includes("cannot draw")));
 });

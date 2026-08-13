@@ -8,6 +8,7 @@
 import { BOX } from "../engine/box.js";
 import { layoutParagraph, measureText } from "../engine/text.js";
 import { TYPE, applyCase, fontAttrs } from "../engine/typography.js";
+import { resolveIcon } from "./icons.js";
 import { ROLE_SHAPE, shapePadding, shapePath } from "./shapes.js";
 
 export const esc = (value = "") =>
@@ -61,7 +62,8 @@ export function nodeText(node, spec = {}) {
   const padY = (spec.padY ?? BOX.padY) + allowance.y / 2;
   const titleStyle = spec.titleStyle ?? (spec.dense ? TYPE.nodeTitleSmall : TYPE.nodeTitle);
   const subStyle = spec.subStyle ?? TYPE.nodeSub;
-  const iconAllowance = node.icon ? BOX.iconSize + BOX.iconGap : 0;
+  const icon = resolveIcon(node.icon);
+  const iconAllowance = icon ? BOX.iconSize + BOX.iconGap : 0;
   const inner = Math.max(24, node.w - padX * 2 - iconAllowance);
 
   const title = layoutParagraph(node.label, inner, titleStyle, spec.maxTitleLines ?? BOX.maxTitleLines, titleStyle.leading);
@@ -73,7 +75,7 @@ export function nodeText(node, spec = {}) {
   const startY = node.y + Math.max(padY, (node.h - contentHeight) / 2) + titleStyle.size * 0.82;
   const startX = centred ? node.x + node.w / 2 : node.x + padX + iconAllowance;
 
-  return { title, sub, startX, startY, centred, titleStyle, subStyle, geometry, shape, padX, padY };
+  return { title, sub, startX, startY, centred, titleStyle, subStyle, geometry, shape, padX, padY, icon };
 }
 
 /**
@@ -106,8 +108,8 @@ export function nodeCard(node, spec = {}) {
       )
     : "";
 
-  const icon = node.icon && spec.uid
-    ? `<use class="node-icon" href="#${spec.uid}-icon-${esc(node.icon)}" x="${num(node.x + layout.padX)}" y="${num(node.y + layout.padY)}" width="${BOX.iconSize}" height="${BOX.iconSize}"/>`
+  const icon = layout.icon && spec.uid
+    ? `<use class="node-icon" href="#${spec.uid}-icon-${esc(layout.icon)}" x="${num(node.x + layout.padX)}" y="${num(node.y + layout.padY)}" width="${BOX.iconSize}" height="${BOX.iconSize}"/>`
     : "";
 
   const badge = node.badge

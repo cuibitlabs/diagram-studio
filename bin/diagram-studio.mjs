@@ -302,6 +302,7 @@ const commands = {
 
   async audit({ positional }) {
     const diagram = await loadProject(positional[0] ?? die("a project file is required"));
+    const notes = reviewDiagram(diagram);
     buildSVG(diagram, { interactive: false });
 
     console.log(`${diagram.title} — ${diagram.type}, ${diagram.width}×${diagram.height}`);
@@ -313,7 +314,6 @@ const commands = {
       console.log(`  ${status}  ${row.pair.padEnd(22)} ${String(row.ratio).padStart(6)}:1  (needs ${row.target}:1) ${row.note}`);
     }
 
-    const notes = reviewDiagram(diagram);
     console.log("\nComposition");
     if (notes.length) for (const note of notes) console.log(`  ${note}`);
     else console.log("  within the composition budget");

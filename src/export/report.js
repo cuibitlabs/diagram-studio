@@ -30,9 +30,9 @@ export function readingOrder(diagram) {
  * @returns {{contrast: object[], composition: string[], order: object[], altText: string, issues: number}}
  */
 export function auditReport(diagram) {
+  const composition = reviewDiagram(diagram);
   buildSVG(diagram, { interactive: false, uid: "report" });
   const contrast = auditTheme(diagram.theme);
-  const composition = reviewDiagram(diagram);
   const order = readingOrder(diagram);
   const failures = contrast.filter((row) => !row.pass && !row.decorative).length;
 

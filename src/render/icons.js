@@ -120,6 +120,20 @@ export function iconSymbols(names, uid) {
     .join("");
 }
 
+/**
+ * The name to draw with, or `""` when the project asked for a glyph that does
+ * not exist. Both the sizing path and the drawing path go through this, so a
+ * node can never reserve space for an icon that will not be emitted — an
+ * unknown name used to leave an empty gutter and a `<use>` pointing at a
+ * `<symbol>` that was never defined.
+ */
+export const resolveIcon = (name) => (name && hasIcon(name) ? name : "");
+
 /** Icon names referenced anywhere in a project. */
 export const iconsUsedBy = (diagram) =>
   (diagram.nodes ?? []).map((node) => node.icon).filter((name) => name && hasIcon(name));
+
+/** Names a project references that this build cannot draw. */
+export const unknownIconsIn = (diagram) => [
+  ...new Set((diagram.nodes ?? []).map((node) => node.icon).filter((name) => name && !hasIcon(name))),
+];

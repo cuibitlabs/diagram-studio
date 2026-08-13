@@ -9,10 +9,17 @@ Paste them at **github.com/cuibitlabs/diagram-studio** → the **About** panel
 
 ## Description
 
-> Diagrams as code with a real layout engine. 43 types — architecture, C4, sequence, flowchart, ER, Wardley, Sankey, Gantt — from a text file, a Mermaid or draw.io import, or an AI agent over MCP. Measured text, orthogonal routing, audited WCAG contrast, 11 export formats. Browser studio, CLI and MCP server. Zero runtime dependencies.
+> Diagrams as code with a real layout engine. 43 types from a text file, a Mermaid or draw.io import, or an agent over MCP. Measured text, orthogonal routing, audited contrast. Studio, CLI and MCP server, zero dependencies.
 
-The first ~150 characters are what appears in search results, so the type count
-and the phrase people search for both sit at the front.
+219 characters. GitHub allows 350, but the About panel renders it as one
+unbroken block in a narrow column, so a description near the ceiling reads as a
+wall rather than a sentence. The first ~150 characters are what survives into a
+search result, which is why the claim and the type count sit at the front.
+
+Naming individual types here — C4, Wardley, Sankey, Gantt — was tempting and
+wrong. A list of nouns in prose reads as keyword stuffing, and topics are the
+field GitHub actually matches on for those terms. They are covered below
+instead, which is the same search reach without the sidebar cost.
 
 ## Topics
 
