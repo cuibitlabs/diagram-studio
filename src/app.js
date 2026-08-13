@@ -45,6 +45,7 @@ import { completeTheme } from "./theme/palettes.js";
 import { CVD_TYPES, auditTheme, simulateTheme } from "./theme/contrast.js";
 import { align, distribute, duplicate, nodesInMarquee } from "./editor/selection.js";
 import { buildCommands, filterCommands } from "./editor/commands.js";
+import { simplify } from "./edit/simplify.js";
 import { present } from "./editor/present.js";
 
 const icons = {
@@ -459,6 +460,16 @@ const actions = {
     snapshot();
     applyPositions(distribute(nodes, axis));
     render();
+  },
+  simplify(level) {
+    const { diagram: next, ledger } = simplify(diagram, { level });
+    const removed = diagram.nodes.length - next.nodes.length;
+    if (!removed && next.edges.length === diagram.edges.length) {
+      toast("Nothing to simplify at this level");
+      return;
+    }
+    replaceDiagram(next, ledger[0]);
+    setStatus(ledger.join(" · "));
   },
   relayout() {
     updateDiagram((next) => {

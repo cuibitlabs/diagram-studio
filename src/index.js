@@ -45,3 +45,6 @@ export { describeBrandReport, extractBrand, seededBrand } from "./theme/brand.js
 
 export { align, distribute, duplicate, nodesInMarquee } from "./editor/selection.js";
 export { snapToNeighbours } from "./editor/guides.js";
+
+export { LEVELS as SIMPLIFY_LEVELS, simplify } from "./edit/simplify.js";
+export { describeDiff, diffProjects, matchNodes, stableRedraw } from "./edit/diff.js";

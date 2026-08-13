@@ -31,6 +31,8 @@ import { toDrawio } from "../src/export/drawio.js";
 import { PALETTES, paletteOf } from "../src/theme/palettes.js";
 import { auditTheme } from "../src/theme/contrast.js";
 import { extractBrand, describeBrandReport } from "../src/theme/brand.js";
+import { LEVELS, simplify } from "../src/edit/simplify.js";
+import { describeDiff, diffProjects, stableRedraw } from "../src/edit/diff.js";
 
 const IMPORTABLE = new Set([".mmd", ".mermaid", ".md", ".drawio", ".xml", ".json"]);
 
@@ -125,10 +127,45 @@ const commands = {
 
   async import({ positional, flags }) {
     const input = positional[0] ?? die("an input file is required");
-    const diagram = applyTheme(await loadProject(input), flags.theme);
+    let diagram = applyTheme(await loadProject(input), flags.theme);
+
+    // `--onto` re-imports a changed source without throwing away the layout the
+    // author had already settled on.
+    if (flags.onto) {
+      const existing = await loadProject(String(flags.onto));
+      const { diagram: merged, report } = stableRedraw(existing, diagram);
+      diagram = merged;
+      console.log(`stable redraw: ${report.kept} kept, ${report.added.length} added, ${report.removed.length} removed`);
+      if (report.added.length) console.log(`  added: ${report.added.join(", ")}`);
+      if (report.removed.length) console.log(`  removed: ${report.removed.join(", ")}`);
+    }
+
     const out = String(flags.out ?? `${basename(input, extname(input))}.svg`);
     await write(out, serialise(diagram, out));
     if (diagram.provenance) console.log(describeProvenance(diagram.provenance));
+  },
+
+  async simplify({ positional, flags }) {
+    const input = positional[0] ?? die("an input file is required");
+    const level = flags.level ? String(flags.level) : "balanced";
+    if (!LEVELS.includes(level)) die(`unknown level "${level}". Use ${LEVELS.join(", ")}.`);
+    const { diagram, ledger } = simplify(await loadProject(input), { level });
+    applyTheme(diagram, flags.theme);
+    for (const line of ledger) console.log(line);
+    const out = String(flags.out ?? `${basename(input, extname(input))}-${level}.svg`);
+    await write(out, serialise(diagram, out));
+  },
+
+  async diff({ positional }) {
+    const [before, after] = positional;
+    if (!before || !after) die("usage: diagram-studio diff <before> <after>");
+    const diff = diffProjects(await loadProject(before), await loadProject(after));
+    console.log(describeDiff(diff));
+    for (const node of diff.nodes.added) console.log(`  + ${node.label}`);
+    for (const node of diff.nodes.removed) console.log(`  − ${node.label}`);
+    for (const node of diff.nodes.changed) {
+      if (node.fields.length) console.log(`  ~ ${node.label} (${node.fields.join(", ")})`);
+    }
   },
 
   async render({ positional, flags }) {
@@ -232,6 +269,10 @@ async function main() {
     --prompt "…"           compose from a description instead
     --title "…"  --theme id  -o out.svg
   import <file>            .mmd, .mermaid, .md, .drawio, .xml, .diagram.json
+    --onto <project.json>  keep the existing layout for everything that survived
+  simplify <file>          editorial simplification with a fidelity ledger
+    --level light|balanced|aggressive
+  diff <before> <after>    what changed between two projects
   render <project.json>    redraw a saved project
   convert <in> <out>       format taken from the output extension
   batch <dir> --out <dir>  a folder of sources into a folder of diagrams
