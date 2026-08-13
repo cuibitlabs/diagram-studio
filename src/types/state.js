@@ -37,11 +37,13 @@ export default createLayeredType({
   },
   sample: () => ({
     nodes: [
-      { label: "Draft" },
+      // Entry and exit are declared, not inferred: a lifecycle with a rejection
+      // path back to the first state has no node without an incoming edge.
+      { label: "Draft", stateKind: "initial" },
       { label: "In review" },
       { label: "Approved", tone: "accent" },
       { label: "Published" },
-      { label: "Archived" },
+      { label: "Archived", stateKind: "final" },
     ],
     edges: [
       { from: 0, to: 1, label: "submit" },

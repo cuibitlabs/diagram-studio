@@ -67,5 +67,5 @@
   </g><g class="ds-node shape-stadium tone-default">
     <path class="card" d="M 1216 96 H 1312 A 32 32 0 0 1 1344 128 V 128 A 32 32 0 0 1 1312 160 H 1216 A 32 32 0 0 1 1184 128 V 128 A 32 32 0 0 1 1216 96 Z"/>
     <text class="node-title" x="1264" y="125.12" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Archiv</text><text class="node-title" x="1264" y="145.12" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">ed</text>
-  </g><circle class="timeline-dot" cx="1372" cy="128" r="10"/><circle class="mark" cx="1372" cy="128" r="5"/><path class="axis-line" d="M 1344 128 H 1362"/></g>
+  </g><circle class="timeline-dot is-focus" cx="68" cy="128" r="7"/><path class="axis-line" d="M 75 128 H 96"/><circle class="timeline-dot" cx="1372" cy="128" r="10"/><circle class="mark" cx="1372" cy="128" r="5"/><path class="axis-line" d="M 1344 128 H 1362"/></g>
 </svg>

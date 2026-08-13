@@ -19,9 +19,27 @@ import {
   reviewDiagram,
   validateDiagram,
 } from "./model.js";
-import { describeBrandReport, extractBrandFromHTML, extractBrandFromURL, parseDrawio, parseMermaid, parseProject } from "./importers.js";
+import {
+  describeBrandReport,
+  describeProvenance,
+  extractBrandFromHTML,
+  extractBrandFromURL,
+  parseDrawio,
+  parseMermaid,
+  parseProject,
+} from "./importers.js";
 import { renderDiagram } from "./renderer.js";
-import { copySVG, exportHTML, exportPDF, exportPNG, exportProject, exportSVG, exportVariants } from "./exporters.js";
+import {
+  copySVG,
+  exportDrawio,
+  exportHTML,
+  exportMermaid,
+  exportPDF,
+  exportPNG,
+  exportProject,
+  exportSVG,
+  exportVariants,
+} from "./exporters.js";
 import { ROLE_SHAPE, SHAPES } from "./render/shapes.js";
 import { completeTheme } from "./theme/palettes.js";
 import { CVD_TYPES, auditTheme, simulateTheme } from "./theme/contrast.js";
@@ -136,6 +154,8 @@ Customer -> Web app -> API gateway -> Orders service -> Order store</textarea>
     <button data-export="pdf"><b>PDF</b><small>Landscape page</small></button>
     <button data-export="html"><b>HTML</b><small>Self-contained accessible page</small></button>
     <button data-export="variants"><b>Variants</b><small>Light, dark and titled SVGs</small></button>
+    <button data-export="mermaid"><b>Mermaid</b><small>Back into a README</small></button>
+    <button data-export="drawio"><b>draw.io</b><small>Uncompressed, diffable XML</small></button>
     <button data-export="copy"><b>Copy SVG</b><small>Paste into design tools</small></button>
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>`;
@@ -375,9 +395,10 @@ async function importFile(file) {
     const source = await file.text();
     let next;
     if (/\.(mmd|mermaid|md)$/i.test(file.name)) next = parseMermaid(source);
-    else if (/\.(drawio|xml)$/i.test(file.name)) next = parseDrawio(source);
+    else if (/\.(drawio|xml)$/i.test(file.name)) next = await parseDrawio(source);
     else next = parseProject(source);
     replaceDiagram(next, `${file.name} imported`);
+    if (next.provenance) setStatus(describeProvenance(next.provenance).split("\n")[0]);
   } catch (error) {
     toast(error.message);
     setStatus("Import needs attention");
@@ -386,13 +407,14 @@ async function importFile(file) {
 
 $("#file-import").addEventListener("change", (event) => event.target.files[0] && importFile(event.target.files[0]));
 $("#paste-source").addEventListener("click", () => $("#source-dialog").showModal());
-$("#import-source").addEventListener("click", (event) => {
+$("#import-source").addEventListener("click", async (event) => {
   event.preventDefault();
   try {
     const source = $("#source-text").value;
-    const next = source.trim().startsWith("<") ? parseDrawio(source) : parseMermaid(source);
+    const next = source.trim().startsWith("<") ? await parseDrawio(source) : parseMermaid(source);
     $("#source-dialog").close();
     replaceDiagram(next, "Pasted source imported");
+    if (next.provenance) setStatus(describeProvenance(next.provenance).split("\n")[0]);
   } catch (error) {
     toast(error.message);
   }
@@ -593,9 +615,18 @@ for (const button of document.querySelectorAll("[data-export]")) {
       if (format === "pdf") await exportPDF(diagram);
       if (format === "html") exportHTML(diagram);
       if (format === "variants") exportVariants(diagram);
+      if (format === "drawio") exportDrawio(diagram);
       if (format === "copy") await copySVG(diagram);
+      let note = "";
+      if (format === "mermaid") {
+        const notes = exportMermaid(diagram);
+        if (notes.length) {
+          note = notes[0];
+          setStatus(notes.join(" "));
+        }
+      }
       $("#export-popover").hidden = true;
-      toast(format === "copy" ? "SVG copied" : `${format.toUpperCase()} exported`);
+      toast(note || (format === "copy" ? "SVG copied" : `${format.toUpperCase()} exported`));
     } catch (error) {
       toast(`Export failed: ${error.message}`);
     }

@@ -8,6 +8,10 @@
 
 import { buildSVG, uidFor } from "./render/svg.js";
 import { DARK_FOR, PALETTES } from "./theme/palettes.js";
+import { toDrawio } from "./export/drawio.js";
+import { toMermaid } from "./export/mermaid.js";
+
+export { toDrawio, toMermaid };
 
 function save(blob, filename) {
   const link = document.createElement("a");
@@ -82,6 +86,21 @@ export function exportVariants(diagram) {
   exportSVG(diagram, { suffix: "-light" });
   exportSVG(dark, { suffix: "-dark" });
   exportSVG(titled, { suffix: "-titled" });
+}
+
+/**
+ * Round-trip back to Mermaid. Returns the notes so the caller can tell the
+ * author what the target format cannot carry.
+ */
+export function exportMermaid(diagram) {
+  const { text, notes } = toMermaid(diagram);
+  save(new Blob([`${text}\n`], { type: "text/plain;charset=utf-8" }), `${slug(diagram.title)}.mmd`);
+  return notes;
+}
+
+/** Round-trip back to an uncompressed draw.io file. */
+export function exportDrawio(diagram) {
+  save(new Blob([toDrawio(diagram)], { type: "application/xml;charset=utf-8" }), `${slug(diagram.title)}.drawio`);
 }
 
 async function rasterize(diagram, { type = "image/png", scale = 2, background = null } = {}) {
