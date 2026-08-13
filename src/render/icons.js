@@ -8,7 +8,17 @@
  * the only carrier of meaning.
  *
  * Path data assumes: 24×24 box, 1.6 stroke, round caps and joins, no fill.
+ *
+ * Product marks live in `brand-icons.js`, vendored from simple-icons (CC0) and
+ * merged into the same registry. Concepts belong here; named products belong
+ * there. Marks whose owners asked to be removed from that set are not sourced
+ * from anywhere else — see `UNAVAILABLE_MARKS` for what to use instead.
  */
+
+import { BRAND_ICONS, BRAND_ICON_NAMES, hasBrandIcon } from "./brand-icons.js";
+
+export { BRAND_ICONS, BRAND_ICON_NAMES, hasBrandIcon };
+export { BRAND_ICON_GROUPS, UNAVAILABLE_MARKS } from "./brand-icons.js";
 
 export const ICONS = {
   // people and access
@@ -74,10 +84,24 @@ export const ICONS = {
   warning: "M12 4l9 16H3zM12 10v4M12 17h.01",
   check: "M5 13l4 4 10-10",
   cross: "M6 6l12 12M18 6L6 18",
+
+  // Concepts standing in for product marks that cannot be redistributed.
+  warehouse: "M3 10l9-5 9 5v10H3zM8 20v-6h8v6M8 14h8",
+  dashboard: "M4 5h16v14H4zM4 12h7M11 5v14M15 15h5M15 9h5",
+  payments: "M3 7h18v10H3zM3 11h18M6.5 14.5h3",
+  messaging: "M4 5h16v10H4l-3 4V5zM8 9h.01M12 9h.01M16 9h.01",
+  model: "M12 4l7 4v8l-7 4-7-4V8zM12 12l7-4M12 12v8M12 12L5 8M9 6.5l6 3.5",
+  ledger: "M5 3h11l3 3v15H5zM8 8h8M8 12h8M8 16h5",
 };
 
 export const ICON_NAMES = Object.keys(ICONS);
-export const hasIcon = (name) => Object.hasOwn(ICONS, name);
+
+/** Concept icons are stroked outlines; product marks are solid glyphs. */
+export const hasIcon = (name) => Object.hasOwn(ICONS, name) || hasBrandIcon(name);
+export const isBrand = (name) => !Object.hasOwn(ICONS, name) && hasBrandIcon(name);
+
+/** Every icon a project can reference, with its source. */
+export const ALL_ICON_NAMES = [...ICON_NAMES, ...BRAND_ICON_NAMES].sort();
 
 /**
  * `<symbol>` definitions for the icons a diagram actually uses.
@@ -87,10 +111,12 @@ export function iconSymbols(names, uid) {
   const unique = [...new Set(names)].filter((name) => hasIcon(name)).sort();
   if (!unique.length) return "";
   return unique
-    .map(
-      (name) =>
-        `<symbol id="${uid}-icon-${name}" viewBox="0 0 24 24"><path d="${ICONS[name]}" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>`,
-    )
+    .map((name) => {
+      const body = isBrand(name)
+        ? `<path d="${BRAND_ICONS[name].path}" fill="currentColor"/>`
+        : `<path d="${ICONS[name]}" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>`;
+      return `<symbol id="${uid}-icon-${name}" viewBox="0 0 24 24">${body}</symbol>`;
+    })
     .join("");
 }
 

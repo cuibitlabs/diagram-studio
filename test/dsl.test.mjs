@@ -10,13 +10,15 @@ theme cobalt
 direction LR
 describe "How an order reaches the ledger"
 
-group "Perimeter" {
-  customer: actor "Customer" #user
-  web "Web app" / "Browser client" #browser
-}
+customer: actor "Customer" #user
+web "Web app" / "Browser client" #browser
 gateway "API gateway" *
 orders "Orders service"
 store: store "Order store"
+
+group "Perimeter" {
+  customer web
+}
 
 customer -> web
 web -> gateway "TLS"

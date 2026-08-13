@@ -10,7 +10,7 @@ npx diagram-studio --help
 
 ## What it does
 
-- **31 diagram and chart structures**, each with its own layout and drawing rules, not one generic renderer with 31 names.
+- **43 diagram and chart structures**, each with its own layout and drawing rules, not one generic renderer with 43 names. C4 context and container, Wardley maps, service blueprints, value streams, Sankeys, treemaps, heatmaps, waterfalls and fishbones sit alongside the usual architecture, flowchart and sequence.
 - **A real layout engine.** Text is measured, so a node is sized by its content and a label cannot clip. Connectors are orthogonal elbows with allocated attach points, obstacle avoidance and an A\* fallback, so a connector never crosses a node it does not belong to. Everything sits on a 4 px grid.
 - **It never invents content.** A chart with a missing value shows a gap and a note, not a zero. A funnel is proportional only when every level has a value. A journey draws its sentiment line only when sentiment was measured. A Gantt task without a duration is listed as unscheduled.
 - **A visual system with a point of view.** The default is a drafting plate — cool vellum, graphite ink, raw sienna for the one thing to look at first — not the cream-paper-and-terracotta look every generated diagram arrives in. Accent nodes are tinted cards behind an accent border rather than solid blocks, and `settings.plate` exposes the real 4 px module in the corner.
@@ -75,8 +75,8 @@ src/import|export Mermaid, draw.io, ASCII, the diagram language
 src/edit/         simplification with a ledger, project diff, stable redraw
 src/editor/       selection, snapping, command palette, presentation
 bin/              CLI and MCP server
-skills/           the agent skill: 31 type references, 10 guides,
-                  and 155 self-contained example pages
+skills/           the agent skill: 43 type references, 10 guides,
+                  and 215 self-contained example pages
 scripts/          doc and example generators, gallery, and six verifiers
 docs/gallery/     every type rendered light and dark
 ```
@@ -87,7 +87,7 @@ docs/gallery/     every type rendered light and dark
 npm run check      # tests, build and verifiers
 ```
 
-210+ tests, plus six verifiers that fail the build on: content drawn outside the canvas, overlapping nodes, a diagonal or node-crossing connector, geometry off the 4 px grid, a truncated label, a contrast pair below target, a missing accessible name, a shadow or gradient, a literal colour outside the token set, an over-budget accent count, a stale type reference, a stale or orphaned example page, an example that would make a network request, and an import that no longer renders.
+213 tests, plus six verifiers that fail the build on: content drawn outside the canvas, overlapping nodes, a diagonal or node-crossing connector, geometry off the 4 px grid, a truncated label, a contrast pair below target, a missing accessible name, a shadow or gradient, a literal colour outside the token set, an over-budget accent count, a stale type reference, a stale or orphaned example page, an example that would make a network request, and an import that no longer renders.
 
 CI runs all of it on Linux, Windows and macOS.
 

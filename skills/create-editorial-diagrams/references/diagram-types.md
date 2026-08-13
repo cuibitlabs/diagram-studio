@@ -7,6 +7,8 @@ it is right.
 | Type | Family | Communication job |
 | --- | --- | --- |
 | [Architecture](type-architecture.md) | `layered` | Systems, services and the connections between them |
+| [C4 context](type-c4-context.md) | `layered` | One system, its users, and the systems around it |
+| [C4 container](type-c4-container.md) | `layered` | The deployable parts of one system, and the technology each uses |
 | [High-level system](type-high-level.md) | `layered` | End-to-end platform view for a non-specialist audience |
 | [Current state](type-current-state.md) | `layered` | Legacy landscape with its constraints made explicit |
 | [Flowchart](type-flowchart.md) | `layered` | Decisions and process logic |
@@ -18,6 +20,9 @@ it is right.
 | [Network topology](type-network.md) | `layered` | Devices, zones and the links between them |
 | [ER / data model](type-er.md) | `er` | Entities, their fields and the relationships between them |
 | [Swimlane](type-swimlane.md) | `swimlane` | Cross-functional flow with explicit ownership |
+| [Service blueprint](type-service-blueprint.md) | `swimlane` | A journey with the frontstage, backstage and the line of visibility |
+| [Value stream](type-value-stream.md) | `timeline` | Steps with process and wait time, and the efficiency that falls out |
+| [Kanban board](type-kanban.md) | `band` | Work in columns, with the limit that makes it a system |
 | [Tree](type-tree.md) | `hierarchy` | Parent and child relationships in a taxonomy |
 | [Org chart](type-org-chart.md) | `hierarchy` | Teams, ownership and reporting lines |
 | [Nested systems](type-nested.md) | `band` | Hierarchy expressed by containment rather than flow |
@@ -31,11 +36,18 @@ it is right.
 | [Customer journey](type-journey.md) | `timeline` | Stages, customer actions and measured sentiment |
 | [Quadrant](type-quadrant.md) | `matrix` | Items positioned against two named axes |
 | [Consultant matrix](type-matrix.md) | `matrix` | Four named strategies against two axes |
+| [Wardley map](type-wardley.md) | `map` | Components by user visibility and evolution, with their dependencies |
+| [Fishbone](type-fishbone.md) | `fishbone` | One effect and the categories of cause behind it |
 | [Venn](type-venn.md) | `set` | Set overlap and the value that lives in the intersection |
 | [Radar](type-radar.md) | `chart` | Multi-axis comparison on a single shared scale |
 | [Bar chart](type-bar.md) | `chart` | Comparison across categories |
 | [Line chart](type-line.md) | `chart` | A measured trend over an ordered axis |
 | [Scatter plot](type-scatter.md) | `chart` | Distribution and correlation across two measures |
+| [Stacked bar](type-stacked-bar.md) | `chart` | What each category is made of, and how the totals compare |
+| [Waterfall](type-waterfall.md) | `chart` | How a starting figure becomes an ending one |
+| [Sankey](type-sankey.md) | `chart` | Where a quantity goes, drawn to scale |
+| [Treemap](type-treemap.md) | `chart` | Share of a whole, drawn as area |
+| [Heatmap](type-heatmap.md) | `chart` | One measure across two categories, with the number in every cell |
 | [Gantt](type-gantt.md) | `chart` | Tasks against a declared time scale |
 
 ## Choosing

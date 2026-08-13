@@ -37,14 +37,18 @@ network "Network topology overview"
 theme plate
 describe "Devices, zones and the links between them"
 
+internet: external "Internet" #globe
+edge "Edge" / "Load balancer" #balancer
+application-tier "Application tier" * #server
+private-subnet "Private subnet" / "No inbound route" #firewall
+database: store "Database" #database
+
 group "Perimeter" {
-  internet: external "Internet" #globe
-  edge "Edge" / "Load balancer" #balancer
+  internet edge
 }
+
 group "Private network" {
-  application-tier "Application tier" * #server
-  private-subnet "Private subnet" / "No inbound route" #firewall
-  database: store "Database" #database
+  application-tier private-subnet database
 }
 
 internet -> edge "443"

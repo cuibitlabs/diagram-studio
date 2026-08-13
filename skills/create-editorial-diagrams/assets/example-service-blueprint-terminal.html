@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Service blueprint overview — Terminal</title>
+<meta name="description" content="A journey with the frontstage, backstage and the line of visibility">
+<meta name="generator" content="Diagram Studio">
+<style>
+  :root{
+    color-scheme:dark;
+    --paper:#16181a; --sheet:#202426; --ink:#eceef0;
+    --muted:#a2a8ad; --soft:#9aa1a7;
+    --rule:#3a4045; --accent:#f0a04b;
+    --mono:ui-monospace,SFMono-Regular,'Geist Mono',Menlo,monospace;
+    --sans:Inter,system-ui,-apple-system,'Segoe UI',sans-serif;
+    --serif:'Instrument Serif',ui-serif,Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:clamp(20px,5vw,64px) clamp(16px,4vw,56px);
+       background:var(--paper);color:var(--ink);font:16px/1.6 var(--sans)}
+  .plate{max-width:min(100%,1280px);margin:0 auto;display:grid;
+         grid-template-columns:20px minmax(0,1fr);gap:0 clamp(16px,3vw,32px)}
+
+  /* The module ruler: 4px ticks, every fourth one long. Same grid the engine
+     enforces, so the page and the drawing agree about what a unit is. */
+  .ruler{border-left:1px solid var(--rule);
+         background:repeating-linear-gradient(to bottom,
+           var(--rule) 0 1px, transparent 1px 4px);
+         opacity:.55;border-radius:1px}
+  .ruler::after{content:"";display:block;width:9px;height:100%;
+         background:repeating-linear-gradient(to bottom,
+           var(--accent) 0 1px, transparent 1px 16px)}
+
+  header{grid-column:2;display:flex;flex-wrap:wrap;gap:8px 20px;
+         align-items:baseline;justify-content:space-between;
+         padding-bottom:10px;border-bottom:1px solid var(--rule)}
+  .eyebrow{font:600 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+  .eyebrow.sheet{color:var(--soft)}
+  h1{grid-column:2;font:400 clamp(28px,4vw,42px)/1.1 var(--serif);
+     margin:24px 0 6px;letter-spacing:-.01em}
+  .standfirst{grid-column:2;margin:0 0 28px;max-width:66ch;color:var(--muted)}
+
+  figure{grid-column:2;margin:0;padding:clamp(16px,3vw,32px);
+         background:var(--sheet);border:1px solid var(--rule);overflow-x:auto}
+  svg{max-width:100%;height:auto;display:block;margin:0 auto}
+
+  .titleblock{grid-column:2;margin:24px 0 0;display:grid;
+              grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+              gap:0;border-top:1px solid var(--rule)}
+  .titleblock div{padding:12px 16px 12px 0;border-bottom:1px solid var(--rule)}
+  .titleblock dt{font:600 10px/1.4 var(--mono);letter-spacing:.12em;
+                 text-transform:uppercase;color:var(--soft);margin:0 0 2px}
+  .titleblock dd{margin:0;font:13px/1.4 var(--mono)}
+  .note{grid-column:2;margin:20px 0 0;max-width:66ch;color:var(--muted);font-size:14px}
+  a{color:var(--accent)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  @media (max-width:640px){.plate{grid-template-columns:1fr}.ruler{display:none}
+    header,h1,.standfirst,figure,.titleblock,.note{grid-column:1}}
+  @media print{.ruler{display:none}figure{border-color:#999}}
+
+</style>
+</head>
+<body>
+<div class="plate">
+  <div class="ruler" aria-hidden="true"></div>
+  <header>
+    <span class="eyebrow">Service blueprint</span>
+    <span class="eyebrow sheet">Terminal · 2400×784</span>
+  </header>
+  <h1>Service blueprint overview</h1>
+  <p class="standfirst">A journey with the frontstage, backstage and the line of visibility</p>
+  <figure data-motion-figure>
+    <svg xmlns="http://www.w3.org/2000/svg" class="ds-svg" viewBox="0 0 2400 784" width="2400" height="784" role="img" aria-labelledby="service-blueprint-terminal-title service-blueprint-terminal-desc" style="--font-sans:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;--font-mono:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;--font-serif:'Instrument Serif', ui-serif, Georgia, 'Times New Roman', serif;--sketch:url(#service-blueprint-terminal-sketch);--paper:#16181a;--paper-2:#1d2124;--panel:#202426;--ink:#eceef0;--muted:#a2a8ad;--soft:#9aa1a7;--accent:#f0a04b;--accent-tint:rgba(240,160,75,0.14);--accent-2:#6fb3d2;--link:#8fc4e8;--line:#3a4045;--line-strong:#c7ccd1;--on-accent:#1a1512;--series-0:#8fb4c4;--series-1:#c4a274;--series-2:#a2bd8a;--corner:8px">
+  <title id="service-blueprint-terminal-title">Service blueprint overview</title>
+  <desc id="service-blueprint-terminal-desc">A journey with the frontstage, backstage and the line of visibility</desc>
+  <defs>
+    
+    <marker id="service-blueprint-terminal-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 0 1 L 9 5 L 0 9 Z" fill="var(--line-strong)"/>
+    </marker>
+    <marker id="service-blueprint-terminal-arrow-start" markerWidth="10" markerHeight="10" refX="1" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 10 1 L 1 5 L 10 9 Z" fill="var(--line-strong)"/>
+    </marker>
+    <marker id="service-blueprint-terminal-arrow-open" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 1 1 L 10 6 L 1 11" fill="none" stroke="var(--line-strong)" stroke-width="1.5"/>
+    </marker>
+    <marker id="service-blueprint-terminal-dot" markerWidth="8" markerHeight="8" refX="4" refY="4" markerUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="3" fill="var(--accent)"/>
+    </marker>
+    <marker id="service-blueprint-terminal-crowfoot" markerWidth="14" markerHeight="14" refX="12" refY="7" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 12 1 L 2 7 L 12 13 M 2 7 H 12" fill="none" stroke="var(--line-strong)" stroke-width="1.2"/>
+    </marker>
+    <marker id="service-blueprint-terminal-bar" markerWidth="10" markerHeight="14" refX="6" refY="7" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 6 1 V 13" fill="none" stroke="var(--line-strong)" stroke-width="1.4"/>
+    </marker>
+    <pattern id="service-blueprint-terminal-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#3a4045" stroke-opacity="0.25" stroke-width="1"/>
+    </pattern>
+    <pattern id="service-blueprint-terminal-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <path d="M 0 0 V 8" stroke="#3a4045" stroke-width="2" stroke-opacity="0.5"/>
+    </pattern>
+    <filter id="service-blueprint-terminal-sketch" x="-5%" y="-5%" width="110%" height="110%" filterUnits="objectBoundingBox">
+      <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="3" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+  <style>.canvas-bg{fill:var(--paper)}.canvas-grid{pointer-events:none}text{fill:var(--ink)}.diagram-title-text{fill:var(--ink)}.diagram-lede{fill:var(--muted)}.ds-node .card{fill:var(--panel);stroke:var(--line);stroke-width:1.25}.ds-node .card-rim{fill:none;stroke:var(--line);stroke-width:1.25}.ds-node.is-dashed .card{stroke-dasharray:6 6}.ds-node .node-title{fill:var(--ink)}.ds-node .node-sub{fill:var(--soft)}.ds-node.tone-outline .card{fill:var(--accent-tint);stroke:var(--accent);stroke-width:1.5}.ds-node.tone-outline .node-title{fill:var(--ink)}.ds-node .node-icon{color:var(--muted)}.ds-node.tone-accent .card{fill:var(--accent-tint);stroke:var(--accent);stroke-width:1.75}.ds-node.tone-accent .node-title{fill:var(--ink)}.ds-node.tone-accent .node-sub{fill:var(--muted)}.ds-node.tone-solid .card{fill:var(--accent);stroke:var(--accent)}.ds-node.tone-solid .node-title,.ds-node.tone-solid .node-sub{fill:var(--on-accent)}.ds-node.tone-muted .card{fill:var(--paper)}.ds-node.tone-muted .node-title{fill:var(--muted)}.ds-node.role-external .card,.ds-node.role-optional .card,.ds-node.role-legacy .card{stroke-dasharray:6 6}.ds-node.role-legacy .node-title{fill:var(--muted)}.ds-node.role-security .card{stroke:var(--accent-2);stroke-width:1.5}.ds-node.role-store .card{fill:var(--paper)}.ds-node.is-selected .card{stroke:var(--accent-2);stroke-width:2.5}.ds-node .node-badge rect{fill:var(--paper);stroke:var(--line)}.ds-node .badge-text{fill:var(--muted)}.ds-edge .line{fill:none;stroke:var(--line-strong);stroke-width:1.25;stroke-linejoin:round;stroke-linecap:butt}.ds-edge .edge-hit{fill:none;stroke:transparent;stroke-width:14}.ds-edge.is-dashed .line{stroke-dasharray:7 6}.ds-edge.tone-accent .line{stroke:var(--accent);stroke-width:2}.ds-edge.kind-weak .line{stroke:var(--line);stroke-width:1}.ds-edge.kind-external .line{stroke:var(--link)}.ds-edge.kind-external .edge-label-text{fill:var(--link)}.ds-edge.is-selected .line{stroke:var(--accent-2);stroke-width:2.5}.ds-edge .edge-label rect{fill:var(--paper);stroke:none}.ds-edge .edge-label-text{fill:var(--muted)}.lane rect,.group rect{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:4 5}.lane.is-filled rect{fill:var(--paper-2);stroke-dasharray:none}.lane-title{fill:var(--muted)}.series-0{fill:var(--series-0)}.series-1{fill:var(--series-1)}.series-2{fill:var(--series-2)}.series-line-0{stroke:var(--series-0)}.series-line-1{stroke:var(--series-1)}.series-line-2{stroke:var(--series-2)}.plot-bg{fill:var(--paper-2);stroke:none}.axis-line{fill:none;stroke:var(--line-strong);stroke-width:1.25}.grid-line{fill:none;stroke:var(--line);stroke-width:1}.axis-label,.caption{fill:var(--muted)}.mark{fill:var(--accent-2)}.mark.is-focus{fill:var(--accent)}.mark-line{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}.mark-area{fill:var(--accent);fill-opacity:.12;stroke:none}.mark-label{fill:var(--muted)}.mark-value{fill:var(--ink)}.lifeline{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:5 6}.activation{fill:var(--panel);stroke:var(--line);stroke-width:1}.timeline-axis{fill:none;stroke:var(--line-strong);stroke-width:1.25}.timeline-stem{fill:none;stroke:var(--line);stroke-width:1}.timeline-dot{fill:var(--paper);stroke:var(--line-strong);stroke-width:1.5}.timeline-dot.is-focus{fill:var(--accent);stroke:var(--accent)}.set-ring{fill:var(--accent);fill-opacity:.14;stroke:var(--accent);stroke-width:1.5}.set-ring.set-1{fill:var(--accent-2);stroke:var(--accent-2)}.set-ring.set-2{fill:var(--ink);stroke:var(--ink);fill-opacity:.08}.set-label{fill:var(--ink)}.tier{fill:var(--panel);stroke:var(--line);stroke-width:1.25}.tier.is-focus{fill:var(--accent);stroke:var(--accent)}.tier-label{fill:var(--ink)}.tier.is-focus .tier-label{fill:var(--on-accent)}.hub{fill:var(--accent-2);stroke:none}.hub-label{fill:var(--on-accent)}.legend-swatch{fill:var(--accent)}.legend-swatch.is-secondary{fill:var(--accent-2)}.legend-swatch.is-muted{fill:var(--line)}.legend-label{fill:var(--muted)}.entity-header{fill:var(--paper-2);stroke:var(--line);stroke-width:1.25}.entity-header.is-focus{fill:var(--accent);stroke:var(--accent)}.entity-row{fill:none;stroke:var(--line);stroke-width:1}.entity-field{fill:var(--ink)}.entity-type{fill:var(--muted)}.wip-over{fill:var(--accent)}.visibility-line path{fill:none;stroke:var(--accent-2);stroke-width:2}.visibility-label{fill:var(--accent-2)}.map-link{fill:none;stroke:var(--line-strong);stroke-width:1}.map-link.is-dashed{stroke-dasharray:5 5}.map-move{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:4 3}.spine{fill:none;stroke:var(--line-strong);stroke-width:1.5}.bone-line{fill:none;stroke:var(--line);stroke-width:1.25}.bone-head{fill:var(--panel);stroke:var(--line)}.ladder{fill:none;stroke:var(--accent-2);stroke-width:2;stroke-linejoin:round}.flow{fill:none;stroke:var(--accent-2);stroke-opacity:.42}.flow.is-focus{stroke:var(--accent);stroke-opacity:.6}.flow-node rect{fill:var(--line-strong)}.flow-node.tone-accent rect{fill:var(--accent)}.tile rect{fill:var(--paper-2);stroke:var(--line);stroke-width:1}.tile.tone-accent rect{fill:var(--accent-tint);stroke:var(--accent);stroke-width:1.5}.tile-label{fill:var(--ink)}.tile-value{fill:var(--muted)}.heat-cell rect{stroke:var(--paper);stroke-width:1}.heat-cell.is-empty rect{fill:none;stroke:var(--line);stroke-dasharray:3 3}.step rect{fill:var(--accent-2)}.step.is-down rect{fill:var(--line-strong)}.step.is-total rect{fill:var(--accent)}.step-link{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:3 3}.style-terminal{--font-sans:var(--font-mono);--font-serif:var(--font-mono)}.style-terminal .card{fill:none;stroke-width:1.5}.style-terminal .card-rim,.style-terminal .plot-bg{fill:none}.style-terminal .ds-node.tone-accent .card{fill:none;stroke:var(--accent);stroke-width:2.5}.style-terminal .ds-node.tone-accent .node-title,.style-terminal .ds-node.tone-accent .node-sub{fill:var(--accent)}.style-terminal .edge-label rect{fill:var(--paper)}.style-terminal .tier,.style-terminal .entity-header{fill:none}.style-terminal .tier.is-focus,.style-terminal .entity-header.is-focus{fill:none;stroke:var(--accent)}.style-terminal .tier.is-focus .tier-label{fill:var(--accent)}.style-sketchy .card,.style-sketchy .line,.style-sketchy .tier,.style-sketchy .set-ring{filter:var(--sketch)}.style-sketchy .lane rect{filter:var(--sketch)}.plate-rule{fill:none;stroke:var(--line);stroke-width:1}.plate-tick{fill:none;stroke:var(--accent);stroke-width:1}.plate-label{fill:var(--ink)}.plate-spec{fill:var(--soft)}.annotation-text{fill:var(--muted)}.annotation-rule{stroke:var(--accent);stroke-width:2;fill:none}.annotation-leader{stroke:var(--line);stroke-width:1;fill:none;stroke-dasharray:3 4}@keyframes ds-reveal{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}@keyframes ds-flow{to{stroke-dashoffset:-28}}.motion-reveal .ds-node,.motion-reveal .ds-edge{animation:ds-reveal .5s ease both;animation-delay:calc(var(--step,0)*.14s)}.motion-loop .ds-edge .line{stroke-dasharray:6 8;animation:ds-flow 1.6s linear infinite}.motion-loop .ds-edge.tone-accent .line{animation-duration:1.1s}.motion-ready .motion-step .ds-node,.motion-ready .motion-step .ds-edge{opacity:.12;transition:opacity .3s ease}.motion-ready .motion-step .ds-node.is-shown,.motion-ready .motion-step .ds-edge.is-shown{opacity:1}@media (prefers-reduced-motion: reduce){.motion-reveal .ds-node,.motion-reveal .ds-edge{animation:none;opacity:1;transform:none}.motion-loop .ds-edge .line{animation:none;stroke-dasharray:none}.motion-ready .motion-step .ds-node,.motion-ready .motion-step .ds-edge{transition:none}}@media print{.motion-ready .motion-step .ds-node,.motion-ready .motion-step .ds-edge{opacity:1}}.editor-overlay{pointer-events:none}.snap-guide{fill:none;stroke:var(--accent-2);stroke-width:1;stroke-dasharray:3 4}.marquee{fill:var(--accent-2);fill-opacity:.08;stroke:var(--accent-2);stroke-width:1;stroke-dasharray:4 4}.message-mask{fill:var(--paper)}.stepping .ds-node,.stepping .ds-edge{transition:opacity .3s ease}.stepping.no-motion .ds-node,.stepping.no-motion .ds-edge{transition:none}.ds-node.is-pending,.ds-edge.is-pending{opacity:.1}.ds-node[data-node-id]{cursor:grab}.ds-node[data-node-id]:focus-visible .card{stroke:var(--accent-2);stroke-width:2.5}.ds-node[data-node-id]:focus{outline:none}.ds-edge[data-edge-id]{cursor:pointer}</style>
+  <rect class="canvas-bg" x="0" y="0" width="2400" height="784"/>
+  
+  
+  
+  <g class="diagram-content style-terminal"><g class="lane " data-lane="evidence">
+        <rect x="96" y="96" width="2272" height="112" rx="8"/>
+        <path class="grid-line" d="M 272 96 V 208"/>
+        <text class="lane-title" x="114" y="150" text-anchor="start" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:700;letter-spacing:1.2px">PHYSICAL EVIDENCE</text>
+        <text class="axis-label" x="114" y="168" text-anchor="start" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:500">What the customer sees</text>
+      </g><g class="lane is-filled" data-lane="customer">
+        <rect x="96" y="216" width="2272" height="112" rx="8"/>
+        <path class="grid-line" d="M 272 216 V 328"/>
+        <text class="lane-title" x="114" y="270" text-anchor="start" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:700;letter-spacing:1.2px">CUSTOMER ACTIONS</text>
+        <text class="axis-label" x="114" y="288" text-anchor="start" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:500">What the customer does</text>
+      </g><g class="lane " data-lane="frontstage">
+        <rect x="96" y="336" width="2272" height="112" rx="8"/>
+        <path class="grid-line" d="M 272 336 V 448"/>
+        <text class="lane-title" x="114" y="390" text-anchor="start" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:700;letter-spacing:1.2px">FRONTSTAGE</text>
+        <text class="axis-label" x="114" y="408" text-anchor="start" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:500">Visible to the customer</text>
+      </g><g class="lane is-filled" data-lane="backstage">
+        <rect x="96" y="456" width="2272" height="112" rx="8"/>
+        <path class="grid-line" d="M 272 456 V 568"/>
+        <text class="lane-title" x="114" y="510" text-anchor="start" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:700;letter-spacing:1.2px">BACKSTAGE</text>
+        <text class="axis-label" x="114" y="528" text-anchor="start" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:500">Hidden from the customer</text>
+      </g><g class="lane " data-lane="support">
+        <rect x="96" y="576" width="2272" height="112" rx="8"/>
+        <path class="grid-line" d="M 272 576 V 688"/>
+        <text class="lane-title" x="114" y="630" text-anchor="start" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:700;letter-spacing:1.2px">SUPPORT PROCESSES</text>
+        <text class="axis-label" x="114" y="648" text-anchor="start" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:500">Systems and third parties</text>
+      </g><g class="visibility-line">
+          <path d="M 96 452 H 2368"/>
+          <text class="visibility-label" x="2368" y="444" text-anchor="end" style="font-family:var(--font-mono,'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace);font-size:12px;font-weight:600;letter-spacing:1px">LINE OF VISIBILITY</text>
+        </g><g class="ds-edge" data-edge-id="edge-nk-v9ft">
+    <path class="edge-hit" d="M 468 272 L 568 272 Q 576 272 576 280 L 576 384 Q 576 392 584 392 L 596 392"/>
+    <path class="line" d="M 468 272 L 568 272 Q 576 272 576 280 L 576 384 Q 576 392 584 392 L 596 392" marker-end="url(#service-blueprint-terminal-arrow)"/>
+    
+  </g><g class="ds-edge" data-edge-id="edge-nl-v9ft">
+    <path class="edge-hit" d="M 780 392 L 848 392 Q 856 392 856 400 L 856 504 Q 856 512 864 512 L 876 512"/>
+    <path class="line" d="M 780 392 L 848 392 Q 856 392 856 400 L 856 504 Q 856 512 864 512 L 876 512" marker-end="url(#service-blueprint-terminal-arrow)"/>
+    
+  </g><g class="ds-edge" data-edge-id="edge-nm-v9ft">
+    <path class="edge-hit" d="M 1056 512 L 1152 512"/>
+    <path class="line" d="M 1056 512 L 1152 512" marker-end="url(#service-blueprint-terminal-arrow)"/>
+    
+  </g><g class="ds-edge" data-edge-id="edge-nn-v9ft">
+    <path class="edge-hit" d="M 1404 512 L 1472 512 Q 1480 512 1480 520 L 1480 624 Q 1480 632 1488 632 L 1500 632"/>
+    <path class="line" d="M 1404 512 L 1472 512 Q 1480 512 1480 520 L 1480 624 Q 1480 632 1488 632 L 1500 632" marker-end="url(#service-blueprint-terminal-arrow)"/>
+    
+  </g><g class="ds-edge" data-edge-id="edge-no-v9ft">
+    <path class="edge-hit" d="M 1748 632 L 1816 632 Q 1824 632 1824 624 L 1824 400 Q 1824 392 1832 392 L 1844 392"/>
+    <path class="line" d="M 1748 632 L 1816 632 Q 1824 632 1824 624 L 1824 400 Q 1824 392 1832 392 L 1844 392" marker-end="url(#service-blueprint-terminal-arrow)"/>
+    
+  </g><g class="ds-edge" data-edge-id="edge-np-v9ft">
+    <path class="edge-hit" d="M 2060 392 L 2128 392 Q 2136 392 2136 384 L 2136 280 Q 2136 272 2144 272 L 2156 272"/>
+    <path class="line" d="M 2060 392 L 2128 392 Q 2136 392 2136 384 L 2136 280 Q 2136 272 2144 272 L 2156 272" marker-end="url(#service-blueprint-terminal-arrow)"/>
+    
+  </g><g class="ds-node shape-box tone-default">
+    <path class="card" d="M 280 120 H 492 A 8 8 0 0 1 500 128 V 176 A 8 8 0 0 1 492 184 H 280 A 8 8 0 0 1 272 176 V 128 A 8 8 0 0 1 280 120 Z"/>
+    <text class="node-title" x="292" y="155.12" text-anchor="start" style="font-family:var(--font-sans,Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:16px;font-weight:700">Order confirmation email</text>
+  </g><g class="ds-node shape-box tone-default">
+    <path class="card" d="M 312 240 H 460 A 8 8 0 0 1 468 248 V 296 A 8 8 0 0 1 460 304 H 312 A 8 8 0 0 1 304 296 V 248 A 8 8 0 0 1 312 240 Z"/>
+    <text class="node-title" x="324" y="275.12" text-anchor="start" style="font-family:var(--font-sans,Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:16px;font-weight:700">Places the order</text>
+  </g><g class="ds-node shape-box tone-default">
+    <path class="card" d="M 2164 240 H 2336 A 8 8 0 0 1 2344 248 V 296 A 8 8 0 0 1 2336 304 H 2164 A 8 8 0 0 1 2156 296 V 248 A 8 8 0 0 1 2164 240 Z"/>
+    <text class="node-title" x="2176" y="275.12" text-anchor="start" style="font-family:var(--font-sans,Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:16px;font-weight:700">Tracks the delivery</text>
+  </g><g class="ds-node shape-box tone-default">
+    <path class="card" d="M 604 360 H 772 A 8 8 0 0 1 780 368 V 416 A 8 8 0 0 1 772 424 H 604 A 8 8 0 0 1 596 416 V 368 A 8 8 0 0 1 604 360 Z"/>
+    <text class="node-title" x="616" y="395.12" text-anchor="start" style="font-family:var(--font-sans,Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:16px;font-weight:700">Checkout confirms</text>
+  </g><g class="ds-node shape-box tone-accent">
+    <path class="card" d="M 1852 360 H 2052 A 8 8 0 0 1 2060 368 V 416 A 8 8 0 0 1 2052 424 H 1852 A 8 8 0 0 1 1844 416 V 368 A 8 8 0 0 1 1852 360 Z"/>
+    <text class="node-title" x="1864" y="395.12" text-anchor="start" style="font-family:var(--font-sans,Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:16px;font-weight:700">Tracking page updates</text>
+  </g><g class="ds-node shape-box tone-default">
+    <path class="card" d="M 884 480 H 1048 A 8 8 0 0 1 1056 488 V 536 A 8 8 0 0 1 1048 544 H 884 A 8 8 0 0 1 876 536 V 488 A 8 8 0 0 1 884 480 Z"/>
+    <text class="node-title" x="896" y="515.12" text-anchor="start" style="font-family:var(--font-sans,Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:16px;font-weight:700">Payment captured</text>
+  </g><g class="ds-node shape-box tone-default">
+    <path class="card" d="M 1160 480 H 1396 A 8 8 0 0 1 1404 488 V 536 A 8 8 0 0 1 1396 544 H 1160 A 8 8 0 0 1 1152 536 V 488 A 8 8 0 0 1 1160 480 Z"/>
+    <text class="node-title" x="1172" y="515.12" text-anchor="start" style="font-family:var(--font-sans,Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:16px;font-weight:700">Warehouse picks and packs</text>
+  </g><g class="ds-node shape-box tone-default">
+    <path class="card" d="M 1508 600 H 1740 A 8 8 0 0 1 1748 608 V 656 A 8 8 0 0 1 1740 664 H 1508 A 8 8 0 0 1 1500 656 V 608 A 8 8 0 0 1 1508 600 Z"/>
+    <text class="node-title" x="1520" y="635.12" text-anchor="start" style="font-family:var(--font-sans,Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif);font-size:16px;font-weight:700">Carrier books the collection</text>
+  </g></g>
+  
+</svg>
+    
+  </figure>
+  <dl class="titleblock">
+    <div><dt>Type</dt><dd>Service blueprint</dd></div>
+    <div><dt>Family</dt><dd>swimlane</dd></div>
+    <div><dt>Sheet</dt><dd>Terminal</dd></div>
+    <div><dt>Canvas</dt><dd>2400 × 784</dd></div>
+    <div><dt>Census</dt><dd>8 elements · 6 connections</dd></div>
+    <div><dt>Module</dt><dd>4 px</dd></div>
+  </dl>
+  <p class="note">Monospace, unfilled shapes, accent carried by stroke. For docs beside code. <a href="index.html">All sheets</a></p>
+</div>
+
+</body>
+</html>

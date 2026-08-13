@@ -12,7 +12,7 @@ import { readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 
 import { SKIN_RULES } from "../src/render/skin.js";
-import { DIAGRAM_TYPES, LIMITS, createDiagram } from "../src/model.js";
+import { DIAGRAM_TYPES, LIMITS, createDiagram, primaryNodes } from "../src/model.js";
 
 const failures = [];
 const fail = (scope, detail) => failures.push({ scope, detail });
@@ -52,11 +52,26 @@ for (const type of DIAGRAM_TYPES) {
   const diagram = createDiagram(type.id);
   const accents = diagram.nodes.filter((node) => node.tone === "accent").length;
   if (accents > LIMITS.accent) fail(`sample:${type.id}`, `${accents} accent nodes, budget is ${LIMITS.accent}`);
-  if (diagram.nodes.length > LIMITS.budgetNodes) {
-    fail(`sample:${type.id}`, `${diagram.nodes.length} nodes, budget is ${LIMITS.budgetNodes}`);
+  const primary = primaryNodes(diagram).length;
+  if (primary > LIMITS.budgetNodes) {
+    fail(`sample:${type.id}`, `${primary} primary nodes, budget is ${LIMITS.budgetNodes}`);
   }
   if (diagram.edges.length > LIMITS.budgetEdges) {
     fail(`sample:${type.id}`, `${diagram.edges.length} edges, budget is ${LIMITS.budgetEdges}`);
+  }
+}
+
+// 4. vendored marks stay declared
+const { BRAND_ICON_NAMES, UNAVAILABLE_MARKS } = await import("../src/render/brand-icons.js");
+const repoRoot = new URL("..", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1");
+const notices = await readFile(join(repoRoot, "THIRD_PARTY_NOTICES.md"), "utf8");
+if (BRAND_ICON_NAMES.length && !/simple-icons/i.test(notices)) {
+  fail("notices", "product marks are vendored but simple-icons is not credited in THIRD_PARTY_NOTICES.md");
+}
+if (!/nominative/i.test(notices)) fail("notices", "the trademark position is not stated");
+for (const name of Object.keys(UNAVAILABLE_MARKS)) {
+  if (BRAND_ICON_NAMES.includes(name)) {
+    fail("marks", `${name} is listed as unavailable but is being shipped — its owner asked for it to be removed`);
   }
 }
 

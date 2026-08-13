@@ -37,14 +37,18 @@ deployment "Deployment overview"
 theme plate
 describe "Runtime environments and the path a release takes through them"
 
+commit "Commit" / "Trunk" #branch
+build "Build" / "Artefact produced" #package
+automated-tests "Automated tests" #check
+staging "Staging" / "Production-like" #container
+production "Production" * #deploy
+
 group "Continuous integration" {
-  commit "Commit" / "Trunk" #branch
-  build "Build" / "Artefact produced" #package
-  automated-tests "Automated tests" #check
+  commit build automated-tests
 }
+
 group "Continuous delivery" {
-  staging "Staging" / "Production-like" #container
-  production "Production" * #deploy
+  staging production
 }
 
 commit -> build

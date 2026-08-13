@@ -7,6 +7,18 @@
  */
 
 import architecture from "./architecture.js";
+import c4Container from "./c4-container.js";
+import c4Context from "./c4-context.js";
+import fishbone from "./fishbone.js";
+import heatmap from "./heatmap.js";
+import kanban from "./kanban.js";
+import sankey from "./sankey.js";
+import serviceBlueprint from "./service-blueprint.js";
+import stackedBar from "./stacked-bar.js";
+import treemap from "./treemap.js";
+import valueStream from "./value-stream.js";
+import wardley from "./wardley.js";
+import waterfall from "./waterfall.js";
 import bar from "./bar.js";
 import currentState from "./current-state.js";
 import dataFlow from "./data-flow.js";
@@ -41,6 +53,8 @@ import venn from "./venn.js";
 /** Ordered for the library panel: structure, then hierarchy, then measurement. */
 export const RENDERERS = [
   architecture,
+  c4Context,
+  c4Container,
   highLevel,
   currentState,
   flowchart,
@@ -52,6 +66,9 @@ export const RENDERERS = [
   network,
   er,
   swimlane,
+  serviceBlueprint,
+  valueStream,
+  kanban,
   tree,
   orgChart,
   nested,
@@ -65,11 +82,18 @@ export const RENDERERS = [
   journey,
   quadrant,
   matrix,
+  wardley,
+  fishbone,
   venn,
   radar,
   bar,
   line,
   scatter,
+  stackedBar,
+  waterfall,
+  sankey,
+  treemap,
+  heatmap,
   gantt,
 ];
 

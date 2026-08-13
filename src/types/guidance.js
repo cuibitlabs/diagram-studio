@@ -8,6 +8,126 @@
  */
 
 export const GUIDANCE = {
+  "c4-context": {
+    use: "Agreeing what the system is and who it touches, before anyone argues about how it works.",
+    avoid: "Any question about internals. A context diagram showing a database has stopped being one.",
+    compose: [
+      "One system with the accent. Everything else is a person or another system.",
+      "Label every relationship with what it is for, in the reader's words, not the protocol.",
+      "External systems are dashed, so the boundary reads without colour.",
+    ],
+    mistake: "Adding a second system you also own. If two systems matter equally, you have two context diagrams.",
+  },
+  "c4-container": {
+    use: "Showing the separately deployable or storable parts of one system, and what each is built with.",
+    avoid: "Classes, functions or modules — that is a level below this one, and usually better read as code.",
+    compose: [
+      "Every container names its technology in the sublabel. That is the whole difference from the context view.",
+      "The system boundary is a group, so what is inside is data rather than a matter of position.",
+      "Stores are cylinders; people stay stadiums.",
+    ],
+    mistake: "Drawing a container per service in a large estate. Above about eight, draw the boundary and split.",
+  },
+  "service-blueprint": {
+    use: "Finding where a service breaks: what the customer does, what they see, and what has to happen out of sight.",
+    avoid: "A journey where nothing behind the scenes is in question. Use a customer journey.",
+    compose: [
+      "The lanes are fixed by the format, so a diagram can be compared with another one.",
+      "The line of visibility is drawn heavier than the other rules — it is the thing to point at.",
+      "Every crossing of that line is a hand-off worth naming.",
+    ],
+    mistake: "Filling the backstage lanes with system names instead of the work being done.",
+  },
+  "value-stream": {
+    use: "Showing that the delay is between the steps, not inside them.",
+    avoid: "Work with no measured waiting time. Without it there is no ratio, and the format has no argument.",
+    compose: [
+      "Process time and wait time are both required for a step to count toward the ratio.",
+      "The efficiency figure is computed from the model and shown with its working.",
+      "A step missing either number is drawn and listed as unmeasured, never assumed to be zero.",
+    ],
+    mistake: "Optimising the low bars. The ladder exists to show that the high ones are the problem.",
+  },
+  kanban: {
+    use: "Making work in progress and its limit visible at the same time.",
+    avoid: "Planning. A board shows what is happening now, not what is intended.",
+    compose: [
+      "Columns are the real workflow states, including the waiting ones.",
+      "A column without a limit is a list; state the limit and let an over-limit column be marked.",
+      "Cards carry the blocker, not the assignee.",
+    ],
+    mistake: "A Done column that grows forever. Archive it, or the board stops being readable.",
+  },
+  wardley: {
+    use: "Arguing about what to build, buy and outsource, by position rather than by opinion.",
+    avoid: "Anything where evolution is not in question. A dependency graph is simpler and says more.",
+    compose: [
+      "Both coordinates are data. A component with no stated evolution is listed as unplaced, not guessed at.",
+      "Movement is drawn only where the model claims it, because a movement arrow is a prediction.",
+      "Dependencies point down the chain, from what the user sees to what it rests on.",
+    ],
+    mistake: "Treating position as fact. The value of the map is that it can be wrong in public.",
+  },
+  fishbone: {
+    use: "Grouping the causes of one effect so the argument is about categories, not a flat list.",
+    avoid: "A cause you already understand. If there is one cause, write the sentence.",
+    compose: [
+      "One effect, four to six categories, and causes that sit under the right one.",
+      "Categories are chosen for the domain — the manufacturing six are not compulsory.",
+      "The bones are diagonal because they group; they are not routes.",
+    ],
+    mistake: "Filling every category evenly. An empty category is a finding.",
+  },
+  sankey: {
+    use: "Showing where a quantity actually goes.",
+    avoid: "Flows you cannot measure. Thickness is a number, so an unmeasured flow cannot be drawn.",
+    compose: [
+      "A band's thickness is its value; a node's height is the greater of in and out.",
+      "Where in and out disagree the imbalance is named rather than smoothed.",
+      "Keep to three or four columns — ribbons cross badly beyond that.",
+    ],
+    mistake: "Using it for a process. A Sankey answers 'how much', never 'in what order'.",
+  },
+  treemap: {
+    use: "Share of a whole across many items, where a pie would be unreadable.",
+    avoid: "Comparing two treemaps. Area is hard to compare between charts; use bars.",
+    compose: [
+      "Squarified so tiles stay labelable — a sliver can be neither read nor compared.",
+      "Items with no value are listed underneath, not given a token tile.",
+      "Print the value and the share; area alone cannot be read precisely.",
+    ],
+    mistake: "More than about fifteen tiles. Aggregate the tail into a named remainder.",
+  },
+  heatmap: {
+    use: "One measure across two categories, where the pattern matters more than any single figure.",
+    avoid: "A single series. That is a bar chart, and easier to read.",
+    compose: [
+      "The number is printed in every cell; intensity is the second encoding, not the only one.",
+      "The label colour is chosen by measured contrast against its own cell.",
+      "An unmeasured cell is left empty and marked, never shaded as zero.",
+    ],
+    mistake: "A rainbow scale. One hue ramp keeps the order readable and survives colour-vision differences.",
+  },
+  waterfall: {
+    use: "Explaining how a starting figure became an ending one.",
+    avoid: "Categories that do not sum to the total. The format promises arithmetic.",
+    compose: [
+      "The closing bar is drawn from the running total, so a mismatch with the stated total is shown, not hidden.",
+      "Increases and decreases are distinguished by direction and label, not by colour alone.",
+      "Keep to about seven contributions; aggregate the rest.",
+    ],
+    mistake: "Reordering the contributions to make the story smoother. The order is part of the claim.",
+  },
+  "stacked-bar": {
+    use: "Composition across categories, when the totals also matter.",
+    avoid: "Comparing the middle bands. Only the bottom one shares a baseline.",
+    compose: [
+      "Series order is the model's and is never re-sorted; the legend names the comparable band.",
+      "A missing series value leaves the band out and is counted, rather than padded with a zero.",
+      "Four series at most, or the bands stop being distinguishable.",
+    ],
+    mistake: "Stacking percentages and totals in the same chart. Pick which question you are answering.",
+  },
   architecture: {
     use: "Showing which systems exist and what talks to what.",
     avoid: "Explaining a sequence of events over time — use a sequence diagram; the arrows here mean 'depends on', not 'then'.",

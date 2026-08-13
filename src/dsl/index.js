@@ -227,6 +227,14 @@ export function parse(source) {
       return;
     }
 
+    // Inside a group, a line of bare keys adds already-declared nodes to it.
+    // Membership is expressed separately from declaration so the node order in
+    // the file stays the model's order.
+    if (openGroup && !line.includes('"') && /^[\w.@-]+(\s+[\w.@-]+)*$/.test(line)) {
+      for (const key of line.split(/\s+/)) openGroup.nodes.push(nodeFor(key, lineNumber));
+      return;
+    }
+
     const declared = parseNode(line, lineNumber);
     if (!declared) throw new ParseError(`could not read "${line}"`, lineNumber);
     if (keys.has(declared.key)) {
@@ -315,20 +323,17 @@ export function stringify(diagram) {
     return `${head} ${labels}${flags ? ` ${flags}` : ""}`;
   };
 
-  const grouped = new Set();
+  // Nodes in model order, then membership. Declaring inside the group block
+  // would reorder the file, and the order of the nodes is part of the model.
+  for (const node of diagram.nodes) lines.push(nodeLine(node));
+
   for (const group of diagram.groups ?? []) {
+    const members = group.nodes.map((id) => keys.get(id)).filter(Boolean);
+    if (!members.length) continue;
+    lines.push("");
     lines.push(`group "${escape(group.label)}" {`);
-    for (const id of group.nodes) {
-      const node = diagram.nodes.find((item) => item.id === id);
-      if (!node) continue;
-      grouped.add(id);
-      lines.push(`  ${nodeLine(node)}`);
-    }
+    lines.push(`  ${members.join(" ")}`);
     lines.push("}");
-  }
-  for (const node of diagram.nodes) {
-    if (grouped.has(node.id)) continue;
-    lines.push(nodeLine(node));
   }
 
   if (diagram.edges.length) {

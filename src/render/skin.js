@@ -95,6 +95,38 @@ text{fill:var(--ink)}
 .entity-row{fill:none;stroke:var(--line);stroke-width:1}
 .entity-field{fill:var(--ink)}
 .entity-type{fill:var(--muted)}
+
+.wip-over{fill:var(--accent)}
+.visibility-line path{fill:none;stroke:var(--accent-2);stroke-width:2}
+.visibility-label{fill:var(--accent-2)}
+
+.map-link{fill:none;stroke:var(--line-strong);stroke-width:1}
+.map-link.is-dashed{stroke-dasharray:5 5}
+.map-move{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:4 3}
+
+.spine{fill:none;stroke:var(--line-strong);stroke-width:1.5}
+.bone-line{fill:none;stroke:var(--line);stroke-width:1.25}
+.bone-head{fill:var(--panel);stroke:var(--line)}
+
+.ladder{fill:none;stroke:var(--accent-2);stroke-width:2;stroke-linejoin:round}
+
+.flow{fill:none;stroke:var(--accent-2);stroke-opacity:.42}
+.flow.is-focus{stroke:var(--accent);stroke-opacity:.6}
+.flow-node rect{fill:var(--line-strong)}
+.flow-node.tone-accent rect{fill:var(--accent)}
+
+.tile rect{fill:var(--paper-2);stroke:var(--line);stroke-width:1}
+.tile.tone-accent rect{fill:var(--accent-tint);stroke:var(--accent);stroke-width:1.5}
+.tile-label{fill:var(--ink)}
+.tile-value{fill:var(--muted)}
+
+.heat-cell rect{stroke:var(--paper);stroke-width:1}
+.heat-cell.is-empty rect{fill:none;stroke:var(--line);stroke-dasharray:3 3}
+
+.step rect{fill:var(--accent-2)}
+.step.is-down rect{fill:var(--line-strong)}
+.step.is-total rect{fill:var(--accent)}
+.step-link{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:3 3}
 `;
 
 /**

@@ -28,9 +28,17 @@ const NODE_FIELDS = [
   "sublabel", "role", "shape", "tone", "icon", "badge", "value", "px", "py",
   "lane", "horizon", "zone", "constraint", "fields", "start", "duration",
   "marker", "dashed", "stateKind", "promotion", "action", "fixedSize",
+  // Fields the later types read. A field missing from this list is silently
+  // dropped when a project is built from starter content, which looks like a
+  // renderer bug and is not one.
+  "values", "row", "col", "column", "process", "wait", "cause", "c4",
+  "movement", "kind", "locked",
 ];
 
-const DIAGRAM_FIELDS = ["axes", "lanes", "horizons", "hub", "overlaps", "unit", "timeUnit", "seriesLabel"];
+const DIAGRAM_FIELDS = [
+  "axes", "lanes", "horizons", "hub", "overlaps", "unit", "timeUnit", "seriesLabel",
+  "series", "rows", "columns", "figure",
+];
 
 function nodeFrom(source) {
   const node = {
@@ -205,12 +213,23 @@ export function validateDiagram(diagram) {
   return errors;
 }
 
+/**
+ * The elements a reader has to hold separately.
+ *
+ * A cause on a fishbone bone, or a cell in a heatmap grid, is read as part of
+ * the thing it sits inside — counting each one against the composition budget
+ * would fail diagrams that are perfectly legible.
+ */
+export const primaryNodes = (diagram) =>
+  (diagram.nodes ?? []).filter((node) => !node.cause && !(node.row !== undefined && node.col !== undefined));
+
 /** Editorial review: the composition rules, reported as advice. */
 export function reviewDiagram(diagram) {
   const notes = [];
+  const primary = primaryNodes(diagram);
   const accents = diagram.nodes.filter((node) => node.tone === "accent").length;
   if (accents > LIMITS.accent) notes.push(`${accents} accent elements — the budget is ${LIMITS.accent}. Emphasis stops working when everything is emphasised.`);
-  if (diagram.nodes.length > LIMITS.budgetNodes) notes.push(`${diagram.nodes.length} nodes — consider splitting into an overview and a detail diagram above ${LIMITS.budgetNodes}.`);
+  if (primary.length > LIMITS.budgetNodes) notes.push(`${primary.length} nodes — consider splitting into an overview and a detail diagram above ${LIMITS.budgetNodes}.`);
   if (diagram.edges.length > LIMITS.budgetEdges) notes.push(`${diagram.edges.length} connections — above ${LIMITS.budgetEdges} the reading order stops being obvious.`);
   const orphans = diagram.nodes.filter(
     (node) => !diagram.edges.some((edge) => edge.source === node.id || edge.target === node.id),

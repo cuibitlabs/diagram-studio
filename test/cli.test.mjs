@@ -27,7 +27,8 @@ const workspace = () => mkdtemp(join(tmpdir(), "ds-cli-"));
 test("cli lists every type", async () => {
   const { code, stdout } = await run(CLI, ["types"]);
   assert.equal(code, 0);
-  assert.equal(stdout.trim().split("\n").length, 31);
+  const { DIAGRAM_TYPES } = await import("../src/model.js");
+  assert.equal(stdout.trim().split("\n").length, DIAGRAM_TYPES.length);
   assert.match(stdout, /architecture/);
 });
 
