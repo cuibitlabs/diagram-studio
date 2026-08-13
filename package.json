@@ -1,14 +1,43 @@
 {
   "name": "diagram-studio",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
-  "description": "An agent-ready editorial diagram system and visual studio.",
+  "description": "An agent-ready editorial diagram system: browser studio, CLI and MCP server sharing one deterministic layout engine.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "diagram-studio": "./bin/diagram-studio.mjs",
+    "diagram-studio-mcp": "./bin/mcp-server.mjs"
+  },
+  "exports": {
+    ".": "./src/index.js",
+    "./model": "./src/model.js",
+    "./render": "./src/render/svg.js",
+    "./import": "./src/importers.js",
+    "./theme": "./src/theme/palettes.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "skills",
+    "commands",
+    "prompts",
+    "examples"
+  ],
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
+    "preview": "vite preview",
     "test": "node --test",
-    "check": "npm run test && npm run build",
+    "check": "npm run test && npm run build && npm run verify",
+    "verify": "python scripts/run-verifiers.py",
+    "gallery": "node scripts/build-gallery.mjs",
+    "docs": "node scripts/build-type-docs.mjs",
+    "cli": "node bin/diagram-studio.mjs",
+    "mcp": "node bin/mcp-server.mjs",
     "sync:adapters": "node scripts/sync-adapters.mjs"
   },
   "devDependencies": {
