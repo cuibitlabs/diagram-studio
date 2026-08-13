@@ -1,42 +1,53 @@
-# Diagram type selection
+# Diagram types
 
-Choose by the relationship the reader must understand.
+Choose by the relationship you are showing, not by habit. Each entry links to
+the type's own reference, which states when the form is wrong as well as when
+it is right.
 
-| Type | Use for | Avoid when |
+| Type | Family | Communication job |
 | --- | --- | --- |
-| Architecture | Components and connections | Time order is primary |
-| Flowchart | Decisions and branching logic | Ownership is primary |
-| Sequence | Messages over time | Physical topology is primary |
-| State machine | Valid states and transitions | Steps do not depend on state |
-| ER / data model | Entities, fields, cardinality | Showing runtime message order |
-| Timeline | Events on one time axis | Tasks overlap materially |
-| Swimlane | Ownership across a workflow | There is only one actor |
-| Quadrant / matrix | Positioning on two axes | Values need exact comparison |
-| Nested systems | Containment and boundaries | Parent-child lines are clearer |
-| Tree | Hierarchy and taxonomy | Cross-links dominate |
-| Org chart | Reporting and ownership | Informal collaboration |
-| Venn | Two or three set overlaps | Four or more sets |
-| Layer stack | Ordered abstractions | Dependencies are non-layered |
-| Pyramid / funnel | Rank, maturity, or drop-off | Categories are peer values |
-| Radar | Multi-axis profiles | Exact values matter most |
-| Loop / flywheel | Reinforcing cycles | A clear start and finish exists |
-| Bar chart | Exact categorical comparison | Continuous time trend |
-| Line chart | Trend over ordered intervals | Unordered categories |
-| Gantt | Tasks, duration, dependencies | Only milestones matter |
-| Scatter plot | Distribution and correlation | There are few discrete values |
-| Process | Linear or lightly branching work | State transitions dominate |
-| Medallion | Bronze, silver, gold data tiers | Storage is not tiered |
-| Data flow | Sources, transforms, destinations | Infrastructure placement dominates |
-| Mind map | Radial ideas from a center | Strict hierarchy or sequence |
-| Network topology | Zones, devices, links | Business process is primary |
-| Deployment | Environments, releases, runtime placement | Code structure only |
-| Roadmap | Now, next, later or horizons | Exact dates and dependencies |
-| Customer journey | Stages, actions, channels, sentiment | Internal system logic |
+| [Architecture](type-architecture.md) | `layered` | Systems, services and the connections between them |
+| [High-level system](type-high-level.md) | `layered` | End-to-end platform view for a non-specialist audience |
+| [Current state](type-current-state.md) | `layered` | Legacy landscape with its constraints made explicit |
+| [Flowchart](type-flowchart.md) | `layered` | Decisions and process logic |
+| [Process](type-process.md) | `layered` | Multi-step operational workflow |
+| [State machine](type-state.md) | `layered` | States and the events that move between them |
+| [Sequence](type-sequence.md) | `sequence` | Messages between participants arranged over time |
+| [Data flow](type-data-flow.md) | `layered` | Sources, transformations and destinations |
+| [Deployment](type-deployment.md) | `layered` | Runtime environments and the path a release takes through them |
+| [Network topology](type-network.md) | `layered` | Devices, zones and the links between them |
+| [ER / data model](type-er.md) | `er` | Entities, their fields and the relationships between them |
+| [Swimlane](type-swimlane.md) | `swimlane` | Cross-functional flow with explicit ownership |
+| [Tree](type-tree.md) | `hierarchy` | Parent and child relationships in a taxonomy |
+| [Org chart](type-org-chart.md) | `hierarchy` | Teams, ownership and reporting lines |
+| [Nested systems](type-nested.md) | `band` | Hierarchy expressed by containment rather than flow |
+| [Mind map](type-mind-map.md) | `radial` | Ideas branching from a central concept |
+| [Loop / flywheel](type-loop.md) | `radial` | A reinforcing cycle of stages |
+| [Layer stack](type-layers.md) | `band` | Stacked abstractions from experience down to infrastructure |
+| [Medallion](type-medallion.md) | `band` | Raw, cleaned and trusted data tiers with promotion rules |
+| [Pyramid / funnel](type-pyramid.md) | `band` | Priority, maturity or drop-off across levels |
+| [Timeline](type-timeline.md) | `timeline` | Events in order along a single axis |
+| [Roadmap](type-roadmap.md) | `timeline` | Initiatives grouped by delivery horizon |
+| [Customer journey](type-journey.md) | `timeline` | Stages, customer actions and measured sentiment |
+| [Quadrant](type-quadrant.md) | `matrix` | Items positioned against two named axes |
+| [Consultant matrix](type-matrix.md) | `matrix` | Four named strategies against two axes |
+| [Venn](type-venn.md) | `set` | Set overlap and the value that lives in the intersection |
+| [Radar](type-radar.md) | `chart` | Multi-axis comparison on a single shared scale |
+| [Bar chart](type-bar.md) | `chart` | Comparison across categories |
+| [Line chart](type-line.md) | `chart` | A measured trend over an ordered axis |
+| [Scatter plot](type-scatter.md) | `chart` | Distribution and correlation across two measures |
+| [Gantt](type-gantt.md) | `chart` | Tasks against a declared time scale |
 
-## Selection heuristics
+## Choosing
 
-- Prefer a table for exact mappings and a short list for independent items.
-- Prefer a chart when numeric magnitude is the primary message.
-- Prefer a diagram when topology, branching, sequence, hierarchy, containment, or feedback is the primary message.
-- Split a diagram when it needs more than 24 nodes or when two reading orders compete.
-- Use an overview plus detail views instead of reducing all labels below the target size.
+- **Structure, not time** — architecture, high-level, nested, layers, network.
+- **Time and order** — sequence, process, timeline, roadmap, journey, gantt, deployment.
+- **Decisions** — flowchart, state.
+- **Ownership** — swimlane, org chart.
+- **Hierarchy** — tree, org chart, nested, mind map.
+- **Comparison and measurement** — bar, line, scatter, radar, quadrant, matrix, venn, pyramid.
+- **Data** — er, data flow, medallion.
+
+If two forms both fit, pick the one that needs fewer elements to make the point.
+
+_Generated by `scripts/build-type-docs.mjs` — edit `src/types/guidance.js`, not these files._

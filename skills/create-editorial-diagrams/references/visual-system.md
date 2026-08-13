@@ -2,61 +2,66 @@
 
 ## Tokens
 
-Use semantic tokens: `paper`, `panel`, `ink`, `muted`, `accent`, `accent2`, and `line`. Default light palette:
+Roles, not colour names. `paper` is the page, `panel` is a surface, `ink` is body text, `accent` is the one thing you want read first.
 
-```css
---paper: #f3f0e9;
---panel: #fffdf8;
---ink: #1d211f;
---muted: #6e746f;
---accent: #e85d3f;
---accent-2: #174f46;
---line: #b9b5ac;
-```
+| Token | Role |
+| --- | --- |
+| `paper` | canvas |
+| `panel` | node and plot surfaces |
+| `ink` | primary text |
+| `muted` | secondary text, axis labels |
+| `accent` | the focal element, at most two per diagram |
+| `accent2` | a secondary cue, and the selection ring in the editor |
+| `line` | hairlines and borders |
+| `lineStrong` | connectors and arrowheads |
+| `onAccent` | text sitting on the accent |
 
-Default dark palette:
-
-```css
---paper: #111512;
---panel: #191e1a;
---ink: #f1efe7;
---muted: #9ba69e;
---accent: #ff7557;
---accent-2: #64d8b0;
---line: #424b44;
-```
+Eight palettes ship, four light and two dark plus two neutral, and **every one is audited**: `scripts/lint-a11y.mjs` checks nine contrast pairs per palette at the sizes the type scale actually uses, and fails the build on any that misses.
 
 ## Typography
 
-- Editorial title: a readable serif, optional italic.
-- Node label: a neutral sans serif, 600 to 750 weight.
-- Metadata: a restrained monospace at a smaller size.
-- Use sentence case. Keep node labels under seven words when possible.
+One scale, on the 4 px grid, defined in `src/engine/typography.js`:
+
+| Entry | Size | Family | Used for |
+| --- | --- | --- | --- |
+| `diagramTitle` | 32 | serif | the editorial title above a diagram |
+| `diagramLede` | 16 | sans | the standfirst |
+| `section` | 12 | mono, uppercase | lane, group and axis names |
+| `nodeTitle` | 16 | sans 700 | node labels |
+| `nodeTitleSmall` | 14 | sans 700 | dense structures |
+| `nodeSub` | 12 | sans 500 | role, owner, technology |
+| `meta` | 12 | mono | ports, IDs, field types |
+| `edgeLabel` | 12 | mono 600 | connector labels |
+| `axis` | 12 | mono, uppercase | ticks and captions |
+| `value` | 14 | mono 700 | numbers on a mark |
+| `annotation` | 14 | serif italic | margin notes |
+
+The family is emitted as a custom property, not a literal stack, so a style variant can redefine what "sans" means for a subtree. Never hard-code a size in a renderer.
 
 ## Geometry
 
-- Base unit: 4 px.
-- Card padding: 16 to 24 px.
-- Standard gap: 24 to 40 px.
-- Border: 1 to 1.5 px.
-- Corner radius: 0 to 10 px.
-- Connector arrowheads: compact and proportional to the line.
-- Accent elements: no more than 20 percent of the composition.
+- Base unit 4 px. Every coordinate, size, gap and radius is a multiple of it — `scripts/verify-geometry.mjs` enforces this across all 31 types.
+- Node size is **measured, not assumed**: the box is derived from its wrapped text, so a label cannot clip. Truncation is reported rather than silently applied.
+- Card padding 16–24 px, standard gap 24–40 px, border 1–1.5 px, corner radius 0–10 px.
+- Connectors are orthogonal elbows with an 8 px corner radius. Attach points on the same side are spread at least 12 px apart and ordered so connectors fan out without crossing at the border. A connector never passes through a node that is not its endpoint; when the direct routes are blocked, an A\* pass over a visibility lattice finds one that is not.
+- A jog smaller than 8 px is collapsed into a straight run, so slightly different node heights do not produce a visible stair-step.
+- Accent elements: no more than two, and no more than 20 percent of the composition.
 
 ## Accessibility
 
-- Maintain 4.5:1 contrast for normal text and 3:1 for large text and essential graphical objects.
-- Provide a meaningful SVG title and description.
-- Do not encode status only through hue. Add labels, shapes, line styles, or patterns.
-- Preserve DOM text in interactive or web-delivered SVG.
-- Give interactive nodes keyboard focus and an accessible label.
+- 4.5:1 for normal text, 3:1 for large text and essential graphical objects. The audit is in the product, not just in review: the editor shows failing pairs, and `diagram-studio audit` prints the table.
+- Every SVG carries `role="img"` and an `aria-labelledby` pair whose ids are **prefixed per render**, so two diagrams on one page do not collide.
+- Status is never carried by hue alone — shape, dash pattern and labels carry it too. The editor can simulate protanopia, deuteranopia, tritanopia and achromatopsia to prove it.
+- Text stays as DOM text. No rasterised labels, no outlined glyphs, unless the destination demands it.
+- Interactive nodes are focusable and named.
 
 ## Quality review
 
-Check at the final delivery size:
+At final delivery size:
 
 1. The focal point is immediately visible.
-2. Labels do not clip, collide, or sit under connectors.
-3. Connectors touch the intended shapes and arrowheads face correctly.
-4. The visual remains understandable in grayscale.
+2. No label clips, collides, or sits under a connector.
+3. Connectors touch the intended shapes and the arrowheads face correctly.
+4. It still reads in greyscale.
 5. Every decorative element earns its space.
+6. Nothing in the picture is absent from the model.
