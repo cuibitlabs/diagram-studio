@@ -7,7 +7,7 @@
  * moved on.
  */
 
-import { readFile } from "node:fs/promises";
+import { access, readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 
 import { DIAGRAM_TYPES } from "../src/model.js";
@@ -19,6 +19,31 @@ const root = new URL("..", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "
 const references = join(root, "skills", "create-editorial-diagrams", "references");
 const failures = [];
 const fail = (scope, detail) => failures.push({ scope, detail });
+
+const exists = async (path) => {
+  try {
+    await access(path);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+/**
+ * Top-level `test(` declarations across the suite. `node --test` reports the
+ * same figure, and counting the source keeps the verifier cheap — running the
+ * tests to check a sentence in the README would double the build.
+ */
+async function countTests() {
+  const dir = join(root, "test");
+  const files = (await readdir(dir)).filter((name) => name.endsWith(".test.mjs"));
+  let total = 0;
+  for (const file of files) {
+    const source = await readFile(join(dir, file), "utf8");
+    total += (source.match(/^test\(/gm) ?? []).length;
+  }
+  return total;
+}
 
 const read = async (path) => {
   try {
@@ -79,15 +104,33 @@ else {
   }
 }
 
+// 5. the README is the landing page, so its claims and its images are checked
+//    like anything else. "213 tests" survived three releases before anyone
+//    noticed, and a broken hero image is the most visible bug the project can
+//    ship.
 const readme = await read(join(root, "README.md"));
 if (readme) {
-  const claimed = readme.match(/(\d+)\s+diagram and chart structures/i);
-  if (claimed && Number(claimed[1]) !== DIAGRAM_TYPES.length) {
-    fail("README.md", `claims ${claimed[1]} structures, the registry has ${DIAGRAM_TYPES.length}`);
+  const claims = [
+    [/(\d+)\s+diagram(?: and chart)? (?:types|structures)/gi, DIAGRAM_TYPES.length, "diagram types"],
+    [/All (\d+) types/gi, DIAGRAM_TYPES.length, "diagram types"],
+    [/(\d+)\s+audited palettes/gi, Object.keys(PALETTES).length, "palettes"],
+    [/(\d+)\s+tests\b/gi, await countTests(), "tests"],
+  ];
+  for (const [pattern, actual, noun] of claims) {
+    for (const [, claimed] of readme.matchAll(pattern)) {
+      if (Number(claimed) !== actual) fail("README.md", `claims ${claimed} ${noun}, there are ${actual}`);
+    }
   }
-  const palettes = readme.match(/(\d+)\s+audited palettes/i);
-  if (palettes && Number(palettes[1]) !== Object.keys(PALETTES).length) {
-    fail("README.md", `claims ${palettes[1]} palettes, there are ${Object.keys(PALETTES).length}`);
+
+  // Local images and links must resolve. Anything with a scheme is somebody
+  // else's uptime and is left alone.
+  const targets = [
+    ...[...readme.matchAll(/(?:src|srcset)="([^"]+)"/g)].map((match) => match[1]),
+    ...[...readme.matchAll(/\]\(([^)#\s]+)\)/g)].map((match) => match[1]),
+  ];
+  for (const target of new Set(targets)) {
+    if (/^[a-z]+:/i.test(target)) continue;
+    if (!(await exists(join(root, target)))) fail("README.md", `links to ${target}, which does not exist`);
   }
 }
 
