@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="ds-svg" viewBox="0 0 640 928" width="640" height="928" role="img" aria-labelledby="deployment-dark-title deployment-dark-desc" style="--paper:#111512;--panel:#1a201c;--ink:#f1efe7;--muted:#a3ada5;--accent:#ff7557;--accent-2:#64d8b0;--line:#3d453f;--line-strong:#c9d1ca;--on-accent:#16110f;--corner:8px">
+  <title id="deployment-dark-title">Deployment overview</title>
+  <desc id="deployment-dark-desc">Runtime environments and the path a release takes through them</desc>
+  <defs>
+    <marker id="deployment-dark-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 0 1 L 9 5 L 0 9 Z" fill="var(--line-strong)"/>
+    </marker>
+    <marker id="deployment-dark-arrow-start" markerWidth="10" markerHeight="10" refX="1" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 10 1 L 1 5 L 10 9 Z" fill="var(--line-strong)"/>
+    </marker>
+    <marker id="deployment-dark-arrow-open" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 1 1 L 10 6 L 1 11" fill="none" stroke="var(--line-strong)" stroke-width="1.5"/>
+    </marker>
+    <marker id="deployment-dark-dot" markerWidth="8" markerHeight="8" refX="4" refY="4" markerUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="3" fill="var(--accent)"/>
+    </marker>
+    <marker id="deployment-dark-crowfoot" markerWidth="14" markerHeight="14" refX="12" refY="7" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 12 1 L 2 7 L 12 13 M 2 7 H 12" fill="none" stroke="var(--line-strong)" stroke-width="1.2"/>
+    </marker>
+    <marker id="deployment-dark-bar" markerWidth="10" markerHeight="14" refX="6" refY="7" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 6 1 V 13" fill="none" stroke="var(--line-strong)" stroke-width="1.4"/>
+    </marker>
+    <pattern id="deployment-dark-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#3d453f" stroke-opacity="0.25" stroke-width="1"/>
+    </pattern>
+    <pattern id="deployment-dark-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <path d="M 0 0 V 8" stroke="#3d453f" stroke-width="2" stroke-opacity="0.5"/>
+    </pattern>
+  </defs>
+  <style>.canvas-bg{fill:var(--paper)}.canvas-grid{pointer-events:none}text{fill:var(--ink)}.diagram-title-text{fill:var(--ink)}.diagram-lede{fill:var(--muted)}.ds-node .card{fill:var(--panel);stroke:var(--line);stroke-width:1.25}.ds-node .card-rim{fill:none;stroke:var(--line);stroke-width:1.25}.ds-node.is-dashed .card{stroke-dasharray:6 6}.ds-node .node-title{fill:var(--ink)}.ds-node .node-sub{fill:var(--muted)}.ds-node .node-icon{color:var(--muted)}.ds-node.tone-accent .card{fill:var(--accent);stroke:var(--accent)}.ds-node.tone-accent .node-title,.ds-node.tone-accent .node-sub{fill:var(--on-accent)}.ds-node.tone-muted .card{fill:var(--paper)}.ds-node.tone-muted .node-title{fill:var(--muted)}.ds-node.role-external .card,.ds-node.role-optional .card{stroke-dasharray:6 6}.ds-node.role-security .card{stroke:var(--accent-2);stroke-width:1.5}.ds-node.role-store .card{fill:var(--paper)}.ds-node.is-selected .card{stroke:var(--accent-2);stroke-width:2.5}.ds-node .node-badge rect{fill:var(--paper);stroke:var(--line)}.ds-node .badge-text{fill:var(--muted)}.ds-edge .line{fill:none;stroke:var(--line-strong);stroke-width:1.4;stroke-linejoin:round;stroke-linecap:butt}.ds-edge .edge-hit{fill:none;stroke:transparent;stroke-width:14}.ds-edge.is-dashed .line{stroke-dasharray:7 6}.ds-edge.tone-accent .line{stroke:var(--accent);stroke-width:2}.ds-edge.kind-weak .line{stroke:var(--line);stroke-width:1}.ds-edge.is-selected .line{stroke:var(--accent-2);stroke-width:2.5}.ds-edge .edge-label rect{fill:var(--paper);stroke:none}.ds-edge .edge-label-text{fill:var(--muted)}.lane rect,.group rect{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:4 5}.lane.is-filled rect{fill:var(--panel);stroke-dasharray:none}.lane-title{fill:var(--muted)}.plot-bg{fill:var(--panel);stroke:var(--line);stroke-width:1}.axis-line{fill:none;stroke:var(--line-strong);stroke-width:1.25}.grid-line{fill:none;stroke:var(--line);stroke-width:1}.axis-label,.caption{fill:var(--muted)}.mark{fill:var(--accent-2)}.mark.is-focus{fill:var(--accent)}.mark-line{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}.mark-area{fill:var(--accent);fill-opacity:.12;stroke:none}.mark-label{fill:var(--muted)}.mark-value{fill:var(--ink)}.lifeline{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:5 6}.activation{fill:var(--panel);stroke:var(--line);stroke-width:1}.timeline-axis{fill:none;stroke:var(--line-strong);stroke-width:1.25}.timeline-stem{fill:none;stroke:var(--line);stroke-width:1}.timeline-dot{fill:var(--paper);stroke:var(--line-strong);stroke-width:1.5}.timeline-dot.is-focus{fill:var(--accent);stroke:var(--accent)}.set-ring{fill:var(--accent);fill-opacity:.14;stroke:var(--accent);stroke-width:1.5}.set-ring.set-1{fill:var(--accent-2);stroke:var(--accent-2)}.set-ring.set-2{fill:var(--ink);stroke:var(--ink);fill-opacity:.08}.set-label{fill:var(--ink)}.tier{fill:var(--panel);stroke:var(--line);stroke-width:1.25}.tier.is-focus{fill:var(--accent);stroke:var(--accent)}.tier-label{fill:var(--ink)}.tier.is-focus .tier-label{fill:var(--on-accent)}.hub{fill:var(--accent-2);stroke:none}.hub-label{fill:var(--on-accent)}.legend-swatch{fill:var(--accent)}.legend-swatch.is-secondary{fill:var(--accent-2)}.legend-swatch.is-muted{fill:var(--line)}.legend-label{fill:var(--muted)}.entity-header{fill:var(--panel);stroke:var(--line);stroke-width:1.25}.entity-header.is-focus{fill:var(--accent);stroke:var(--accent)}.entity-row{fill:none;stroke:var(--line);stroke-width:1}.entity-field{fill:var(--ink)}.entity-type{fill:var(--muted)}.ds-node[data-node-id]{cursor:grab}.ds-node[data-node-id]:focus-visible .card{stroke:var(--accent-2);stroke-width:2.5}.ds-node[data-node-id]:focus{outline:none}.ds-edge[data-edge-id]{cursor:pointer}</style>
+  <rect class="canvas-bg" x="0" y="0" width="640" height="928"/>
+  
+  
+  <g class="diagram-content"><g class="lane is-filled" data-group-id="group-5e-8dg3">
+    <rect x="68" y="52" width="220" height="464" rx="10"/>
+    <text class="lane-title" x="88" y="78" text-anchor="start" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:700;letter-spacing:1.2px">CONTINUOUS INTEGRATION</text>
+  </g><g class="lane is-filled" data-group-id="group-5f-8dg3">
+    <rect x="72" y="532" width="216" height="300" rx="10"/>
+    <text class="lane-title" x="92" y="558" text-anchor="start" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:700;letter-spacing:1.2px">CONTINUOUS DELIVERY</text>
+  </g><g class="ds-edge" data-edge-id="edge-58-v9fy">
+    <path class="edge-hit" d="M 192 172 L 192 186 Q 192 192 186 192 L 186 192 Q 180 192 180 198 L 180 260"/>
+    <path class="line" d="M 192 172 L 192 186 Q 192 192 186 192 L 186 192 Q 180 192 180 198 L 180 260" marker-end="url(#deployment-dark-arrow)"/>
+    
+  </g><g class="ds-edge" data-edge-id="edge-59-v9fy">
+    <path class="edge-hit" d="M 180 336 L 180 349 Q 180 356 173 356 L 173 356 Q 166 356 166 363 L 166 424"/>
+    <path class="line" d="M 180 336 L 180 349 Q 180 356 173 356 L 173 356 Q 166 356 166 363 L 166 424" marker-end="url(#deployment-dark-arrow)"/>
+    
+  </g><g class="ds-edge" data-edge-id="edge-5a-v9fy">
+    <path class="edge-hit" d="M 178 488 L 178 576"/>
+    <path class="line" d="M 178 488 L 178 576" marker-end="url(#deployment-dark-arrow)"/>
+    <g class="edge-label"><rect x="186" y="521" width="66.4" height="22" rx="6"/><text class="edge-label-text" x="219.2" y="536.2" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:600">promote</text></g>
+  </g><g class="ds-edge" data-edge-id="edge-5b-v9fy">
+    <path class="edge-hit" d="M 180 652 L 180 740"/>
+    <path class="line" d="M 180 652 L 180 740" marker-end="url(#deployment-dark-arrow)"/>
+    <g class="edge-label"><rect x="188" y="685" width="66.4" height="22" rx="6"/><text class="edge-label-text" x="221.2" y="700.2" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:600">release</text></g>
+  </g><g class="ds-edge is-dashed" data-edge-id="edge-5c-v9fy">
+    <path class="edge-hit" d="M 190 424 L 190 412 Q 190 404 182 404 L 92 404 Q 84 404 84 396 L 84 200 Q 84 192 92 192 L 160 192 Q 168 192 168 184 L 168 172"/>
+    <path class="line" d="M 190 424 L 190 412 Q 190 404 182 404 L 92 404 Q 84 404 84 396 L 84 200 Q 84 192 92 192 L 160 192 Q 168 192 168 184 L 168 172" marker-end="url(#deployment-dark-arrow)"/>
+    <g class="edge-label"><rect x="92" y="287" width="44.8" height="22" rx="6"/><text class="edge-label-text" x="114.4" y="302.2" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:600">fail</text></g>
+  </g><g class="ds-node shape-box tone-default">
+    <path class="card" d="M 108 96 H 252 A 8 8 0 0 1 260 104 V 164 A 8 8 0 0 1 252 172 H 108 A 8 8 0 0 1 100 164 V 104 A 8 8 0 0 1 108 96 Z"/>
+    <text class="node-title" x="120" y="125.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Commit</text><text class="node-sub" x="120" y="153.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:12px;font-weight:500">Trunk</text>
+  </g><g class="ds-node shape-box tone-default">
+    <path class="card" d="M 108 260 H 252 A 8 8 0 0 1 260 268 V 328 A 8 8 0 0 1 252 336 H 108 A 8 8 0 0 1 100 328 V 268 A 8 8 0 0 1 108 260 Z"/>
+    <text class="node-title" x="120" y="289.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Build</text><text class="node-sub" x="120" y="317.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:12px;font-weight:500">Artefact produced</text>
+  </g><g class="ds-node shape-box tone-default">
+    <path class="card" d="M 104 424 H 252 A 8 8 0 0 1 260 432 V 480 A 8 8 0 0 1 252 488 H 104 A 8 8 0 0 1 96 480 V 432 A 8 8 0 0 1 104 424 Z"/>
+    <text class="node-title" x="116" y="459.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Automated tests</text>
+  </g><g class="ds-node shape-box tone-default">
+    <path class="card" d="M 108 576 H 252 A 8 8 0 0 1 260 584 V 644 A 8 8 0 0 1 252 652 H 108 A 8 8 0 0 1 100 644 V 584 A 8 8 0 0 1 108 576 Z"/>
+    <text class="node-title" x="120" y="605.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Staging</text><text class="node-sub" x="120" y="633.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:12px;font-weight:500">Production-like</text>
+  </g><g class="ds-node shape-box tone-accent">
+    <path class="card" d="M 108 740 H 252 A 8 8 0 0 1 260 748 V 796 A 8 8 0 0 1 252 804 H 108 A 8 8 0 0 1 100 796 V 748 A 8 8 0 0 1 108 740 Z"/>
+    <text class="node-title" x="120" y="775.12" text-anchor="start" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Production</text>
+  </g></g>
+</svg>

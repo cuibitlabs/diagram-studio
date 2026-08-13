@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="ds-svg" viewBox="0 0 1192 1096" width="1192" height="1096" role="img" aria-labelledby="mind-map-dark-title mind-map-dark-desc" style="--paper:#111512;--panel:#1a201c;--ink:#f1efe7;--muted:#a3ada5;--accent:#ff7557;--accent-2:#64d8b0;--line:#3d453f;--line-strong:#c9d1ca;--on-accent:#16110f;--corner:8px">
+  <title id="mind-map-dark-title">Mind map overview</title>
+  <desc id="mind-map-dark-desc">Ideas branching from a central concept</desc>
+  <defs>
+    <marker id="mind-map-dark-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 0 1 L 9 5 L 0 9 Z" fill="var(--line-strong)"/>
+    </marker>
+    <marker id="mind-map-dark-arrow-start" markerWidth="10" markerHeight="10" refX="1" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 10 1 L 1 5 L 10 9 Z" fill="var(--line-strong)"/>
+    </marker>
+    <marker id="mind-map-dark-arrow-open" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 1 1 L 10 6 L 1 11" fill="none" stroke="var(--line-strong)" stroke-width="1.5"/>
+    </marker>
+    <marker id="mind-map-dark-dot" markerWidth="8" markerHeight="8" refX="4" refY="4" markerUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="3" fill="var(--accent)"/>
+    </marker>
+    <marker id="mind-map-dark-crowfoot" markerWidth="14" markerHeight="14" refX="12" refY="7" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 12 1 L 2 7 L 12 13 M 2 7 H 12" fill="none" stroke="var(--line-strong)" stroke-width="1.2"/>
+    </marker>
+    <marker id="mind-map-dark-bar" markerWidth="10" markerHeight="14" refX="6" refY="7" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 6 1 V 13" fill="none" stroke="var(--line-strong)" stroke-width="1.4"/>
+    </marker>
+    <pattern id="mind-map-dark-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#3d453f" stroke-opacity="0.25" stroke-width="1"/>
+    </pattern>
+    <pattern id="mind-map-dark-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <path d="M 0 0 V 8" stroke="#3d453f" stroke-width="2" stroke-opacity="0.5"/>
+    </pattern>
+  </defs>
+  <style>.canvas-bg{fill:var(--paper)}.canvas-grid{pointer-events:none}text{fill:var(--ink)}.diagram-title-text{fill:var(--ink)}.diagram-lede{fill:var(--muted)}.ds-node .card{fill:var(--panel);stroke:var(--line);stroke-width:1.25}.ds-node .card-rim{fill:none;stroke:var(--line);stroke-width:1.25}.ds-node.is-dashed .card{stroke-dasharray:6 6}.ds-node .node-title{fill:var(--ink)}.ds-node .node-sub{fill:var(--muted)}.ds-node .node-icon{color:var(--muted)}.ds-node.tone-accent .card{fill:var(--accent);stroke:var(--accent)}.ds-node.tone-accent .node-title,.ds-node.tone-accent .node-sub{fill:var(--on-accent)}.ds-node.tone-muted .card{fill:var(--paper)}.ds-node.tone-muted .node-title{fill:var(--muted)}.ds-node.role-external .card,.ds-node.role-optional .card{stroke-dasharray:6 6}.ds-node.role-security .card{stroke:var(--accent-2);stroke-width:1.5}.ds-node.role-store .card{fill:var(--paper)}.ds-node.is-selected .card{stroke:var(--accent-2);stroke-width:2.5}.ds-node .node-badge rect{fill:var(--paper);stroke:var(--line)}.ds-node .badge-text{fill:var(--muted)}.ds-edge .line{fill:none;stroke:var(--line-strong);stroke-width:1.4;stroke-linejoin:round;stroke-linecap:butt}.ds-edge .edge-hit{fill:none;stroke:transparent;stroke-width:14}.ds-edge.is-dashed .line{stroke-dasharray:7 6}.ds-edge.tone-accent .line{stroke:var(--accent);stroke-width:2}.ds-edge.kind-weak .line{stroke:var(--line);stroke-width:1}.ds-edge.is-selected .line{stroke:var(--accent-2);stroke-width:2.5}.ds-edge .edge-label rect{fill:var(--paper);stroke:none}.ds-edge .edge-label-text{fill:var(--muted)}.lane rect,.group rect{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:4 5}.lane.is-filled rect{fill:var(--panel);stroke-dasharray:none}.lane-title{fill:var(--muted)}.plot-bg{fill:var(--panel);stroke:var(--line);stroke-width:1}.axis-line{fill:none;stroke:var(--line-strong);stroke-width:1.25}.grid-line{fill:none;stroke:var(--line);stroke-width:1}.axis-label,.caption{fill:var(--muted)}.mark{fill:var(--accent-2)}.mark.is-focus{fill:var(--accent)}.mark-line{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}.mark-area{fill:var(--accent);fill-opacity:.12;stroke:none}.mark-label{fill:var(--muted)}.mark-value{fill:var(--ink)}.lifeline{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:5 6}.activation{fill:var(--panel);stroke:var(--line);stroke-width:1}.timeline-axis{fill:none;stroke:var(--line-strong);stroke-width:1.25}.timeline-stem{fill:none;stroke:var(--line);stroke-width:1}.timeline-dot{fill:var(--paper);stroke:var(--line-strong);stroke-width:1.5}.timeline-dot.is-focus{fill:var(--accent);stroke:var(--accent)}.set-ring{fill:var(--accent);fill-opacity:.14;stroke:var(--accent);stroke-width:1.5}.set-ring.set-1{fill:var(--accent-2);stroke:var(--accent-2)}.set-ring.set-2{fill:var(--ink);stroke:var(--ink);fill-opacity:.08}.set-label{fill:var(--ink)}.tier{fill:var(--panel);stroke:var(--line);stroke-width:1.25}.tier.is-focus{fill:var(--accent);stroke:var(--accent)}.tier-label{fill:var(--ink)}.tier.is-focus .tier-label{fill:var(--on-accent)}.hub{fill:var(--accent-2);stroke:none}.hub-label{fill:var(--on-accent)}.legend-swatch{fill:var(--accent)}.legend-swatch.is-secondary{fill:var(--accent-2)}.legend-swatch.is-muted{fill:var(--line)}.legend-label{fill:var(--muted)}.entity-header{fill:var(--panel);stroke:var(--line);stroke-width:1.25}.entity-header.is-focus{fill:var(--accent);stroke:var(--accent)}.entity-row{fill:none;stroke:var(--line);stroke-width:1}.entity-field{fill:var(--ink)}.entity-type{fill:var(--muted)}.ds-node[data-node-id]{cursor:grab}.ds-node[data-node-id]:focus-visible .card{stroke:var(--accent-2);stroke-width:2.5}.ds-node[data-node-id]:focus{outline:none}.ds-edge[data-edge-id]{cursor:pointer}</style>
+  <rect class="canvas-bg" x="0" y="0" width="1192" height="1096"/>
+  
+  
+  <g class="diagram-content"><g class="ds-edge " data-edge-id="edge-9p-v9fx">
+          <path class="edge-hit" d="M 593.741935483871 512 L 592.258064516129 328"/>
+          <path class="line" d="M 593.741935483871 512 L 592.258064516129 328"/>
+        </g><g class="ds-edge " data-edge-id="edge-9q-v9fx">
+          <path class="edge-hit" d="M 676 544 L 764 544"/>
+          <path class="line" d="M 676 544 L 764 544"/>
+        </g><g class="ds-edge " data-edge-id="edge-9r-v9fx">
+          <path class="edge-hit" d="M 593.7460317460317 576 L 592.2539682539683 764"/>
+          <path class="line" d="M 593.7460317460317 576 L 592.2539682539683 764"/>
+        </g><g class="ds-edge " data-edge-id="edge-9s-v9fx">
+          <path class="edge-hit" d="M 512 544 L 424 544"/>
+          <path class="line" d="M 512 544 L 424 544"/>
+        </g><g class="ds-edge " data-edge-id="edge-9t-v9fx">
+          <path class="edge-hit" d="M 592 264 L 592 160"/>
+          <path class="line" d="M 592 264 L 592 160"/>
+        </g><g class="ds-edge " data-edge-id="edge-9u-v9fx">
+          <path class="edge-hit" d="M 924 544 L 932 544"/>
+          <path class="line" d="M 924 544 L 932 544"/>
+        </g><g class="ds-edge " data-edge-id="edge-9v-v9fx">
+          <path class="edge-hit" d="M 592 828 L 592 932"/>
+          <path class="line" d="M 592 828 L 592 932"/>
+        </g><g class="ds-edge " data-edge-id="edge-9w-v9fx">
+          <path class="edge-hit" d="M 264 544 L 256 544"/>
+          <path class="line" d="M 264 544 L 256 544"/>
+        </g><g class="ds-node shape-box tone-accent">
+    <path class="card" d="M 520 512 H 668 A 8 8 0 0 1 676 520 V 568 A 8 8 0 0 1 668 576 H 520 A 8 8 0 0 1 512 568 V 520 A 8 8 0 0 1 520 512 Z"/>
+    <text class="node-title" x="594" y="547.12" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Product strategy</text>
+  </g><g class="ds-node shape-box tone-default">
+    <path class="card" d="M 520 264 H 664 A 8 8 0 0 1 672 272 V 320 A 8 8 0 0 1 664 328 H 520 A 8 8 0 0 1 512 320 V 272 A 8 8 0 0 1 520 264 Z"/>
+    <text class="node-title" x="592" y="299.12" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">People</text>
+  </g><g class="ds-node shape-box tone-default">
+    <path class="card" d="M 772 512 H 916 A 8 8 0 0 1 924 520 V 568 A 8 8 0 0 1 916 576 H 772 A 8 8 0 0 1 764 568 V 520 A 8 8 0 0 1 772 512 Z"/>
+    <text class="node-title" x="844" y="547.12" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Process</text>
+  </g><g class="ds-node shape-box tone-default">
+    <path class="card" d="M 520 764 H 664 A 8 8 0 0 1 672 772 V 820 A 8 8 0 0 1 664 828 H 520 A 8 8 0 0 1 512 820 V 772 A 8 8 0 0 1 520 764 Z"/>
+    <text class="node-title" x="592" y="799.12" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Technology</text>
+  </g><g class="ds-node shape-box tone-default">
+    <path class="card" d="M 272 512 H 416 A 8 8 0 0 1 424 520 V 568 A 8 8 0 0 1 416 576 H 272 A 8 8 0 0 1 264 568 V 520 A 8 8 0 0 1 272 512 Z"/>
+    <text class="node-title" x="344" y="547.12" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Market</text>
+  </g><g class="ds-node shape-box tone-default">
+    <path class="card" d="M 520 96 H 664 A 8 8 0 0 1 672 104 V 152 A 8 8 0 0 1 664 160 H 520 A 8 8 0 0 1 512 152 V 104 A 8 8 0 0 1 520 96 Z"/>
+    <text class="node-title" x="592" y="131.12" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Hiring plan</text>
+  </g><g class="ds-node shape-box tone-default">
+    <path class="card" d="M 940 512 H 1084 A 8 8 0 0 1 1092 520 V 568 A 8 8 0 0 1 1084 576 H 940 A 8 8 0 0 1 932 568 V 520 A 8 8 0 0 1 940 512 Z"/>
+    <text class="node-title" x="1012" y="547.12" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Rituals</text>
+  </g><g class="ds-node shape-box tone-default">
+    <path class="card" d="M 520 932 H 664 A 8 8 0 0 1 672 940 V 988 A 8 8 0 0 1 664 996 H 520 A 8 8 0 0 1 512 988 V 940 A 8 8 0 0 1 520 932 Z"/>
+    <text class="node-title" x="592" y="967.12" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Platform</text>
+  </g><g class="ds-node shape-box tone-default">
+    <path class="card" d="M 104 512 H 248 A 8 8 0 0 1 256 520 V 568 A 8 8 0 0 1 248 576 H 104 A 8 8 0 0 1 96 568 V 520 A 8 8 0 0 1 104 512 Z"/>
+    <text class="node-title" x="176" y="547.12" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Segments</text>
+  </g></g>
+</svg>

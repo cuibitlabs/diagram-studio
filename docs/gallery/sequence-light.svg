@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="ds-svg" viewBox="0 0 960 696" width="960" height="696" role="img" aria-labelledby="sequence-light-title sequence-light-desc" style="--paper:#f3f0e9;--panel:#fffdf8;--ink:#1d211f;--muted:#5f665f;--accent:#c2452a;--accent-2:#174f46;--line:#c3bfb5;--line-strong:#3a403c;--on-accent:#fffdf8;--corner:8px">
+  <title id="sequence-light-title">Sequence overview</title>
+  <desc id="sequence-light-desc">Messages between participants arranged over time</desc>
+  <defs>
+    <marker id="sequence-light-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 0 1 L 9 5 L 0 9 Z" fill="var(--line-strong)"/>
+    </marker>
+    <marker id="sequence-light-arrow-start" markerWidth="10" markerHeight="10" refX="1" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 10 1 L 1 5 L 10 9 Z" fill="var(--line-strong)"/>
+    </marker>
+    <marker id="sequence-light-arrow-open" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 1 1 L 10 6 L 1 11" fill="none" stroke="var(--line-strong)" stroke-width="1.5"/>
+    </marker>
+    <marker id="sequence-light-dot" markerWidth="8" markerHeight="8" refX="4" refY="4" markerUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="3" fill="var(--accent)"/>
+    </marker>
+    <marker id="sequence-light-crowfoot" markerWidth="14" markerHeight="14" refX="12" refY="7" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 12 1 L 2 7 L 12 13 M 2 7 H 12" fill="none" stroke="var(--line-strong)" stroke-width="1.2"/>
+    </marker>
+    <marker id="sequence-light-bar" markerWidth="10" markerHeight="14" refX="6" refY="7" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 6 1 V 13" fill="none" stroke="var(--line-strong)" stroke-width="1.4"/>
+    </marker>
+    <pattern id="sequence-light-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#c3bfb5" stroke-opacity="0.25" stroke-width="1"/>
+    </pattern>
+    <pattern id="sequence-light-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <path d="M 0 0 V 8" stroke="#c3bfb5" stroke-width="2" stroke-opacity="0.5"/>
+    </pattern>
+  </defs>
+  <style>.canvas-bg{fill:var(--paper)}.canvas-grid{pointer-events:none}text{fill:var(--ink)}.diagram-title-text{fill:var(--ink)}.diagram-lede{fill:var(--muted)}.ds-node .card{fill:var(--panel);stroke:var(--line);stroke-width:1.25}.ds-node .card-rim{fill:none;stroke:var(--line);stroke-width:1.25}.ds-node.is-dashed .card{stroke-dasharray:6 6}.ds-node .node-title{fill:var(--ink)}.ds-node .node-sub{fill:var(--muted)}.ds-node .node-icon{color:var(--muted)}.ds-node.tone-accent .card{fill:var(--accent);stroke:var(--accent)}.ds-node.tone-accent .node-title,.ds-node.tone-accent .node-sub{fill:var(--on-accent)}.ds-node.tone-muted .card{fill:var(--paper)}.ds-node.tone-muted .node-title{fill:var(--muted)}.ds-node.role-external .card,.ds-node.role-optional .card{stroke-dasharray:6 6}.ds-node.role-security .card{stroke:var(--accent-2);stroke-width:1.5}.ds-node.role-store .card{fill:var(--paper)}.ds-node.is-selected .card{stroke:var(--accent-2);stroke-width:2.5}.ds-node .node-badge rect{fill:var(--paper);stroke:var(--line)}.ds-node .badge-text{fill:var(--muted)}.ds-edge .line{fill:none;stroke:var(--line-strong);stroke-width:1.4;stroke-linejoin:round;stroke-linecap:butt}.ds-edge .edge-hit{fill:none;stroke:transparent;stroke-width:14}.ds-edge.is-dashed .line{stroke-dasharray:7 6}.ds-edge.tone-accent .line{stroke:var(--accent);stroke-width:2}.ds-edge.kind-weak .line{stroke:var(--line);stroke-width:1}.ds-edge.is-selected .line{stroke:var(--accent-2);stroke-width:2.5}.ds-edge .edge-label rect{fill:var(--paper);stroke:none}.ds-edge .edge-label-text{fill:var(--muted)}.lane rect,.group rect{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:4 5}.lane.is-filled rect{fill:var(--panel);stroke-dasharray:none}.lane-title{fill:var(--muted)}.plot-bg{fill:var(--panel);stroke:var(--line);stroke-width:1}.axis-line{fill:none;stroke:var(--line-strong);stroke-width:1.25}.grid-line{fill:none;stroke:var(--line);stroke-width:1}.axis-label,.caption{fill:var(--muted)}.mark{fill:var(--accent-2)}.mark.is-focus{fill:var(--accent)}.mark-line{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}.mark-area{fill:var(--accent);fill-opacity:.12;stroke:none}.mark-label{fill:var(--muted)}.mark-value{fill:var(--ink)}.lifeline{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:5 6}.activation{fill:var(--panel);stroke:var(--line);stroke-width:1}.timeline-axis{fill:none;stroke:var(--line-strong);stroke-width:1.25}.timeline-stem{fill:none;stroke:var(--line);stroke-width:1}.timeline-dot{fill:var(--paper);stroke:var(--line-strong);stroke-width:1.5}.timeline-dot.is-focus{fill:var(--accent);stroke:var(--accent)}.set-ring{fill:var(--accent);fill-opacity:.14;stroke:var(--accent);stroke-width:1.5}.set-ring.set-1{fill:var(--accent-2);stroke:var(--accent-2)}.set-ring.set-2{fill:var(--ink);stroke:var(--ink);fill-opacity:.08}.set-label{fill:var(--ink)}.tier{fill:var(--panel);stroke:var(--line);stroke-width:1.25}.tier.is-focus{fill:var(--accent);stroke:var(--accent)}.tier-label{fill:var(--ink)}.tier.is-focus .tier-label{fill:var(--on-accent)}.hub{fill:var(--accent-2);stroke:none}.hub-label{fill:var(--on-accent)}.legend-swatch{fill:var(--accent)}.legend-swatch.is-secondary{fill:var(--accent-2)}.legend-swatch.is-muted{fill:var(--line)}.legend-label{fill:var(--muted)}.entity-header{fill:var(--panel);stroke:var(--line);stroke-width:1.25}.entity-header.is-focus{fill:var(--accent);stroke:var(--accent)}.entity-row{fill:none;stroke:var(--line);stroke-width:1}.entity-field{fill:var(--ink)}.entity-type{fill:var(--muted)}.ds-node[data-node-id]{cursor:grab}.ds-node[data-node-id]:focus-visible .card{stroke:var(--accent-2);stroke-width:2.5}.ds-node[data-node-id]:focus{outline:none}.ds-edge[data-edge-id]{cursor:pointer}</style>
+  <rect class="canvas-bg" x="0" y="0" width="960" height="696"/>
+  
+  
+  <g class="diagram-content"><path class="lifeline" d="M 168 160 V 600"/><path class="lifeline" d="M 376 160 V 600"/><path class="lifeline" d="M 584 160 V 600"/><path class="lifeline" d="M 792 160 V 600"/><g class="ds-edge sequence-message" data-edge-id="edge-3o-v9fz">
+          <path class="edge-hit" d="M 168 232 H 376"/>
+          <path class="line" d="M 168 232 H 376" marker-end="url(#sequence-light-arrow)"/>
+          <rect class="message-mask" x="238.8" y="206" width="66.4" height="20" rx="6"/><text class="edge-label-text" x="272" y="220" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:600">sign in</text>
+          <text class="axis-label" x="178" y="248" text-anchor="start" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:500">1</text>
+        </g><g class="ds-edge sequence-message" data-edge-id="edge-3p-v9fz">
+          <path class="edge-hit" d="M 376 296 H 584"/>
+          <path class="line" d="M 376 296 H 584" marker-end="url(#sequence-light-arrow)"/>
+          <rect class="message-mask" x="428.8" y="270" width="102.39999999999999" height="20" rx="6"/><text class="edge-label-text" x="480" y="284" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:600">authenticate</text>
+          <text class="axis-label" x="386" y="312" text-anchor="start" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:500">2</text>
+        </g><g class="ds-edge sequence-message" data-edge-id="edge-3q-v9fz">
+          <path class="edge-hit" d="M 584 360 H 792"/>
+          <path class="line" d="M 584 360 H 792" marker-end="url(#sequence-light-arrow)"/>
+          <rect class="message-mask" x="629.6" y="334" width="116.8" height="20" rx="6"/><text class="edge-label-text" x="688" y="348" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:600">lookup account</text>
+          <text class="axis-label" x="594" y="376" text-anchor="start" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:500">3</text>
+        </g><g class="ds-edge sequence-message is-dashed" data-edge-id="edge-3r-v9fz">
+          <path class="edge-hit" d="M 792 424 H 584"/>
+          <path class="line" d="M 792 424 H 584" marker-end="url(#sequence-light-arrow-open)"/>
+          <rect class="message-mask" x="654.8" y="398" width="66.4" height="20" rx="6"/><text class="edge-label-text" x="688" y="412" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:600">profile</text>
+          <text class="axis-label" x="782" y="440" text-anchor="end" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:500">4</text>
+        </g><g class="ds-edge sequence-message is-dashed" data-edge-id="edge-3s-v9fz">
+          <path class="edge-hit" d="M 584 488 H 376"/>
+          <path class="line" d="M 584 488 H 376" marker-end="url(#sequence-light-arrow-open)"/>
+          <rect class="message-mask" x="425.2" y="462" width="109.6" height="20" rx="6"/><text class="edge-label-text" x="480" y="476" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:600">session token</text>
+          <text class="axis-label" x="574" y="504" text-anchor="end" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:500">5</text>
+        </g><g class="ds-edge sequence-message is-dashed" data-edge-id="edge-3t-v9fz">
+          <path class="edge-hit" d="M 376 552 H 168"/>
+          <path class="line" d="M 376 552 H 168" marker-end="url(#sequence-light-arrow-open)"/>
+          <rect class="message-mask" x="231.6" y="526" width="80.8" height="20" rx="6"/><text class="edge-label-text" x="272" y="540" text-anchor="middle" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:600">signed in</text>
+          <text class="axis-label" x="366" y="568" text-anchor="end" style="font-family:'Geist Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, monospace;font-size:12px;font-weight:500">6</text>
+        </g><g class="ds-node shape-stadium tone-default role-actor">
+    <path class="card" d="M 128 96 H 208 A 32 32 0 0 1 240 128 V 128 A 32 32 0 0 1 208 160 H 128 A 32 32 0 0 1 96 128 V 128 A 32 32 0 0 1 128 96 Z"/>
+    <text class="node-title" x="168" y="125.12" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Cust</text><text class="node-title" x="168" y="145.12" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">omer</text>
+  </g><g class="ds-node shape-box tone-default">
+    <path class="card" d="M 312 96 H 440 A 8 8 0 0 1 448 104 V 152 A 8 8 0 0 1 440 160 H 312 A 8 8 0 0 1 304 152 V 104 A 8 8 0 0 1 312 96 Z"/>
+    <text class="node-title" x="376" y="131.12" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Web app</text>
+  </g><g class="ds-node shape-box tone-accent">
+    <path class="card" d="M 520 96 H 648 A 8 8 0 0 1 656 104 V 152 A 8 8 0 0 1 648 160 H 520 A 8 8 0 0 1 512 152 V 104 A 8 8 0 0 1 520 96 Z"/>
+    <text class="node-title" x="584" y="131.12" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Auth service</text>
+  </g><g class="ds-node shape-cylinder tone-default role-store">
+    <path class="card" d="M 720 108.8 A 72 12.8 0 0 1 864 108.8 V 147.2 A 72 12.8 0 0 1 720 147.2 Z"/><path class="card-rim" d="M 720 108.8 A 72 12.8 0 0 0 864 108.8"/>
+    <text class="node-title" x="792" y="143.92" text-anchor="middle" style="font-family:Inter, 'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;font-size:16px;font-weight:700">Account store</text>
+  </g></g>
+</svg>

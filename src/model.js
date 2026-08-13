@@ -1,184 +1,221 @@
-export const DIAGRAM_TYPES = [
-  ["architecture", "Architecture", "flow", "Systems, services and connections"],
-  ["flowchart", "Flowchart", "flow", "Decisions and process logic"],
-  ["sequence", "Sequence", "sequence", "Messages arranged over time"],
-  ["state", "State machine", "flow", "States and valid transitions"],
-  ["er", "ER / data model", "flow", "Entities, fields and relations"],
-  ["timeline", "Timeline", "timeline", "Events on a clear axis"],
-  ["swimlane", "Swimlane", "flow", "Cross-functional ownership"],
-  ["quadrant", "Quadrant", "quadrant", "Two-axis positioning"],
-  ["nested", "Nested systems", "layers", "Hierarchy by containment"],
-  ["tree", "Tree", "hierarchy", "Parent and child relationships"],
-  ["org-chart", "Org chart", "hierarchy", "Teams, ownership and reporting"],
-  ["venn", "Venn", "venn", "Set overlap and shared value"],
-  ["layers", "Layer stack", "layers", "Stacked abstractions"],
-  ["pyramid", "Pyramid / funnel", "pyramid", "Priority, maturity or drop-off"],
-  ["matrix", "Consultant matrix", "quadrant", "Named strategic scenarios"],
-  ["radar", "Radar", "radar", "Multi-axis comparison"],
-  ["loop", "Loop / flywheel", "loop", "A reinforcing cycle around a hub"],
-  ["current-state", "Current state", "flow", "Legacy landscape and constraints"],
-  ["high-level", "High-level system", "flow", "End-to-end platform view"],
-  ["bar", "Bar chart", "bar", "Categorical comparison"],
-  ["line", "Line chart", "line", "Trends over time"],
-  ["gantt", "Gantt", "gantt", "Tasks, timing and phases"],
-  ["scatter", "Scatter plot", "scatter", "Distribution and correlation"],
-  ["process", "Process", "flow", "Multi-step operational workflow"],
-  ["medallion", "Medallion", "layers", "Bronze, silver and gold data tiers"],
-  ["data-flow", "Data flow", "flow", "Sources, transformations and destinations"],
-  ["mind-map", "Mind map", "loop", "Ideas branching from a central concept"],
-  ["network", "Network topology", "flow", "Devices, zones and links"],
-  ["deployment", "Deployment", "layers", "Runtime environments and releases"],
-  ["roadmap", "Roadmap", "timeline", "Initiatives across horizons"],
-  ["journey", "Customer journey", "timeline", "Stages, actions and sentiment"],
-].map(([id, label, family, description]) => ({ id, label, family, description }));
+/**
+ * Project model.
+ *
+ * A `.diagram.json` project is the source of truth: semantic relationships live
+ * in `edges`, roles live on nodes, and nothing meaningful is inferred from
+ * coordinates. Renderers may move a node; they may never invent one.
+ */
 
-export const PALETTES = {
-  editorial: { name: "Paper & coral", paper: "#f3f0e9", panel: "#fffdf8", ink: "#1d211f", muted: "#6e746f", accent: "#e85d3f", accent2: "#174f46", line: "#b9b5ac" },
-  midnight: { name: "Midnight", paper: "#111512", panel: "#191e1a", ink: "#f1efe7", muted: "#9ba69e", accent: "#ff7557", accent2: "#64d8b0", line: "#424b44" },
-  cobalt: { name: "Cobalt", paper: "#eef3fb", panel: "#ffffff", ink: "#15233d", muted: "#64708a", accent: "#2f62d6", accent2: "#d45078", line: "#afbdd7" },
-  moss: { name: "Moss", paper: "#eef0e5", panel: "#fafbf5", ink: "#263126", muted: "#687265", accent: "#607b4d", accent2: "#bf6b48", line: "#b5bcae" },
-  mono: { name: "Monochrome", paper: "#f4f4f2", panel: "#ffffff", ink: "#161616", muted: "#6a6a68", accent: "#161616", accent2: "#777772", line: "#bcbcb8" },
-};
+import { DIAGRAM_TYPES, getType, hasType, sampleFor } from "./types/index.js";
+import { PALETTES } from "./theme/palettes.js";
 
-const typeMap = Object.fromEntries(DIAGRAM_TYPES.map((item) => [item.id, item]));
-let nextNumber = 1;
-export const makeId = (prefix = "item") => `${prefix}-${Date.now().toString(36)}-${nextNumber++}`;
+export { DIAGRAM_TYPES, getType, hasType, sampleFor, PALETTES };
 
-const samples = {
-  architecture: ["Experience", "API gateway", "Core service", "Data store", "Observability"],
-  flowchart: ["New request", "Validate", "Decision", "Process", "Complete"],
-  sequence: ["Customer", "Web app", "Gateway", "Service", "Database"],
-  state: ["Draft", "Review", "Approved", "Published", "Archived"],
-  er: ["Customer", "Order", "Order item", "Product", "Payment"],
-  timeline: ["Discover", "Prototype", "Pilot", "Launch", "Scale"],
-  swimlane: ["Request", "Triage", "Design", "Build", "Release"],
-  quadrant: ["Quick wins", "Strategic bets", "Fill-ins", "Avoid"],
-  nested: ["Platform", "Experience layer", "Service layer", "Data layer"],
-  tree: ["Platform", "Experience", "Services", "Web", "Mobile", "Data"],
-  "org-chart": ["CEO", "Product", "Engineering", "Design", "Data", "Operations"],
-  venn: ["Desirable", "Viable", "Feasible"],
-  layers: ["Experience", "Application", "Domain", "Data", "Infrastructure"],
-  pyramid: ["Vision", "Strategy", "Programs", "Projects", "Tasks"],
-  matrix: ["Transform", "Optimize", "Maintain", "Retire"],
-  radar: ["Speed", "Quality", "Cost", "Security", "Adoption", "Scale"],
-  loop: ["Discover", "Decide", "Deliver", "Measure", "Learn"],
-  "current-state": ["Channels", "Point solutions", "Legacy core", "Data silos", "Manual ops"],
-  "high-level": ["Users", "Experience", "Platform", "Intelligence", "Operations"],
-  bar: ["Research", "Design", "Build", "Launch", "Improve"],
-  line: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-  gantt: ["Discovery", "Design", "Build", "Pilot", "Launch"],
-  scatter: ["Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta"],
-  process: ["Intake", "Qualify", "Plan", "Execute", "Review"],
-  medallion: ["Bronze / raw", "Silver / clean", "Gold / trusted"],
-  "data-flow": ["Sources", "Ingest", "Transform", "Model", "Serve"],
-  "mind-map": ["Product", "People", "Process", "Technology", "Market", "Metrics"],
-  network: ["Internet", "Edge", "Application", "Private network", "Database"],
-  deployment: ["Commit", "Build", "Test", "Staging", "Production"],
-  roadmap: ["Now", "Next", "Later", "Future"],
-  journey: ["Awareness", "Evaluate", "Buy", "Onboard", "Grow"],
-};
+export const MODEL_VERSION = 2;
+export const LIMITS = { nodes: 200, edges: 400, budgetNodes: 9, budgetEdges: 12, accent: 2 };
 
-function node(label, index, total, family) {
-  const cols = Math.min(total, 4);
-  const row = Math.floor(index / cols);
-  const col = index % cols;
-  const base = { id: makeId("node"), label, sublabel: "Double-click to edit", x: 120 + col * 260, y: 160 + row * 180, w: 196, h: 88, value: 34 + ((index * 17) % 58), tone: index === 1 ? "accent" : "default" };
-  if (["quadrant", "venn", "loop", "radar", "scatter"].includes(family)) {
-    base.x = 220 + ((index * 173) % 720);
-    base.y = 150 + ((index * 117) % 430);
-  }
-  if (family === "timeline") { base.x = 140 + index * (880 / Math.max(1, total - 1)); base.y = index % 2 ? 430 : 270; }
-  if (family === "gantt") { base.x = 260 + index * 80; base.y = 150 + index * 92; base.w = 220 + (index % 3) * 60; base.h = 48; }
-  return base;
+let counter = 0;
+export const makeId = (prefix = "item") => `${prefix}-${(counter++).toString(36)}-${Math.abs(hashString(prefix + counter)).toString(36).slice(0, 4)}`;
+
+function hashString(value) {
+  let hash = 0;
+  for (const char of String(value)) hash = (hash * 31 + char.charCodeAt(0)) | 0;
+  return hash;
 }
 
-function defaultEdges(nodes, type) {
-  if (["bar", "line", "scatter", "radar", "venn", "quadrant", "pyramid", "layers", "gantt", "timeline", "roadmap", "journey"].includes(type)) return [];
-  if (["tree", "org-chart"].includes(type)) return nodes.slice(1).map((n, i) => ({ id: makeId("edge"), source: nodes[Math.floor(i / 2)].id, target: n.id, label: "", dashed: false }));
-  return nodes.slice(0, -1).map((n, i) => ({ id: makeId("edge"), source: n.id, target: nodes[i + 1].id, label: i === 1 ? "signal" : "", dashed: type === "loop" && i === nodes.length - 2 }));
+/** Fields copied verbatim from a sample or import onto a model node. */
+const NODE_FIELDS = [
+  "sublabel", "role", "shape", "tone", "icon", "badge", "value", "px", "py",
+  "lane", "horizon", "zone", "constraint", "fields", "start", "duration",
+  "marker", "dashed", "stateKind", "promotion", "action", "fixedSize",
+];
+
+const DIAGRAM_FIELDS = ["axes", "lanes", "horizons", "hub", "overlaps", "unit", "timeUnit", "seriesLabel"];
+
+function nodeFrom(source) {
+  const node = {
+    id: source.id ?? makeId("node"),
+    label: String(source.label ?? "Untitled"),
+    x: Number(source.x) || 0,
+    y: Number(source.y) || 0,
+    w: Number(source.w) || 0,
+    h: Number(source.h) || 0,
+  };
+  for (const field of NODE_FIELDS) if (source[field] !== undefined) node[field] = source[field];
+  return node;
 }
 
-export function createDiagram(type = "architecture", title) {
-  const meta = typeMap[type] || typeMap.architecture;
-  const labels = samples[meta.id] || samples.architecture;
-  const nodes = labels.map((label, index) => node(label, index, labels.length, meta.family));
-  return {
-    version: 1,
+/**
+ * Build a project.
+ *
+ * @param {string} type
+ * @param {string} [title]
+ * @param {{empty?: boolean}} [options] `empty` skips the starter content — used
+ *   by importers, which supply their own nodes and must not inherit sample
+ *   axes, lanes or groups from an unrelated type.
+ */
+export function createDiagram(type = "architecture", title, options = {}) {
+  const meta = getType(hasType(type) ? type : "architecture");
+  const sample = options.empty ? { nodes: [], edges: [] } : sampleFor(meta.id);
+  const nodes = (sample.nodes ?? []).map(nodeFrom);
+  const edges = (sample.edges ?? []).map((edge) => ({
+    id: makeId("edge"),
+    source: nodes[edge.from]?.id,
+    target: nodes[edge.to]?.id,
+    label: edge.label ?? "",
+    dashed: Boolean(edge.dashed),
+    ...(edge.kind ? { kind: edge.kind } : {}),
+    ...(edge.tone ? { tone: edge.tone } : {}),
+  })).filter((edge) => edge.source && edge.target);
+
+  const diagram = {
+    version: MODEL_VERSION,
     id: makeId("diagram"),
     type: meta.id,
     title: title || `${meta.label} overview`,
     description: meta.description,
-    width: 1200,
-    height: 760,
+    width: 0,
+    height: 0,
     theme: { ...PALETTES.editorial },
     nodes,
-    edges: defaultEdges(nodes, meta.id),
+    edges,
     annotations: [],
-    settings: { grid: true, density: "balanced", corner: 8 },
+    settings: { grid: false, density: "balanced", corner: 8, autoFit: true, showTitle: false },
   };
+
+  if (sample.groups) {
+    diagram.groups = sample.groups.map((group) => ({
+      id: makeId("group"),
+      label: group.label,
+      nodes: (group.nodes ?? []).map((index) => nodes[index]?.id).filter(Boolean),
+    }));
+  }
+  for (const field of DIAGRAM_FIELDS) if (sample[field] !== undefined) diagram[field] = sample[field];
+
+  return diagram;
 }
 
-const keywordTypes = [
-  [/(sequence|message|request.*response|oauth)/i, "sequence"], [/(state|status|lifecycle)/i, "state"],
-  [/(database|entity|schema|relationship|data model)/i, "er"], [/(timeline|history|milestone)/i, "timeline"],
-  [/(roadmap|now next later)/i, "roadmap"], [/(journey|touchpoint|customer experience)/i, "journey"],
-  [/(gantt|schedule|project plan)/i, "gantt"], [/(quadrant|2x2|matrix)/i, "quadrant"],
-  [/(venn|overlap|intersection)/i, "venn"], [/(pyramid|funnel|hierarchy of needs)/i, "pyramid"],
-  [/(org chart|reporting line|organization)/i, "org-chart"], [/(tree|taxonomy|hierarchy)/i, "tree"],
-  [/(radar|spider)/i, "radar"], [/(scatter|correlation)/i, "scatter"], [/(bar chart|compare values)/i, "bar"],
-  [/(line chart|trend|growth over time)/i, "line"], [/(flywheel|loop|cycle)/i, "loop"],
-  [/(mind map|brainstorm)/i, "mind-map"], [/(network|topology|subnet)/i, "network"],
-  [/(deployment|release pipeline|ci\/cd)/i, "deployment"], [/(data flow|etl|pipeline)/i, "data-flow"],
-  [/(medallion|bronze.*silver.*gold)/i, "medallion"], [/(flowchart|decision|if then)/i, "flowchart"],
-  [/(process|workflow|steps)/i, "process"],
+const KEYWORD_TYPES = [
+  [/(sequence|message flow|request.*response|oauth|handshake)/i, "sequence"],
+  [/(state machine|lifecycle|status transition)/i, "state"],
+  [/(entity relationship|\ber diagram\b|schema|data model|table.*column)/i, "er"],
+  [/(swimlane|cross-functional|hand ?off between teams)/i, "swimlane"],
+  [/(roadmap|now next later|horizon)/i, "roadmap"],
+  [/(journey|touchpoint|customer experience)/i, "journey"],
+  [/(timeline|milestone|chronolog)/i, "timeline"],
+  [/(gantt|schedule|project plan|week \d)/i, "gantt"],
+  [/(2 ?x ?2|quadrant|effort.*value|value.*effort)/i, "quadrant"],
+  [/(consultant matrix|named scenario|transform.*optimi[sz]e.*retire)/i, "matrix"],
+  [/(venn|overlap|intersection of)/i, "venn"],
+  [/(pyramid|funnel|drop-?off)/i, "pyramid"],
+  [/(org chart|reporting line|who reports)/i, "org-chart"],
+  [/(taxonomy|tree of|parent and child)/i, "tree"],
+  [/(radar|spider chart|capability assessment)/i, "radar"],
+  [/(scatter|correlation between)/i, "scatter"],
+  [/(bar chart|compare .* across|by category)/i, "bar"],
+  [/(line chart|trend|over the last|growth over time)/i, "line"],
+  [/(flywheel|reinforcing loop|virtuous cycle)/i, "loop"],
+  [/(mind map|brainstorm|branches from)/i, "mind-map"],
+  [/(network|topology|subnet|firewall)/i, "network"],
+  [/(deployment|release pipeline|ci\/cd|promote to production)/i, "deployment"],
+  [/(data flow|etl|ingest.*transform|pipeline)/i, "data-flow"],
+  [/(medallion|bronze.*silver.*gold)/i, "medallion"],
+  [/(layer|stack of abstractions|tiers of)/i, "layers"],
+  [/(nested|contained within|sits inside)/i, "nested"],
+  [/(current state|as-is|legacy landscape)/i, "current-state"],
+  [/(executive|board|high-level overview)/i, "high-level"],
+  [/(decision|if .* then|flowchart|branch)/i, "flowchart"],
+  [/(process|workflow|steps to)/i, "process"],
 ];
 
+/** Labels the author actually wrote: an arrow chain, or a bullet list. */
 function extractLabels(prompt) {
-  const arrowLine = prompt.split(/\n/).find((line) => /(?:--?>|→|=>)/.test(line));
-  if (arrowLine) return arrowLine.split(/\s*(?:--?>|→|=>)\s*/).map((s) => s.replace(/^\d+[.)]\s*/, "").trim()).filter(Boolean).slice(0, 12);
-  const bullets = prompt.split(/\n/).map((s) => s.replace(/^\s*(?:[-*•]|\d+[.)])\s*/, "").trim()).filter((s) => s && s.length < 70);
-  return bullets.length >= 3 ? bullets.slice(0, 12) : [];
-}
-
-export function createFromPrompt(prompt) {
-  const selected = keywordTypes.find(([pattern]) => pattern.test(prompt));
-  const type = selected?.[1] || "architecture";
-  const titleMatch = prompt.match(/(?:titled?|called|about)\s+["“]?([^\n"”.,]{3,60})/i);
-  const diagram = createDiagram(type, titleMatch?.[1]?.trim() || `${typeMap[type].label}: ${prompt.trim().split(/[.!?\n]/)[0].slice(0, 56) || "Untitled"}`);
-  const labels = extractLabels(prompt);
-  if (labels.length >= 2) {
-    const meta = typeMap[type];
-    diagram.nodes = labels.map((label, index) => node(label, index, labels.length, meta.family));
-    diagram.edges = defaultEdges(diagram.nodes, type);
+  const arrowLine = prompt.split(/\n/).find((line) => /(?:-{1,2}>|→|=>)/.test(line));
+  if (arrowLine) {
+    return arrowLine
+      .split(/\s*(?:-{1,2}>|→|=>)\s*/)
+      .map((part) => part.replace(/^\d+[.)]\s*/, "").trim())
+      .filter(Boolean)
+      .slice(0, LIMITS.budgetNodes);
   }
-  diagram.description = prompt.trim().slice(0, 180) || typeMap[type].description;
+  const bullets = prompt
+    .split(/\n/)
+    .map((line) => line.replace(/^\s*(?:[-*•]|\d+[.)])\s*/, "").trim())
+    .filter((line) => line && line.length < 70);
+  return bullets.length >= 3 ? bullets.slice(0, LIMITS.budgetNodes) : [];
+}
+
+/**
+ * Compose a project from a prompt.
+ *
+ * When the prompt names its own elements they are used verbatim. When it does
+ * not, the type's starter content is returned unchanged rather than the prompt
+ * being padded out into fake nodes.
+ */
+export function createFromPrompt(prompt) {
+  const source = String(prompt ?? "");
+  const matched = KEYWORD_TYPES.find(([pattern]) => pattern.test(source));
+  const type = matched?.[1] ?? "architecture";
+  const titleMatch = source.match(/(?:titled?|called|about)\s+["“]?([^\n"”.,]{3,60})/i);
+  const firstSentence = source.trim().split(/[.!?\n]/)[0]?.trim() ?? "";
+  const diagram = createDiagram(type, titleMatch?.[1]?.trim() || firstSentence.slice(0, 64) || undefined);
+
+  const labels = extractLabels(source);
+  if (labels.length >= 2) {
+    diagram.nodes = labels.map((label) => nodeFrom({ label }));
+    diagram.nodes[Math.min(1, diagram.nodes.length - 1)].tone = "accent";
+    diagram.edges = diagram.nodes.slice(0, -1).map((node, index) => ({
+      id: makeId("edge"),
+      source: node.id,
+      target: diagram.nodes[index + 1].id,
+      label: "",
+      dashed: false,
+    }));
+    delete diagram.groups;
+  }
+
+  if (firstSentence) diagram.description = firstSentence.slice(0, 180);
   return diagram;
 }
 
-export function applyAutoLayout(diagram) {
-  const family = typeMap[diagram.type]?.family || "flow";
-  const count = diagram.nodes.length;
-  diagram.nodes.forEach((item, index) => {
-    const fresh = node(item.label, index, count, family);
-    item.x = fresh.x; item.y = fresh.y;
-    if (family !== "gantt") { item.w = item.w || fresh.w; item.h = item.h || fresh.h; }
-  });
-  return diagram;
-}
+export const cloneDiagram = (diagram) => structuredClone(diagram);
 
-export function cloneDiagram(diagram) {
-  return JSON.parse(JSON.stringify(diagram));
-}
-
+/**
+ * Structural validation. Returns blocking errors; use `reviewDiagram` for the
+ * editorial checks that are advice rather than failure.
+ */
 export function validateDiagram(diagram) {
   const errors = [];
   if (!diagram || typeof diagram !== "object") return ["Diagram must be an object"];
-  if (!typeMap[diagram.type]) errors.push(`Unknown diagram type: ${diagram.type}`);
+  if (!hasType(diagram.type)) errors.push(`Unknown diagram type: ${diagram.type}`);
   if (!Array.isArray(diagram.nodes)) errors.push("nodes must be an array");
   if (!Array.isArray(diagram.edges)) errors.push("edges must be an array");
-  const ids = new Set((diagram.nodes || []).map((item) => item.id));
-  for (const edge of diagram.edges || []) if (!ids.has(edge.source) || !ids.has(edge.target)) errors.push(`Edge ${edge.id} has a missing endpoint`);
+  if (!diagram.theme || typeof diagram.theme !== "object") errors.push("theme is missing");
+  if (errors.length) return errors;
+
+  if (diagram.nodes.length > LIMITS.nodes) errors.push(`too many nodes (${diagram.nodes.length} > ${LIMITS.nodes})`);
+  if (diagram.edges.length > LIMITS.edges) errors.push(`too many edges (${diagram.edges.length} > ${LIMITS.edges})`);
+
+  const ids = diagram.nodes.map((node) => node.id);
+  if (new Set(ids).size !== ids.length) errors.push("node ids must be unique");
+  const known = new Set(ids);
+  for (const edge of diagram.edges) {
+    if (!known.has(edge.source) || !known.has(edge.target)) errors.push(`edge ${edge.id} has a missing endpoint`);
+  }
   return errors;
 }
 
-export const getType = (id) => typeMap[id] || typeMap.architecture;
+/** Editorial review: the composition rules, reported as advice. */
+export function reviewDiagram(diagram) {
+  const notes = [];
+  const accents = diagram.nodes.filter((node) => node.tone === "accent").length;
+  if (accents > LIMITS.accent) notes.push(`${accents} accent elements — the budget is ${LIMITS.accent}. Emphasis stops working when everything is emphasised.`);
+  if (diagram.nodes.length > LIMITS.budgetNodes) notes.push(`${diagram.nodes.length} nodes — consider splitting into an overview and a detail diagram above ${LIMITS.budgetNodes}.`);
+  if (diagram.edges.length > LIMITS.budgetEdges) notes.push(`${diagram.edges.length} connections — above ${LIMITS.budgetEdges} the reading order stops being obvious.`);
+  const orphans = diagram.nodes.filter(
+    (node) => !diagram.edges.some((edge) => edge.source === node.id || edge.target === node.id),
+  );
+  const graphFamily = ["layered", "hierarchy", "er", "sequence", "swimlane"].includes(getType(diagram.type).family);
+  if (graphFamily && orphans.length) notes.push(`${orphans.length} unconnected element${orphans.length === 1 ? "" : "s"}: ${orphans.map((node) => node.label).join(", ")}`);
+  return notes;
+}

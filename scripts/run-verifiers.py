@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Discover and run every repository verifier and linter.
 
-Any executable script matching ``scripts/verify-*.py``, ``scripts/lint-*.py``,
-or ``scripts/test-*.py`` is run with the repository root as the working
-directory. A non-zero exit from any of them fails the whole run.
+Any script matching ``scripts/verify-*``, ``scripts/lint-*`` or
+``scripts/test-*`` with a ``.py`` or ``.mjs`` extension is run with the
+repository root as the working directory. A non-zero exit from any of them
+fails the whole run.
 """
 
 from __future__ import annotations
@@ -14,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SCRIPTS = ROOT / "scripts"
-PATTERNS = ("verify-*.py", "lint-*.py", "test-*.py")
+PATTERNS = ("verify-*.py", "verify-*.mjs", "lint-*.py", "lint-*.mjs", "test-*.py")
 
 
 def discover() -> list[Path]:
@@ -22,6 +23,10 @@ def discover() -> list[Path]:
     for pattern in PATTERNS:
         found.extend(sorted(SCRIPTS.glob(pattern)))
     return [path for path in found if path.name != Path(__file__).name]
+
+
+def runner_for(script: Path) -> list[str]:
+    return ["node", str(script)] if script.suffix == ".mjs" else [sys.executable, str(script)]
 
 
 def main() -> int:
@@ -33,7 +38,7 @@ def main() -> int:
     failures: list[str] = []
     for script in scripts:
         print(f"--- {script.relative_to(ROOT).as_posix()}")
-        result = subprocess.run([sys.executable, str(script)], cwd=ROOT)
+        result = subprocess.run(runner_for(script), cwd=ROOT, shell=False)
         if result.returncode != 0:
             failures.append(script.name)
 

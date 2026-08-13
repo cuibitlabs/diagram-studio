@@ -33,6 +33,7 @@ export const ROUTER_DEFAULTS = {
   bendCost: 24,    // px-equivalent penalty per bend when scoring candidates
   hitCost: 4000,   // penalty for crossing a node
   maxLattice: 48,  // A* lattice cap per axis
+  straightenTolerance: 8, // collapse a jog this small into a straight run
 };
 
 const EPS = 0.01;
@@ -209,6 +210,28 @@ function latticeRoute(s, t, obstacles, options) {
   return null;
 }
 
+/**
+ * Collapse a near-straight run into an actual straight line.
+ *
+ * Port allocation can leave a two-pixel offset between the two ends when the
+ * nodes have slightly different heights. Drawn literally that becomes a visible
+ * stair-step in the middle of an otherwise straight connector.
+ */
+function straighten(points, tolerance) {
+  if (points.length < 3) return points;
+  const xs = points.map((point) => point.x);
+  const ys = points.map((point) => point.y);
+  if (Math.max(...ys) - Math.min(...ys) <= tolerance) {
+    const y = points[0].y;
+    return [{ x: points[0].x, y }, { x: points.at(-1).x, y }];
+  }
+  if (Math.max(...xs) - Math.min(...xs) <= tolerance) {
+    const x = points[0].x;
+    return [{ x, y: points[0].y }, { x, y: points.at(-1).y }];
+  }
+  return points;
+}
+
 /** Rectangular self-loop hanging off one side. */
 function selfLoop(rect, options) {
   const out = options.stub + 16;
@@ -309,7 +332,7 @@ export function routeEdges(edges, nodes, overrides = {}) {
       }
     }
 
-    const points = simplify(bestPoints ?? [p0, p1]);
+    const points = simplify(straighten(simplify(bestPoints ?? [p0, p1]), options.straightenTolerance));
     results.set(item.id, {
       points,
       d: roundedPath(points, options.radius),

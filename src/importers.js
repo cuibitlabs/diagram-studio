@@ -1,4 +1,5 @@
-import { applyAutoLayout, createDiagram, makeId } from "./model.js";
+import { createDiagram, makeId } from "./model.js";
+import { completeTheme } from "./theme/palettes.js";
 
 const clean = (value = "") => value.replace(/^['"`]|['"`]$/g, "").replace(/<br\s*\/?>/gi, " · ").trim();
 
@@ -14,7 +15,7 @@ export function parseMermaid(source) {
   else if (first.startsWith("journey")) type = "journey";
   else if (first.startsWith("timeline")) type = "timeline";
 
-  const diagram = createDiagram(type, "Imported Mermaid diagram");
+  const diagram = createDiagram(type, "Imported Mermaid diagram", { empty: true });
   const labels = new Map();
   const edgeSpecs = [];
   const remember = (id, label = id) => { if (id && !labels.has(id)) labels.set(id, clean(label || id)); };
@@ -63,19 +64,28 @@ export function parseMermaid(source) {
 
   if (!labels.size) throw new Error("No supported Mermaid nodes were found.");
   const idLookup = new Map();
+  // Geometry is left at zero: the type renderer sizes and places every node, so
+  // an import lands in the same layout an authored diagram would.
   diagram.nodes = [...labels].slice(0, 60).map(([sourceId, label], index) => {
-    const id = makeId("node"); idLookup.set(sourceId, id);
-    return { id, label, sublabel: sourceId, x: 120, y: 120, w: 196, h: 88, value: 35 + ((index * 13) % 60), tone: index === 1 ? "accent" : "default" };
+    const id = makeId("node");
+    idLookup.set(sourceId, id);
+    return { id, label, x: 0, y: 0, w: 0, h: 0, ...(index === 1 ? { tone: "accent" } : {}) };
   });
-  diagram.edges = edgeSpecs.slice(0, 100).map(([source, target, label]) => ({ id: makeId("edge"), source: idLookup.get(source), target: idLookup.get(target), label, dashed: false })).filter((e) => e.source && e.target);
-  return applyAutoLayout(diagram);
+  diagram.edges = edgeSpecs
+    .slice(0, 100)
+    .map(([source, target, label]) => ({ id: makeId("edge"), source: idLookup.get(source), target: idLookup.get(target), label, dashed: false }))
+    .filter((edge) => edge.source && edge.target);
+  return diagram;
 }
 
 export function parseDrawio(source) {
   if (typeof DOMParser === "undefined") throw new Error("draw.io import requires a browser DOMParser.");
   const doc = new DOMParser().parseFromString(source, "application/xml");
   if (doc.querySelector("parsererror")) throw new Error("The draw.io XML is not valid.");
-  const diagram = createDiagram("architecture", "Imported draw.io diagram");
+  const diagram = createDiagram("architecture", "Imported draw.io diagram", { empty: true });
+  // draw.io files carry deliberate geometry; keep it and let the author opt in
+  // to a re-layout rather than silently rearranging their diagram.
+  diagram.settings.preserveLayout = true;
   const nodes = [];
   const edges = [];
   const idLookup = new Map();
@@ -89,13 +99,11 @@ export function parseDrawio(source) {
       nodes.push({
         id,
         label: clean(cell.getAttribute("value") || "Untitled node").replace(/<[^>]+>/g, " "),
-        sublabel: "Imported from draw.io",
         x: Number(geometry?.getAttribute("x")) || 120 + (nodes.length % 4) * 240,
         y: Number(geometry?.getAttribute("y")) || 140 + Math.floor(nodes.length / 4) * 150,
         w: Number(geometry?.getAttribute("width")) || 196,
         h: Number(geometry?.getAttribute("height")) || 88,
-        value: 50,
-        tone: nodes.length === 1 ? "accent" : "default",
+        fixedSize: true,
       });
     } else if (edge) {
       edges.push({ sourceRaw: cell.getAttribute("source"), targetRaw: cell.getAttribute("target"), label: clean(cell.getAttribute("value") || "") });
@@ -132,23 +140,34 @@ export function extractBrandFromHTML(html, name = "Imported brand") {
   const colors = [...html.matchAll(/#[0-9a-f]{6}\b/gi)].map((m) => m[0].toLowerCase());
   const unique = [...new Set(colors)].filter((color) => !["#ffffff", "#000000"].includes(color));
   const font = html.match(/font-family\s*:\s*([^;}]+)/i)?.[1]?.split(",")[0].replace(/["']/g, "").trim();
-  return {
+  return completeTheme({
     name,
     paper: colors.includes("#ffffff") ? "#ffffff" : "#f5f3ee",
     panel: "#ffffff",
     ink: colors.includes("#000000") ? "#000000" : "#17201d",
     muted: "#68736e",
-    accent: unique[0] || "#e85d3f",
+    accent: unique[0] || "#c2452a",
     accent2: unique[1] || "#174f46",
     line: "#b8bdb9",
     font: font || "Inter, system-ui, sans-serif",
     source: "html",
-  };
+  });
 }
 
 export function seededBrand(seed) {
   let hash = 0;
   for (const char of seed) hash = ((hash << 5) - hash + char.charCodeAt(0)) | 0;
   const hue = Math.abs(hash) % 360;
-  return { name: seed, paper: `hsl(${hue} 22% 96%)`, panel: "#ffffff", ink: `hsl(${hue} 32% 16%)`, muted: `hsl(${hue} 10% 44%)`, accent: `hsl(${hue} 62% 46%)`, accent2: `hsl(${(hue + 145) % 360} 52% 40%)`, line: `hsl(${hue} 14% 76%)`, source: "domain-derived" };
+  return completeTheme({
+    name: seed,
+    paper: `hsl(${hue} 22% 96%)`,
+    panel: "#ffffff",
+    ink: `hsl(${hue} 32% 16%)`,
+    muted: `hsl(${hue} 10% 38%)`,
+    accent: `hsl(${hue} 62% 38%)`,
+    accent2: `hsl(${(hue + 145) % 360} 52% 32%)`,
+    line: `hsl(${hue} 14% 74%)`,
+    lineStrong: `hsl(${hue} 24% 28%)`,
+    source: "domain-derived",
+  });
 }
